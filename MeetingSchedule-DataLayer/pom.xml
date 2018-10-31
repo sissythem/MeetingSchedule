@@ -1,0 +1,70 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>MeetingSchedule-DataLayer</artifactId>
+  <packaging>ejb</packaging>
+  
+  <parent>
+		<groupId>gr.demokritos.meetingscheduler</groupId>
+		<artifactId>MeetingSchedule</artifactId>
+		<version>1</version>
+	</parent>
+  
+  <dependencies>
+  	<!-- https://mvnrepository.com/artifact/org.eclipse.persistence/eclipselink -->
+	<dependency>
+    	<groupId>org.eclipse.persistence</groupId>
+    	<artifactId>eclipselink</artifactId>
+    	<version>2.7.3</version>
+	</dependency>
+  	<dependency>
+			<groupId>javax.enterprise</groupId>
+			<artifactId>cdi-api</artifactId>
+			<version>2.0</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/javax.ejb/ejb-api -->
+		<dependency>
+			<groupId>javax.ejb</groupId>
+			<artifactId>ejb-api</artifactId>
+			<version>3.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/javax/javaee-api -->
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>7.0</version>
+			<scope>provided</scope>
+		</dependency>
+  </dependencies>
+  
+  <build>
+  	<resources>
+		<resource>
+			<directory>src/main/resources</directory>
+			<excludes>
+				<exclude>**/*.java</exclude>
+			</excludes>
+		</resource>
+	</resources>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.0</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-ejb-plugin</artifactId>
+        <version>3.0.1</version>
+        <configuration>
+          <ejbVersion>3.2</ejbVersion>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
