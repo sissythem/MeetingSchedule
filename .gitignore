@@ -28,6 +28,8 @@ build/
 .settings/
 .classpath
 .project
+.idea/
+*.iml
 
 
 # Misc

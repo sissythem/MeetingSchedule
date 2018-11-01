@@ -11,14 +11,24 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+
+import gr.demokritos.meetingscheduler.datalayer.utils.DbConstants;
 
 @SuppressWarnings("serial")
 @SessionScoped
 @Entity
 @Table(name="availabilities")
 @NamedQueries({
-	
+	@NamedQuery(name=DbConstants.AVAILABILITY_FIND_ALL, query="SELECT a FROM Availability a"),
+	@NamedQuery(name=DbConstants.AVAILABILITY_FIND_BY_ID, query="SELECT a FROM Availability a WHERE a.id = :id"),
+	@NamedQuery(name=DbConstants.AVAILABILITY_FIND_BY_MEMBER, query="SELECT a FROM Availability a WHERE a.member.id = :memberId"),
+	@NamedQuery(name=DbConstants.AVAILABILITY_FIND_BY_DAY, query="SELECT a FROM Availability a WHERE a.day.id = :dayId"),
+	@NamedQuery(name=DbConstants.AVAILABILITY_FIND_BY_TIMEZONE, query="SELECT a FROM Availability a WHERE a.timezone.id = :timezoneId"),
+	@NamedQuery(name=DbConstants.AVAILABILITY_FIND_BY_DAY_AND_TIMEZONE, query="SELECT a FROM Availability a WHERE a.day.id = :dayId AND a.timezone.id = :timezoneId"),
+	@NamedQuery(name=DbConstants.AVAILABILITY_FIND_BY_MEMBER_AND_DAY, query="SELECT a FROM Availability a WHERE a.member.id = :memberId AND a.day.id = :dayId"),
+	@NamedQuery(name=DbConstants.AVAILABILITY_FIND_BY_MEMBER_DAY_AND_TIMEZONE, query="SELECT a FROM Availability a WHERE a.member.id = :memberId AND a.day.id = :dayId AND a.timezone.id = :timezoneId")
 })
 public class Availability extends DBEntity implements Serializable {
 	@Id
@@ -124,6 +134,12 @@ public class Availability extends DBEntity implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Availability [id=" + id + ", member=" + member + ", day=" + day + ", timezone=" + timezone
+				+ ", availability=" + availability + "]";
 	}
 	
 }

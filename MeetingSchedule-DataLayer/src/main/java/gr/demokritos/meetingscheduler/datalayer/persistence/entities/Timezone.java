@@ -2,9 +2,11 @@ package gr.demokritos.meetingscheduler.datalayer.persistence.entities;
 
 import java.io.Serializable;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Set;
 
 import javax.enterprise.context.SessionScoped;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,14 +15,22 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import gr.demokritos.meetingscheduler.datalayer.utils.DbConstants;
 
 @SuppressWarnings("serial")
 @SessionScoped
 @Entity
 @Table(name="timezones")
 @NamedQueries({
-	
+	@NamedQuery(name=DbConstants.TIMEZONE_FIND_ALL, query = "SELECT t FROM Timezone t"),
+	@NamedQuery(name=DbConstants.TIMEZONE_FIND_ID, query = "SELECT t FROM Timezone t WHERE t.id = :id"),
+	@NamedQuery(name=DbConstants.TIMEZONE_FIND_START_TIME, query = "SELECT t FROM Timezone t WHERE t.startTime = :startTime"),
+	@NamedQuery(name=DbConstants.TIMEZONE_FIND_END_TIME, query = "SELECT t FROM Timezone t WHERE t.endTime = :endTime"),
+	@NamedQuery(name=DbConstants.TIMEZONE_FIND_START_TIME_AND_END_TIME, query = "SELECT t FROM Timezone t WHERE t.startTime = :startTime AND t.endTime = :endTime")
 })
 public class Timezone extends DBEntity implements Serializable {
 	@Id
@@ -33,6 +43,8 @@ public class Timezone extends DBEntity implements Serializable {
 	private LocalTime endTime;
 	@ManyToMany(fetch = FetchType.LAZY)
 	private Set<Day> days;
+	@OneToMany(mappedBy="timezone", cascade=CascadeType.ALL)
+	private List<PossibleMeeting> possibleMeetings;
 	
 	public Timezone() {
 		
@@ -77,6 +89,14 @@ public class Timezone extends DBEntity implements Serializable {
 		this.days = days;
 	}
 
+	public List<PossibleMeeting> getPossibleMeetings() {
+		return possibleMeetings;
+	}
+
+	public void setPossibleMeetings(List<PossibleMeeting> possibleMeetings) {
+		this.possibleMeetings = possibleMeetings;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -107,6 +127,10 @@ public class Timezone extends DBEntity implements Serializable {
 			return false;
 		return true;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Timezone [id=" + id + ", startTime=" + startTime + ", endTime=" + endTime + "]";
+	}
 	
 }

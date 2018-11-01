@@ -3,9 +3,11 @@ package gr.demokritos.meetingscheduler.datalayer.persistence.entities;
 import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 import javax.enterprise.context.SessionScoped;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,15 +18,23 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
+
+import gr.demokritos.meetingscheduler.datalayer.utils.DbConstants;
 
 @SuppressWarnings("serial")
 @SessionScoped
 @Entity
 @Table(name="days")
 @NamedQueries({
-	
+	@NamedQuery(name=DbConstants.DAY_FIND_ALL, query="SELECT d FROM Day d"),
+	@NamedQuery(name=DbConstants.DAY_FIND_BY_ID, query="SELECT d FROM Day d WHERE d.id = :id"),
+	@NamedQuery(name=DbConstants.DAY_FIND_BY_NAME, query="SELECT d FROM Day d WHERE d.name = :name"),
+	@NamedQuery(name=DbConstants.DAY_FIND_BY_DATE, query="SELECT d FROM Day d WHERE d.date = :date"),
+	@NamedQuery(name=DbConstants.DAY_FIND_BY_NAME_AND_DATE, query="SELECT d FROM Day d WHERE d.name = :name AND d.date = :date")
 })
 public class Day extends DBEntity implements Serializable {
 	@Id
@@ -42,6 +52,8 @@ public class Day extends DBEntity implements Serializable {
 			@JoinColumn(name = "day_id", referencedColumnName = "id") }, inverseJoinColumns = {
 					@JoinColumn(name = "timezone_id", referencedColumnName = "id") })
 	private Set<Timezone> timezones;
+	@OneToMany(mappedBy="day", cascade=CascadeType.ALL)
+	private List<PossibleMeeting> possibleMeetings;
 	
 	public Day() {
 		
@@ -95,6 +107,14 @@ public class Day extends DBEntity implements Serializable {
 		this.timezones = timezones;
 	}
 
+	public List<PossibleMeeting> getPossibleMeetings() {
+		return possibleMeetings;
+	}
+
+	public void setPossibleMeetings(List<PossibleMeeting> possibleMeetings) {
+		this.possibleMeetings = possibleMeetings;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -119,6 +139,10 @@ public class Day extends DBEntity implements Serializable {
 			return false;
 		return true;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Day [id=" + id + ", name=" + name + ", date=" + date + "]";
+	}
 	
 }
