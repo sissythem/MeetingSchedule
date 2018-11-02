@@ -1,6 +1,7 @@
 package gr.demokritos.meetingscheduler.datalayer.persistence.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
@@ -41,11 +42,59 @@ public class Member extends DBEntity implements Serializable {
 	private String lastName;
 	
 	@OneToMany(mappedBy="member", cascade=CascadeType.ALL)
-	List<Availability> availabilities;
+	private List<Availability> availabilities = new ArrayList<>();
 	@OneToMany(mappedBy="member", cascade=CascadeType.ALL)
-	List<MeetingMember> meetings;
+	private List<MeetingMember> meetings = new ArrayList<>();
 	@OneToMany(mappedBy="member", cascade=CascadeType.ALL)
-	List<PossibleMeetingMember> possibleMeetingMembers;
+	private List<PossibleMeetingMember> possibleMeetingMembers = new ArrayList<>();
+	
+	public void addAvailability(Availability availability) {
+		availability.setMember(this);
+	}
+	
+	public void removeAvailability(Availability availability) {
+		availability.setMember(null);
+	}
+	
+	public void addPossibleMeetingMember(PossibleMeetingMember possibleMeetingMember) {
+		possibleMeetingMember.setMember(this);
+	}
+	
+	public void removePossibleMeetingMember(PossibleMeetingMember possibleMeetingMember) {
+		possibleMeetingMember.setMember(null);
+	}
+	
+	public void addMeetingMember(MeetingMember meetingMember) {
+		meetingMember.setMember(this);
+	}
+	
+	public void removeMeetingMember(MeetingMember meetingMember) {
+		meetingMember.setMember(null);
+	}
+	
+	public void internalAddAvailability(Availability availability) {
+		this.availabilities.add(availability);
+	}
+	
+	public void internalRemoveAvailability(Availability availability) {
+		this.availabilities.remove(availability);
+	}
+	
+	public void internalAddPossibleMeetingMember(PossibleMeetingMember possibleMeetingMember) {
+		this.possibleMeetingMembers.add(possibleMeetingMember);
+	}
+	
+	public void internalRemovePossibleMeetingMember(PossibleMeetingMember possibleMeetingMember) {
+		this.possibleMeetingMembers.remove(possibleMeetingMember);
+	}
+	
+	public void internalAddMeetingMember(MeetingMember meetingMember) {
+		this.meetings.add(meetingMember);
+	}
+	
+	public void internalRemoveMeetingMember(MeetingMember meetingMember) {
+		this.meetings.remove(meetingMember);
+	}
 	
 	public Member() {
 		

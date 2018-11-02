@@ -72,7 +72,13 @@ public class MeetingMember extends DBEntity implements Serializable {
 	}
 
 	public void setMeeting(Meeting meeting) {
+		if(this.meeting!=null) {
+			this.meeting.internalRemoveMeetingMember(this);
+		}
 		this.meeting = meeting;
+		if(meeting!=null) {
+			meeting.internalAddMeetingMember(this);
+		}
 	}
 
 	public Member getMember() {
@@ -80,7 +86,13 @@ public class MeetingMember extends DBEntity implements Serializable {
 	}
 
 	public void setMember(Member member) {
+		if(this.member!=null) {
+			this.member.internalRemoveMeetingMember(this);
+		}
 		this.member = member;
+		if(member!=null) {
+			member.internalAddMeetingMember(this);
+		}
 	}
 
 	public String getAttended() {
@@ -89,6 +101,16 @@ public class MeetingMember extends DBEntity implements Serializable {
 
 	public void setAttended(String attended) {
 		this.attended = attended;
+	}
+	
+	public void setAttended(Boolean attended) {
+		if(attended!=null) {
+			if(attended) {
+				this.attended = DbConstants.YES;
+			} else {
+				this.attended = DbConstants.NO;
+			}
+		}
 	}
 
 	@Override

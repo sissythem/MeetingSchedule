@@ -75,7 +75,13 @@ public class PossibleMeeting extends DBEntity implements Serializable {
 	}
 
 	public void setMeeting(Meeting meeting) {
+		if(this.meeting!=null) {
+			this.meeting.internalRemovePossibleMeeting(this);
+		}
 		this.meeting = meeting;
+		if(meeting!=null) {
+			meeting.internalAddPossibleMeeting(this);
+		}
 	}
 
 	public Day getDay() {
@@ -83,7 +89,13 @@ public class PossibleMeeting extends DBEntity implements Serializable {
 	}
 
 	public void setDay(Day day) {
+		if(this.day!=null) {
+			this.day.internalRemovePossibleMeeting(this);
+		}
 		this.day = day;
+		if(day!=null) {
+			day.internalAddPossibleMeeting(this);
+		}
 	}
 
 	public Timezone getTimezone() {
@@ -91,7 +103,13 @@ public class PossibleMeeting extends DBEntity implements Serializable {
 	}
 
 	public void setTimezone(Timezone timezone) {
+		if(this.timezone!=null) {
+			this.timezone.internalRemovePossibleMeeting(this);
+		}
 		this.timezone = timezone;
+		if(timezone!=null) {
+			timezone.internalAddPossibleMeeting(this);
+		}
 	}
 
 	public List<PossibleMeetingMember> getPossibleMeetingMembers() {
@@ -100,6 +118,22 @@ public class PossibleMeeting extends DBEntity implements Serializable {
 
 	public void setPossibleMeetingMembers(List<PossibleMeetingMember> possibleMeetingMembers) {
 		this.possibleMeetingMembers = possibleMeetingMembers;
+	}
+	
+	public void addPossibleMeetingMember(PossibleMeetingMember possibleMeetingMember) {
+		possibleMeetingMember.setPossibleMeeting(this);
+	}
+	
+	public void removePossibleMeetingMember(PossibleMeetingMember possibleMeetingMember) {
+		possibleMeetingMember.setPossibleMeeting(null);
+	}
+	
+	public void internalAddPossibleMeetingMember(PossibleMeetingMember possibleMeetingMember) {
+		this.possibleMeetingMembers.add(possibleMeetingMember);
+	}
+	
+	public void internalRemovePossibleMeetingMember(PossibleMeetingMember possibleMeetingMember) {
+		this.possibleMeetingMembers.remove(possibleMeetingMember);
 	}
 
 	@Override

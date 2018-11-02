@@ -2,6 +2,9 @@ package gr.demokritos.meetingscheduler.datalayer.utils;
 
 public class DbConstants {
 	
+	public static final String YES = "Y";
+	public static final String NO = "N";
+	
 	public static final String MEMBER_TABLE = "members";
 	public static final String AVAILABILITY_TABLE = "availabilities";
 	public static final String DAY_TABLE = "days";

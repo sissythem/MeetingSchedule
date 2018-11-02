@@ -1,8 +1,9 @@
 package gr.demokritos.meetingscheduler.datalayer.persistence.entities;
 
 import java.io.Serializable;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -10,13 +11,9 @@ import javax.enterprise.context.SessionScoped;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -44,26 +41,22 @@ public class Day extends DBEntity implements Serializable {
 	@Column(name="name")
 	@Size(max=255)
 	private String name;
-	private transient DayOfWeek dayOfWeek;
 	@Column(name="date")
 	private LocalDate date;
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "days_timezones", joinColumns = {
-			@JoinColumn(name = "day_id", referencedColumnName = "id") }, inverseJoinColumns = {
-					@JoinColumn(name = "timezone_id", referencedColumnName = "id") })
-	private Set<Timezone> timezones;
+	private transient Set<Timezone> timezones = new HashSet<>();
 	@OneToMany(mappedBy="day", cascade=CascadeType.ALL)
-	private List<PossibleMeeting> possibleMeetings;
+	private List<PossibleMeeting> possibleMeetings = new ArrayList<>();
+	@OneToMany(mappedBy="day", cascade=CascadeType.ALL)
+	private List<Availability> availabilities = new ArrayList<>();
 	
 	public Day() {
 		
 	}
 
-	public Day(Long id, String name, DayOfWeek dayOfWeek, LocalDate date) {
+	public Day(Long id, String name, LocalDate date) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.dayOfWeek = dayOfWeek;
 		this.date = date;
 	}
 
@@ -81,14 +74,6 @@ public class Day extends DBEntity implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public DayOfWeek getDayOfWeek() {
-		return dayOfWeek;
-	}
-
-	public void setDayOfWeek(DayOfWeek dayOfWeek) {
-		this.dayOfWeek = dayOfWeek;
 	}
 
 	public LocalDate getDate() {
@@ -113,6 +98,54 @@ public class Day extends DBEntity implements Serializable {
 
 	public void setPossibleMeetings(List<PossibleMeeting> possibleMeetings) {
 		this.possibleMeetings = possibleMeetings;
+	}
+	
+	public List<Availability> getAvailabilities() {
+		return availabilities;
+	}
+
+	public void setAvailabilities(List<Availability> availabilities) {
+		this.availabilities = availabilities;
+	}
+	
+	public void internalAddPossibleMeeting(PossibleMeeting possibleMeeting) {
+		this.possibleMeetings.add(possibleMeeting);
+	}
+	
+	public void internalRemovePossibleMeeting(PossibleMeeting possibleMeeting) {
+		this.possibleMeetings.remove(possibleMeeting);
+	}
+	
+	public void internalAddAvailability(Availability availability) {
+		this.availabilities.add(availability);
+	}
+	
+	public void internalRemoveAvailability(Availability availability) {
+		this.availabilities.remove(availability);
+	}
+	
+	public void addPossibleMeeting(PossibleMeeting possibleMeeting) {
+		possibleMeeting.setDay(this);
+	}
+	
+	public void removePossibleMeeting(PossibleMeeting possibleMeeting) {
+		possibleMeeting.setDay(null);
+	}
+	
+	public void addAvailability(Availability availability) {
+		availability.setDay(this);
+	}
+	
+	public void removeAvailability(Availability availability) {
+		availability.setDay(null);
+	}
+	
+	public void addTimezone(Timezone timezone) {
+		this.timezones.add(timezone);
+	}
+	
+	public void removeTimezone(Timezone timezone) {
+		this.timezones.remove(timezone);
 	}
 
 	@Override

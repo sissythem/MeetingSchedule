@@ -76,7 +76,13 @@ public class Availability extends DBEntity implements Serializable {
 	}
 
 	public void setMember(Member member) {
-		this.member = member;
+		if(this.member!=null) {
+			this.member.internalRemoveAvailability(this);
+		}
+		this.member=member;
+		if(member!=null) {
+			member.internalAddAvailability(this);
+		}
 	}
 
 	public Day getDay() {
@@ -84,7 +90,13 @@ public class Availability extends DBEntity implements Serializable {
 	}
 
 	public void setDay(Day day) {
+		if(this.day!=null) {
+			this.day.internalRemoveAvailability(this);
+		}
 		this.day = day;
+		if(day!=null) {
+			day.internalAddAvailability(this);
+		}
 	}
 
 	public Timezone getTimezone() {
@@ -92,7 +104,13 @@ public class Availability extends DBEntity implements Serializable {
 	}
 
 	public void setTimezone(Timezone timezone) {
+		if(this.timezone!=null) {
+			this.timezone.internalRemoveAvailability(this);
+		}
 		this.timezone = timezone;
+		if(timezone!=null) {
+			timezone.internalAddAvailability(this);
+		}
 	}
 
 	public String getAvailability() {
@@ -101,6 +119,16 @@ public class Availability extends DBEntity implements Serializable {
 
 	public void setAvailability(String availability) {
 		this.availability = availability;
+	}
+	
+	public void setAvailability(Boolean isAvailable) {
+		if(isAvailable!=null) {
+			if(isAvailable) {
+				this.availability = DbConstants.YES;
+			} else {
+				this.availability = DbConstants.NO;
+			}
+		}
 	}
 
 	public Boolean getIsAvailable() {

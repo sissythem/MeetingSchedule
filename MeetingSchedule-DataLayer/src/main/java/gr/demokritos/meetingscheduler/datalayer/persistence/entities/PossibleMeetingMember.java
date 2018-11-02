@@ -80,6 +80,16 @@ public class PossibleMeetingMember extends DBEntity implements Serializable {
 	public void setAttending(String attending) {
 		this.attending = attending;
 	}
+	
+	public void setAttending(Boolean attending) {
+		if(attending!=null) {
+			if(attending) {
+				this.attending = DbConstants.YES;
+			} else {
+				this.attending = DbConstants.NO;
+			}
+		}
+	}
 
 	@Override
 	public int hashCode() {

@@ -2,18 +2,16 @@ package gr.demokritos.meetingscheduler.datalayer.persistence.entities;
 
 import java.io.Serializable;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.enterprise.context.SessionScoped;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -41,11 +39,11 @@ public class Timezone extends DBEntity implements Serializable {
 	private LocalTime startTime;
 	@Column(name="end_time")
 	private LocalTime endTime;
-	@ManyToMany(fetch = FetchType.LAZY)
-	private Set<Day> days;
 	@OneToMany(mappedBy="timezone", cascade=CascadeType.ALL)
-	private List<PossibleMeeting> possibleMeetings;
-	
+	private List<PossibleMeeting> possibleMeetings = new ArrayList<>();
+	@OneToMany(mappedBy="timezone", cascade=CascadeType.ALL)
+	private List<Availability> availabilities = new ArrayList<>();
+
 	public Timezone() {
 		
 	}
@@ -81,20 +79,52 @@ public class Timezone extends DBEntity implements Serializable {
 		this.endTime = endTime;
 	}
 
-	public Set<Day> getDays() {
-		return days;
-	}
-
-	public void setDays(Set<Day> days) {
-		this.days = days;
-	}
-
 	public List<PossibleMeeting> getPossibleMeetings() {
 		return possibleMeetings;
 	}
 
 	public void setPossibleMeetings(List<PossibleMeeting> possibleMeetings) {
 		this.possibleMeetings = possibleMeetings;
+	}
+
+	public List<Availability> getAvailabilities() {
+		return availabilities;
+	}
+
+	public void setAvailabilities(List<Availability> availabilities) {
+		this.availabilities = availabilities;
+	}
+	
+	public void internalAddPossibleMeeting(PossibleMeeting possibleMeeting) {
+		this.possibleMeetings.add(possibleMeeting);
+	}
+	
+	public void internalRemovePossibleMeeting(PossibleMeeting possibleMeeting) {
+		this.possibleMeetings.remove(possibleMeeting);
+	}
+	
+	public void internalAddAvailability(Availability availability) {
+		this.availabilities.add(availability);
+	}
+	
+	public void internalRemoveAvailability(Availability availability) {
+		this.availabilities.remove(availability);
+	}
+	
+	public void addAvailability(Availability availability) {
+		availability.setTimezone(this);
+	}
+	
+	public void removeAvailability(Availability availability) {
+		availability.setTimezone(null);
+	}
+	
+	public void addPossibleMeeting(PossibleMeeting possibleMeeting) {
+		possibleMeeting.setTimezone(this);
+	}
+	
+	public void removePossibleMeeting(PossibleMeeting possibleMeeting) {
+		possibleMeeting.setTimezone(null);
 	}
 
 	@Override

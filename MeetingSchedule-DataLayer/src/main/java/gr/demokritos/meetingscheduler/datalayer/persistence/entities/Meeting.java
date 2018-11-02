@@ -3,6 +3,7 @@ package gr.demokritos.meetingscheduler.datalayer.persistence.entities;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
@@ -51,9 +52,9 @@ public class Meeting extends DBEntity implements Serializable {
 	@Size(max=4)
 	private String completed;
 	@OneToMany(mappedBy="meeting", cascade=CascadeType.ALL)
-	private List<MeetingMember> members;
+	private List<MeetingMember> members = new ArrayList<>();
 	@OneToMany(mappedBy="meeting", cascade=CascadeType.ALL)
-	private List<PossibleMeeting> possibleMeetings;
+	private List<PossibleMeeting> possibleMeetings = new ArrayList<>();
 	
 	public Meeting() {
 		
@@ -118,6 +119,16 @@ public class Meeting extends DBEntity implements Serializable {
 	public void setCompleted(String completed) {
 		this.completed = completed;
 	}
+	
+	public void setCompleted(Boolean completed) {
+		if(completed!=null) {
+			if(completed) {
+				this.completed = DbConstants.YES;
+			} else {
+				this.completed = DbConstants.NO;
+			}
+		}
+	}
 
 	public List<MeetingMember> getMembers() {
 		return members;
@@ -133,6 +144,38 @@ public class Meeting extends DBEntity implements Serializable {
 
 	public void setPossibleMeetings(List<PossibleMeeting> possibleMeetings) {
 		this.possibleMeetings = possibleMeetings;
+	}
+	
+	public void addPossibleMeeting(PossibleMeeting possibleMeeting) {
+		possibleMeeting.setMeeting(this);
+	}
+	
+	public void removePossibleMeeting(PossibleMeeting possibleMeeting) {
+		possibleMeeting.setMeeting(null);
+	}
+	
+	public void addMeetingMember(MeetingMember meetingMember) {
+		meetingMember.setMeeting(this);
+	}
+	
+	public void removeMeetingMember(MeetingMember meetingMember) {
+		meetingMember.setMeeting(null);
+	}
+	
+	public void internalAddPossibleMeeting(PossibleMeeting possibleMeeting) {
+		this.possibleMeetings.add(possibleMeeting);
+	}
+	
+	public void internalRemovePossibleMeeting(PossibleMeeting possibleMeeting) {
+		this.possibleMeetings.remove(possibleMeeting);
+	}
+	
+	public void internalAddMeetingMember(MeetingMember meetingMember) {
+		this.members.add(meetingMember);
+	}
+	
+	public void internalRemoveMeetingMember(MeetingMember meetingMember) {
+		this.members.remove(meetingMember);
 	}
 
 	@Override
