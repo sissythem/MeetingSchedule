@@ -1,11 +1,10 @@
 package gr.demokritos.meetingscheduler;
 
-import javax.servlet.annotation.WebServlet;
-
+import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
-import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.annotations.Title;
+import com.vaadin.cdi.CDIUI;
 import com.vaadin.server.VaadinRequest;
-import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
@@ -21,6 +20,9 @@ import com.vaadin.ui.VerticalLayout;
  */
 @SuppressWarnings("serial")
 @Theme("MeetingTheme")
+@CDIUI
+@Title("MeetingSchedule")
+@PreserveOnRefresh
 public class MeetingUI extends UI {
 
     @Override
@@ -41,8 +43,4 @@ public class MeetingUI extends UI {
         setContent(layout);
     }
 
-    @WebServlet(urlPatterns = "/*", name = "MeetingUIServlet", asyncSupported = true)
-    @VaadinServletConfiguration(ui = MeetingUI.class, productionMode = false)
-    public static class MeetingUIServlet extends VaadinServlet {
-    }
 }

@@ -1634,6 +1634,188 @@ div.v-layout.v-horizontal.v-widget {
 	src: local("Material Icons"), local("MaterialIcons-Regular"), url(../../../VAADIN/addons/materialicons/MaterialIcons-Regular.woff2) format("woff2"), url(../../../VAADIN/addons/materialicons/MaterialIcons-Regular.woff) format("woff"), url(../../../VAADIN/addons/materialicons/MaterialIcons-Regular.ttf) format("truetype");
 }
 
+.MeetingTheme .centered-layout {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.MeetingTheme .step-label {
+	height: 55.5px;
+	padding: 9.25px 9.25px 9.25px 9.25px;
+	border-radius: 4px;
+}
+
+.MeetingTheme .step-label .step-icon {
+	width: 37px;
+	height: 37px;
+	margin-right: 9.25px;
+	text-align: center;
+	text-indent: 0.5px;
+	background: #7d7d7d;
+	color: #f2f2f2;
+	border-radius: 50%;
+}
+
+.MeetingTheme .step-label .step-icon:before {
+	content: "";
+	display: inline-block;
+	height: 100%;
+	vertical-align: middle;
+	width: 0;
+}
+
+.MeetingTheme .step-label .step-icon .v-icon {
+	line-height: 37px;
+}
+
+.MeetingTheme .step-label .step-caption, .MeetingTheme .step-label .step-description {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+.MeetingTheme .step-label :not(.single-label).step-caption {
+	margin-top: -0.275em;
+}
+
+.MeetingTheme .step-label.active .step-icon {
+	background: #197de1;
+	color: #ecf2f8;
+}
+
+.MeetingTheme .step-label.active .step-caption {
+	font-weight: bold;
+	color: #197de1;
+}
+
+.MeetingTheme .step-label.nexted .step-icon {
+	background: #197de1;
+	color: #ecf2f8;
+}
+
+.MeetingTheme .step-label.error .step-icon {
+	background: transparent;
+	color: #ed473b;
+}
+
+.MeetingTheme .step-label.error .step-caption, .MeetingTheme .step-label.error .step-description {
+	color: #ed473b;
+}
+
+.MeetingTheme .step-label.clickable:not(.v-disabled):hover {
+	cursor: pointer;
+	background-color: rgba(186, 186, 186, 0.3);
+}
+
+.MeetingTheme .step-label.clickable:not(.v-disabled):active {
+	background-color: rgba(186, 186, 186, 0.4);
+}
+
+.MeetingTheme .stepper-horizontal, .MeetingTheme .stepper-vertical {
+	background: white;
+	color: #474747;
+	border-radius: 4px;
+	border: 1px solid #d5d5d5;
+	-webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.05);
+	box-shadow: 0 2px 3px rgba(0, 0, 0, 0.05);
+}
+
+.MeetingTheme .stepper-horizontal.borderless, .MeetingTheme .stepper-vertical.borderless {
+	background: transparent;
+	color: inherit;
+	border: none;
+	border-radius: 0;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+.MeetingTheme .stepper-horizontal .label-bar .feedback-message, .MeetingTheme .stepper-vertical .stepper-vertical-row .feedback-message {
+	height: 55.5px;
+	padding: 9.25px 9.25px 9.25px 9.25px;
+	line-height: 37px;
+	-webkit-animation: valo-animate-in-fade 400ms, valo-animate-in-slide-up 200ms 0ms;
+	-moz-animation: valo-animate-in-fade 400ms, valo-animate-in-slide-up 200ms 0ms;
+	animation: valo-animate-in-fade 400ms, valo-animate-in-slide-up 200ms 0ms;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+.MeetingTheme .stepper-horizontal.label-icons-square .label-bar .step-label .step-icon, .MeetingTheme .stepper-vertical.label-icons-square .stepper-vertical-row .step-label .step-icon {
+	border-radius: 4px;
+}
+
+.MeetingTheme .stepper-horizontal.label-icons-circular .label-bar .step-label .step-icon, .MeetingTheme .stepper-vertical.label-icons-circular .stepper-vertical-row .step-label .step-icon {
+	border-radius: 50%;
+}
+
+.MeetingTheme .stepper-horizontal .label-bar {
+	box-sizing: border-box;
+	padding: 0 12px;
+	line-height: 36px;
+	border-bottom: 1px solid #d5d5d5;
+	background-color: #fafafa;
+	background-image: -webkit-linear-gradient(top, #fafafa 2%, #f6f6f6 98%);
+	background-image: linear-gradient(to bottom,#fafafa 2%, #f6f6f6 98%);
+	color: #464646;
+	font-weight: 400;
+	font-size: 14px;
+	-webkit-box-shadow: inset 0 1px 0 white, inset 0 -1px 0 #eeeeee;
+	box-shadow: inset 0 1px 0 white, inset 0 -1px 0 #eeeeee;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.05);
+	height: 74px;
+	padding: 12.33333px;
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+	line-height: inherit;
+	font-size: inherit;
+	font-weight: inherit;
+}
+
+.MeetingTheme .stepper-horizontal .label-bar .label-divider {
+	height: 1px;
+	background: #d5d5d5;
+}
+
+.MeetingTheme .stepper-horizontal .button-bar {
+	padding-left: 12.33333px;
+	padding-right: 12.33333px;
+}
+
+.MeetingTheme .stepper-horizontal .button-bar {
+	padding-bottom: 12.33333px;
+}
+
+.MeetingTheme .stepper-horizontal.borderless .label-bar, .MeetingTheme .stepper-horizontal.no-divider .label-bar {
+	background: transparent;
+	color: inherit;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+.MeetingTheme .stepper-horizontal.no-divider .label-bar {
+	border-bottom: none;
+}
+
+.MeetingTheme .stepper-vertical {
+	padding: 12.33333px;
+}
+
+.MeetingTheme .stepper-vertical .stepper-vertical-row .label-divider {
+	width: 1px;
+	background: #d5d5d5;
+	margin-left: 27.25px;
+	margin-right: 27.25px;
+	height: 37px;
+}
+
+.MeetingTheme .stepper-vertical .stepper-vertical-row .content-container {
+	margin-left: -12.33333px;
+	margin-right: -12.33333px;
+	width: calc(100% + 24.66667px) !important;
+}
+
 .MeetingTheme .MaterialIcons {
 	font-family: "MaterialIcons";
 	font-weight: normal;

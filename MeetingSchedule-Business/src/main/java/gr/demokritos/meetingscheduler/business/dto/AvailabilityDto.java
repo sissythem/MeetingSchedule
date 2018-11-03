@@ -1,5 +1,7 @@
 package gr.demokritos.meetingscheduler.business.dto;
 
+import org.apache.commons.lang3.StringUtils;
+
 import gr.demokritos.meetingscheduler.datalayer.utils.DbConstants;
 
 public class AvailabilityDto extends ParentDto {
@@ -78,6 +80,16 @@ public class AvailabilityDto extends ParentDto {
 
 	public void setIsAvailable(Boolean isAvailable) {
 		this.isAvailable = isAvailable;
+	}
+	
+	public void setIsAvailable(String isAvailable) {
+		if(!StringUtils.isBlank(isAvailable)) {
+			if(isAvailable.equalsIgnoreCase(DbConstants.YES)) {
+				this.isAvailable = true;
+			} else if(isAvailable.equalsIgnoreCase(DbConstants.NO)) {
+				this.isAvailable = false;
+			}
+		}
 	}
 	
 	public void setIsAvailabile(String availability) {

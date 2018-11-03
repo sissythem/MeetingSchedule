@@ -16,7 +16,6 @@ import gr.demokritos.meetingscheduler.datalayer.persistence.entities.Member;
 import gr.demokritos.meetingscheduler.datalayer.persistence.entities.PossibleMeeting;
 import gr.demokritos.meetingscheduler.datalayer.persistence.entities.PossibleMeetingMember;
 import gr.demokritos.meetingscheduler.datalayer.persistence.entities.Timezone;
-import gr.demokritos.meetingscheduler.datalayer.utils.DbConstants;
 
 public class AvailabilityMapper {
 
@@ -27,21 +26,10 @@ public class AvailabilityMapper {
 		AvailabilityDto availabilityDto = new AvailabilityDto();
 		availabilityDto.setId(availability.getId());
 		availabilityDto.setDayDto(convertDayToDayDto(availability.getDay()));
-		availabilityDto.setIsAvailable(isAvailable(availability.getAvailability()));
+		availabilityDto.setIsAvailable(availability.getAvailability());
 		availabilityDto.setMemberDto(convertMemberToMemberDto(availability.getMember()));
 		availabilityDto.setTimezoneDto(convertTimezoneToTimezoneDto(availability.getTimezone()));
 		return availabilityDto;
-	}
-
-	private Boolean isAvailable(String availability) {
-		if (availability != null) {
-			if (availability.equals(DbConstants.YES)) {
-				return true;
-			} else {
-				return false;
-			}
-		}
-		return null;
 	}
 
 	public Availability convertAvailabilityDtoToAvailability(AvailabilityDto availabilityDto) {
@@ -57,16 +45,16 @@ public class AvailabilityMapper {
 		return availability;
 	}
 
-	public DayDto convertDayToDayDto(Day day) {
+	private DayDto convertDayToDayDto(Day day) {
 		if (day == null) {
 			return null;
 		}
 		DayDto dayDto = new DayDto();
 		dayDto.setId(day.getId());
 		dayDto.setDate(day.getDate());
-		dayDto.setName(day.getName());
 		if (day.getDate() != null) {
 			dayDto.setDayOfWeek(day.getDate().getDayOfWeek());
+			dayDto.setName(dayDto.getDayOfWeek().toString());
 		}
 		if (!CollectionUtils.isEmpty(day.getPossibleMeetings())) {
 			day.getPossibleMeetings().forEach(possibleMeeting -> {
@@ -74,16 +62,10 @@ public class AvailabilityMapper {
 				dayDto.addPossibleMeetingDto(possibleMeetingDto);
 			});
 		}
-		if (!CollectionUtils.isEmpty(day.getTimezones())) {
-			day.getTimezones().forEach(timezone -> {
-				TimezoneDto timezoneDto = convertTimezoneToTimezoneDto(timezone);
-				dayDto.addTimezoneDto(timezoneDto);
-			});
-		}
 		return dayDto;
 	}
 
-	public Day convertDayDtoToDay(DayDto dayDto) {
+	private Day convertDayDtoToDay(DayDto dayDto) {
 		if (dayDto == null) {
 			return null;
 		}
@@ -95,14 +77,10 @@ public class AvailabilityMapper {
 			dayDto.getPossibleMeetingsDto().forEach(possibleMeeting -> day
 					.addPossibleMeeting(convertPossibleMeetingDtoToPossibleMeeting(possibleMeeting)));
 		}
-
-		if (!CollectionUtils.isEmpty(dayDto.getTimezones())) {
-			dayDto.getTimezones().forEach(timezone -> day.addTimezone(convertTimezoneDtoToTimezone(timezone)));
-		}
 		return day;
 	}
 
-	public MemberDto convertMemberToMemberDto(Member member) {
+	private MemberDto convertMemberToMemberDto(Member member) {
 		if (member == null) {
 			return null;
 		}
@@ -121,7 +99,7 @@ public class AvailabilityMapper {
 		return memberDto;
 	}
 
-	public Member convertMemberDtoToMember(MemberDto memberDto) {
+	private Member convertMemberDtoToMember(MemberDto memberDto) {
 		if (memberDto == null) {
 			return null;
 		}
@@ -141,7 +119,7 @@ public class AvailabilityMapper {
 		return member;
 	}
 
-	public TimezoneDto convertTimezoneToTimezoneDto(Timezone timezone) {
+	private TimezoneDto convertTimezoneToTimezoneDto(Timezone timezone) {
 		if (timezone == null) {
 			return null;
 		}
@@ -156,7 +134,7 @@ public class AvailabilityMapper {
 		return timezoneDto;
 	}
 
-	public Timezone convertTimezoneDtoToTimezone(TimezoneDto timezoneDto) {
+	private Timezone convertTimezoneDtoToTimezone(TimezoneDto timezoneDto) {
 		if (timezoneDto == null) {
 			return null;
 		}
@@ -171,7 +149,7 @@ public class AvailabilityMapper {
 		return timezone;
 	}
 
-	public PossibleMeetingDto convertPossibleMeetingToPossibleMeetingDto(PossibleMeeting possibleMeeting) {
+	private PossibleMeetingDto convertPossibleMeetingToPossibleMeetingDto(PossibleMeeting possibleMeeting) {
 		if (possibleMeeting == null) {
 			return null;
 		}
@@ -185,7 +163,7 @@ public class AvailabilityMapper {
 		return possibleMeetingDto;
 	}
 
-	public PossibleMeeting convertPossibleMeetingDtoToPossibleMeeting(PossibleMeetingDto possibleMeetingDto) {
+	private PossibleMeeting convertPossibleMeetingDtoToPossibleMeeting(PossibleMeetingDto possibleMeetingDto) {
 		if (possibleMeetingDto == null) {
 			return null;
 		}
@@ -199,7 +177,7 @@ public class AvailabilityMapper {
 		return possibleMeeting;
 	}
 
-	public PossibleMeetingMember convertPossibleMeetingMemberDtoToPossibleMeetingMember(
+	private PossibleMeetingMember convertPossibleMeetingMemberDtoToPossibleMeetingMember(
 			PossibleMeetingMemberDto possibleMeetingMemberDto) {
 		if (possibleMeetingMemberDto == null) {
 			return null;
@@ -210,7 +188,7 @@ public class AvailabilityMapper {
 		return possibleMeetingMember;
 	}
 
-	public PossibleMeetingMemberDto convertPossibleMeetingMemberToPossibleMeetingMemberDto(
+	private PossibleMeetingMemberDto convertPossibleMeetingMemberToPossibleMeetingMemberDto(
 			PossibleMeetingMember possibleMeetingMember) {
 		if (possibleMeetingMember == null) {
 			return null;
@@ -221,7 +199,7 @@ public class AvailabilityMapper {
 		return possibleMeetingMemberDto;
 	}
 
-	public MeetingMemberDto convertMeetingMemberToMeetingMemberDto(MeetingMember meetingMember) {
+	private MeetingMemberDto convertMeetingMemberToMeetingMemberDto(MeetingMember meetingMember) {
 		if (meetingMember == null) {
 			return null;
 		}
@@ -231,7 +209,7 @@ public class AvailabilityMapper {
 		return meetingMemberDto;
 	}
 
-	public MeetingMember convertMeetingMemberDtoToMeetingMember(MeetingMemberDto meetingMemberDto) {
+	private MeetingMember convertMeetingMemberDtoToMeetingMember(MeetingMemberDto meetingMemberDto) {
 		if (meetingMemberDto == null) {
 			return null;
 		}

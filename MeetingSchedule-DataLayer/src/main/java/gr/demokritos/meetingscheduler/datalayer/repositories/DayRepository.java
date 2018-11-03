@@ -36,21 +36,29 @@ public class DayRepository extends AbstractRepository<Day> {
 	
 	public List<Day> findDayByName(String name) {
 		Map<String, Object> parameters = new HashMap<>();
-		parameters.put("memberId", name);
+		parameters.put("name", name);
 		return namedQuery(DbConstants.DAY_FIND_BY_NAME, parameters);
 	}
 	
-	public List<Day> findDayByDate(LocalDate date) {
+	public Day findDayByDate(LocalDate date) {
 		Map<String, Object> parameters = new HashMap<>();
 		parameters.put("date", date);
-		return namedQuery(DbConstants.DAY_FIND_BY_DATE, parameters);
+		List<Day> days = namedQuery(DbConstants.DAY_FIND_BY_DATE, parameters);
+		if (!CollectionUtils.isEmpty(days)) {
+			return days.get(0);
+		}
+		return null;
 	}
 	
-	public List<Day> findDayByNameAndDate(String name, LocalDate date) {
+	public Day findDayByNameAndDate(String name, LocalDate date) {
 		Map<String, Object> parameters = new HashMap<>();
-		parameters.put("memberId", name);
+		parameters.put("name", name);
 		parameters.put("date", date);
-		return namedQuery(DbConstants.DAY_FIND_BY_NAME_AND_DATE, parameters);
+		List<Day> days = namedQuery(DbConstants.DAY_FIND_BY_NAME_AND_DATE, parameters);
+		if (!CollectionUtils.isEmpty(days)) {
+			return days.get(0);
+		}
+		return null;
 	}
 	
 }

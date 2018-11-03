@@ -1,26 +1,14 @@
 package gr.demokritos.meetingscheduler.datalayer.persistence.entities;
 
+import gr.demokritos.meetingscheduler.datalayer.utils.DbConstants;
+
+import javax.enterprise.context.SessionScoped;
+import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
-import javax.enterprise.context.SessionScoped;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.validation.constraints.Size;
-
-import gr.demokritos.meetingscheduler.datalayer.utils.DbConstants;
 
 @SuppressWarnings("serial")
 @SessionScoped
@@ -43,7 +31,6 @@ public class Day extends DBEntity implements Serializable {
 	private String name;
 	@Column(name="date")
 	private LocalDate date;
-	private transient Set<Timezone> timezones = new HashSet<>();
 	@OneToMany(mappedBy="day", cascade=CascadeType.ALL)
 	private List<PossibleMeeting> possibleMeetings = new ArrayList<>();
 	@OneToMany(mappedBy="day", cascade=CascadeType.ALL)
@@ -82,14 +69,6 @@ public class Day extends DBEntity implements Serializable {
 
 	public void setDate(LocalDate date) {
 		this.date = date;
-	}
-
-	public Set<Timezone> getTimezones() {
-		return timezones;
-	}
-
-	public void setTimezones(Set<Timezone> timezones) {
-		this.timezones = timezones;
 	}
 
 	public List<PossibleMeeting> getPossibleMeetings() {
@@ -140,14 +119,6 @@ public class Day extends DBEntity implements Serializable {
 		availability.setDay(null);
 	}
 	
-	public void addTimezone(Timezone timezone) {
-		this.timezones.add(timezone);
-	}
-	
-	public void removeTimezone(Timezone timezone) {
-		this.timezones.remove(timezone);
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;

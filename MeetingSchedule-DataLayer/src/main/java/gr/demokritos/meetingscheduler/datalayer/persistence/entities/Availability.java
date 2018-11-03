@@ -47,20 +47,17 @@ public class Availability extends DBEntity implements Serializable {
 	@Column(name="availability")
 	private String availability;
 	
-	private transient Boolean isAvailable;
-	
 	public Availability() {
 		
 	}
 
-	public Availability(Long id, Member member, Day day, Timezone timezone, String availability, Boolean isAvailable) {
+	public Availability(Long id, Member member, Day day, Timezone timezone, String availability) {
 		super();
 		this.id = id;
 		this.member = member;
 		this.day = day;
 		this.timezone = timezone;
 		this.availability = availability;
-		this.isAvailable = isAvailable;
 	}
 
 	public Long getId() {
@@ -131,13 +128,6 @@ public class Availability extends DBEntity implements Serializable {
 		}
 	}
 
-	public Boolean getIsAvailable() {
-		return isAvailable;
-	}
-
-	public void setIsAvailable(Boolean isAvailable) {
-		this.isAvailable = isAvailable;
-	}
 
 	@Override
 	public int hashCode() {

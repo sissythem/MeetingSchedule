@@ -22,7 +22,7 @@ import gr.demokritos.meetingscheduler.datalayer.utils.DbConstants;
 @SuppressWarnings("serial")
 @SessionScoped
 @Entity
-@Table(name="memebers")
+@Table(name="members")
 @NamedQueries({
 	@NamedQuery(name=DbConstants.MEMBER_FIND_ALL, query="SELECT m From Member m"),
 	@NamedQuery(name=DbConstants.MEMBER_FIND_BY_ID, query="SELECT m From Member m WHERE m.id = :id"),

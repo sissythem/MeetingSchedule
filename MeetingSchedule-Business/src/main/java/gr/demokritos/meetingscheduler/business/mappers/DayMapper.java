@@ -29,8 +29,8 @@ public class DayMapper {
 		dayDto.setDate(day.getDate());
 		if (day.getDate() != null) {
 			dayDto.setDayOfWeek(day.getDate().getDayOfWeek());
+			dayDto.setName(dayDto.getDayOfWeek().toString());
 		}
-		dayDto.setName(day.getName());
 		if (!CollectionUtils.isEmpty(day.getAvailabilities())) {
 			day.getAvailabilities().forEach(
 					availability -> dayDto.addAvailabilityDto(convertAvailabilityToAvailabilityDto(availability)));
@@ -38,9 +38,6 @@ public class DayMapper {
 		if (!CollectionUtils.isEmpty(day.getPossibleMeetings())) {
 			day.getPossibleMeetings().forEach(possibleMeeting -> dayDto
 					.addPossibleMeetingDto(convertPossibleMeetingToPossibleMeetingDto(possibleMeeting)));
-		}
-		if (!CollectionUtils.isEmpty(day.getTimezones())) {
-			day.getTimezones().forEach(timezone -> dayDto.addTimezoneDto(convertTimezoneToTimezoneDto(timezone)));
 		}
 		return dayDto;
 	}
@@ -61,13 +58,10 @@ public class DayMapper {
 			dayDto.getPossibleMeetingsDto().forEach(possibleMeetingDto -> day
 					.addPossibleMeeting(convertPossibleMeetingDtoToPossibleMeeting(possibleMeetingDto)));
 		}
-		if (!CollectionUtils.isEmpty(dayDto.getTimezones())) {
-			dayDto.getTimezones().forEach(timezoneDto -> day.addTimezone(convertTimezoneDtoToTimezone(timezoneDto)));
-		}
 		return day;
 	}
 
-	public AvailabilityDto convertAvailabilityToAvailabilityDto(Availability availability) {
+	private AvailabilityDto convertAvailabilityToAvailabilityDto(Availability availability) {
 		if(availability == null) {
 			return null;
 		}
@@ -79,7 +73,7 @@ public class DayMapper {
 		return availabilityDto;
 	}
 
-	public Availability convertAvailabilityDtoToAvailability(AvailabilityDto availabilityDto) {
+	private Availability convertAvailabilityDtoToAvailability(AvailabilityDto availabilityDto) {
 		if(availabilityDto == null) {
 			return null;
 		}
@@ -91,7 +85,7 @@ public class DayMapper {
 		return availability;
 	}
 
-	public PossibleMeetingDto convertPossibleMeetingToPossibleMeetingDto(PossibleMeeting possibleMeeting) {
+	private PossibleMeetingDto convertPossibleMeetingToPossibleMeetingDto(PossibleMeeting possibleMeeting) {
 		if(possibleMeeting == null) {
 			return null;
 		}
@@ -107,7 +101,7 @@ public class DayMapper {
 		return possibleMeetingDto;
 	}
 
-	public PossibleMeeting convertPossibleMeetingDtoToPossibleMeeting(PossibleMeetingDto possibleMeetingDto) {
+	private PossibleMeeting convertPossibleMeetingDtoToPossibleMeeting(PossibleMeetingDto possibleMeetingDto) {
 		if(possibleMeetingDto == null) {
 			return null;
 		}
@@ -123,7 +117,7 @@ public class DayMapper {
 		return possibleMeeting;
 	}
 
-	public TimezoneDto convertTimezoneToTimezoneDto(Timezone timezone) {
+	private TimezoneDto convertTimezoneToTimezoneDto(Timezone timezone) {
 		if(timezone == null) {
 			return null;
 		}
@@ -134,7 +128,7 @@ public class DayMapper {
 		return timezoneDto;
 	}
 
-	public Timezone convertTimezoneDtoToTimezone(TimezoneDto timezoneDto) {
+	private Timezone convertTimezoneDtoToTimezone(TimezoneDto timezoneDto) {
 		if(timezoneDto == null) {
 			return null;
 		}
@@ -145,7 +139,7 @@ public class DayMapper {
 		return timezone;
 	}
 
-	public MemberDto convertMemberToMemberDto(Member member) {
+	private MemberDto convertMemberToMemberDto(Member member) {
 		if(member == null) return null;
 		MemberDto memberDto = new MemberDto();
 		memberDto.setId(member.getId());
@@ -162,7 +156,7 @@ public class DayMapper {
 		return memberDto;
 	}
 
-	public Member convertMemberDtoToMember(MemberDto memberDto) {
+	private Member convertMemberDtoToMember(MemberDto memberDto) {
 		if(memberDto == null) return null;
 		Member member = new Member();
 		member.setId(memberDto.getId());
@@ -180,7 +174,7 @@ public class DayMapper {
 		return member;
 	}
 
-	public MeetingDto convertMeetingToMeetingDto(Meeting meeting) {
+	private MeetingDto convertMeetingToMeetingDto(Meeting meeting) {
 		if(meeting == null) return null;
 		MeetingDto meetingDto = new MeetingDto();
 		meetingDto.setId(meeting.getId());
@@ -196,7 +190,7 @@ public class DayMapper {
 		return meetingDto;
 	}
 
-	public Meeting convertMeetingDtoToMeeting(MeetingDto meetingDto) {
+	private Meeting convertMeetingDtoToMeeting(MeetingDto meetingDto) {
 		if(meetingDto == null) return null;
 		Meeting meeting = new Meeting();
 		meeting.setId(meetingDto.getId());
@@ -212,7 +206,7 @@ public class DayMapper {
 		return meeting;
 	}
 
-	public MeetingMemberDto convertMeetingMemberToMeetingMemberDto(MeetingMember meetingMember) {
+	private MeetingMemberDto convertMeetingMemberToMeetingMemberDto(MeetingMember meetingMember) {
 		if(meetingMember == null) return null;
 		MeetingMemberDto meetingMemberDto = new MeetingMemberDto();
 		meetingMemberDto.setId(meetingMember.getId());
@@ -220,7 +214,7 @@ public class DayMapper {
 		return meetingMemberDto;
 	}
 
-	public MeetingMember convertMeetingMemberDtoToMeetingMember(MeetingMemberDto meetingMemberDto) {
+	private MeetingMember convertMeetingMemberDtoToMeetingMember(MeetingMemberDto meetingMemberDto) {
 		if(meetingMemberDto == null) return null;
 		MeetingMember meetingMember = new MeetingMember();
 		meetingMember.setId(meetingMemberDto.getId());
@@ -228,7 +222,7 @@ public class DayMapper {
 		return meetingMember;
 	}
 
-	public PossibleMeetingMemberDto convertPossibleMeetingMemberToPossibleMeetingMemberDto(
+	private PossibleMeetingMemberDto convertPossibleMeetingMemberToPossibleMeetingMemberDto(
 			PossibleMeetingMember possibleMeetingMember) {
 		if(possibleMeetingMember == null) return null;
 		PossibleMeetingMemberDto possibleMeetingMemberDto = new PossibleMeetingMemberDto();
@@ -237,7 +231,7 @@ public class DayMapper {
 		return possibleMeetingMemberDto;
 	}
 
-	public PossibleMeetingMember convertPossibleMeetingMemberDtoToPossibleMeetingMember(
+	private PossibleMeetingMember convertPossibleMeetingMemberDtoToPossibleMeetingMember(
 			PossibleMeetingMemberDto possibleMeetingMemberDto) {
 		if(possibleMeetingMemberDto == null) return null;
 		PossibleMeetingMember possibleMeetingMember = new PossibleMeetingMember();
