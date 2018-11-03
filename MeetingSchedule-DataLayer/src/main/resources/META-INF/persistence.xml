@@ -3,8 +3,10 @@
 	xmlns="http://xmlns.jcp.org/xml/ns/persistence"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-	<persistence-unit name="MeetingSchedule-DataLayer">
+	<persistence-unit name="MeetingSchedule" transaction-type="JTA">
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+		<jta-data-source>java:jboss/datasources/MeetingScheduleDS</jta-data-source>
+		<class>gr.demokritos.meetingscheduler.datalayer.persistence.entities.User</class>
 		<class>gr.demokritos.meetingscheduler.datalayer.persistence.entities.Availability</class>
 		<class>gr.demokritos.meetingscheduler.datalayer.persistence.entities.Day</class>
 		<class>gr.demokritos.meetingscheduler.datalayer.persistence.entities.Meeting</class>
@@ -16,6 +18,19 @@
 		<class>gr.demokritos.meetingscheduler.datalayer.utils.LocalDateAttributeConverter</class>
 		<class>gr.demokritos.meetingscheduler.datalayer.utils.LocalDateTimeAttributeConverter</class>
 		<class>gr.demokritos.meetingscheduler.datalayer.utils.LocalTimeAttributeConverter</class>
+
+		<properties>
+			<property name="eclipselink.target-server" value="JBoss" />
+			<!-- Uncomment to log all SQL queries executed -->
+			<property name="eclipselink.logging.level.sql" value="FINE" />
+			<property name="eclipselink.logging.parameters" value="true" />
+			<property name="eclipselink.logging.timestamp" value="false" />
+			<property name="eclipselink.logging.session" value="false" />
+			<property name="eclipselink.logging.thread" value="false" />
+			<property name="eclipselink.logging.connection" value="false" />
+			<property name="eclipselink.logging.exceptions" value="true" />
+			<property name="eclipselink.deploy-on-startup" value="True" />
+		</properties>
 	</persistence-unit>
 
 </persistence>

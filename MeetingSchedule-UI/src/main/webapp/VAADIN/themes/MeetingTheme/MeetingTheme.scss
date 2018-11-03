@@ -21,18 +21,472 @@
 //$v-bevel-depth: 30%;
 //$v-shadow-opacity: 5%;
 
-// Defines colors for indicating status (focus, success, failure)
-//$v-focus-color: valo-focus-color(); // Calculates a suitable color automatically
-//$v-friendly-color: #2c9720;
-//$v-error-indicator-color: #ed473b;
+$v-focus-color: #cc7900; // this is the primary color
+$v-friendly-color: #5f5068; // friendly color
+$v-error-indicator-color: #ed473b; // validation error color
 
-// For more information, see: https://vaadin.com/book/-/page/themes.valo.html
-// Example variants can be copy/pasted from https://vaadin.com/wiki/-/wiki/Main/Valo+Examples
+//MaterialTheme
+//===============================================================================
+$mat-background-color: #fafafa; // #fafafa for a light and #303030 for a dark theme
+@import "../material/material.scss";
+@import "addons.scss";
 
-@import "../valo/valo.scss";
+//Animation in Login
+//=======================================================
+@keyframes fadeinSlideup {
+  0% {
+    transform: translateY(50%);
+    opacity: 0.2;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
 
 @mixin MeetingTheme {
-  @include valo;
+  @include material;
+  @include addons;
 
-  // Insert your own theme rules here
+  $primaryColor: #cc7900;
+  $friendlyColor: #5f5068;
+  $friendlyColorHover: #786584;
+  $topMenuColor: #cc7a00;
+  $gridLineHeight: 35px;
+  $gridHeaderHeight: 45px;
+  $transparentBackground: rgba(0,0,0,.7);
+  $topMenuBarBackground: #353535;
+  $topMenuBarBoxShadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.7);
+  $topMenuBarSubMenuButtonPadding: 10px 5px 10px 15px;
+  $topMenuBarSubMenuButtonBackground: rgba(53, 53, 53, .8);
+  $topMenuBarSubMenuHrBackground: #a3a3a3;
+  $leftMenuBarSelectedItem: rgba(53,53,53, .8);
+  $dangerButtonDefaultBackground: #bd0000;
+  $dangerButtonHoverBackground: #bf3636;
+  $dangerButtonDisabledBackground: rgba(211,47,47, 0.5);
+  $advSearchBtnHeight: 32px;
+  $advSearchFieldsWidth: 170px;
+  $whiteColor: white;
+  $blackColor: black;
+  $wheatColor: wheat;
+
+  // Login
+  //========================================================================
+  .loginformtitle {
+    font-size: 36px;
+    color: $blackColor;
+    line-height: normal;
+  }
+
+  .sublogocaption {
+    font-size: 16px;
+    color: $wheatColor;
+    line-height: normal;
+    word-wrap: break-word;
+    white-space: normal;
+  }
+
+  .v-slot-sublogocaption {
+    padding: 0 10px;
+  }
+
+  :not(.v-upload) > * > .v-button.v-button-loginbutton{
+    background-color: $blackColor !important;
+    font-size: 12pt;
+    font-weight: bold;
+    color: $whiteColor;
+    border-color: $blackColor;
+    border-radius: 0px;
+    border-width: 4px;
+    background-image: none;
+  }
+
+  .loginimage {
+    background: url("images/meeting.png") no-repeat;
+    background-size: 100% 100%;
+  }
+
+  .v-panel.bg-transparent {
+    background:  $transparentBackground;
+    border-radius: 5px;
+    animation: 1s cubic-bezier(0.18, 0.89, 0.32, 1.28) fadeinSlideup;
+  }
+
+  .v-panel.bg-transparent .v-splitpanel-horizontal:not(.borderless) {
+    background: none;
+  }
+  .v-panel.bg-transparent .v-splitpanel-second-container {
+    background: $whiteColor;
+    border-radius: 0 5px 5px 0;
+  }
+  .v-panel.bg-transparent .v-splitpanel-first-container .loginformtitle {
+    color: $whiteColor;
+  }
+
+  .v-panel.bg-transparent img.v-icon {
+    width: 150px;
+  }
+
+  .v-panel.bg-transparent .v-splitpanel-first-container .v-vertical.v-widget {
+    top: 10%;
+    position: relative;
+  }
+
+  .v-panel.bg-transparent .v-slot-loginbutton {
+    margin-top: 30px;
+  }
+
+  //Left menu bar
+  //========================================================================
+
+  .hybridMenu.menuimage .leftMenu {
+    background: none;
+    color: $whiteColor;
+  }
+
+  .leftMenu {
+    width: 100% !important;
+  }
+
+  .v-slot-leftMenu {
+    width: 100%;
+  }
+
+  .v-splitpanel-first-container .v-verticallayout {
+    padding: 0;
+  }
+
+  .v-splitpanel-first-container {
+    min-width: 175px;
+  }
+
+  .menuLabel-caption{
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .selectedstyle {
+    color: white !important;
+    border-left: 5px solid #cc7900 !important;
+    background: $leftMenuBarSelectedItem !important;
+  }
+
+  .menuButton-subMenuButton.active {
+    background: transparent !important;
+    border-left: 5px solid transparent !important;
+    color: white !important;
+  }
+
+  .v-slot-hybridMenu {
+    height: 50px !important;
+  }
+
+  .v-splitpanel-horizontal .v-slot-hybridMenu {
+    height: 100% !important;
+  }
+
+  .v-slot-borderless {
+    height: calc(100% - 50px) !important;
+  }
+  .hybridMenu .leftMenu{
+    background: $friendlyColor;
+  }
+  .hybridMenu .leftMenu .menuButton.active {
+    border-left-width: 0;
+  }
+
+  .hybridMenu .leftMenu .menuButton:hover {
+    border-left-color: $primaryColor;
+  }
+
+  .hybridMenu .leftMenu .menuButton.active:hover {
+    border-left-width: 0;
+  }
+
+  //TopMenu
+  //========================================================================
+  .logoicon img.v-icon {
+    max-height: 24px;
+    padding-top: 5px;
+  }
+
+  .logoicon {
+    padding-left: 40px;
+  }
+
+  .logoicon .v-captiontext {
+    color: $whiteColor;
+    font-size: 22px;
+    font-weight: bold;
+  }
+
+  .v-menubar-topMenuBar {
+    background: $topMenuBarBackground !important;
+    margin-right: 18px;
+    box-shadow: unset;
+  }
+
+  .v-menubar-menuitem {
+    background: $topMenuBarBackground !important;
+    color: $whiteColor !important;
+  }
+
+  .topMenu {
+    background: $topMenuBarBackground;
+    box-shadow: $topMenuBarBoxShadow;
+    color: $whiteColor;
+    min-height: 50px;
+  }
+
+  .v-menubar-menuitem.active:hover {
+    background: $topMenuColor !important;
+    color: $whiteColor !important;
+  }
+
+  .v-menubar-menuitem:hover {
+    background: $topMenuColor !important;
+    color: $whiteColor !important;
+  }
+
+  .v-menubar-menuitem.active {
+    background: $topMenuColor !important;
+    color: $whiteColor !important;
+  }
+
+  .v-menubar-menuitem-profilView {
+    margin-right: 20px;
+    min-width: 150px;
+    max-width: 200px;
+    padding: $topMenuBarSubMenuButtonPadding;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 16px;
+    background: $topMenuBarSubMenuButtonBackground;
+  }
+
+  .v-menubar-menuitem:focus {
+    outline: none;
+  }
+
+  .v-menubar-menuitem-profilView:focus {
+    background: $topMenuColor !important;
+    color: $whiteColor !important;
+  }
+
+  .v-menubar-menuitem-selected {
+    background: $topMenuColor !important;
+    color: $whiteColor !important;
+  }
+
+  .hybridMenu .topMenu .menuSubMenu .menuSubMenuContent.open {
+    box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14),
+    0 6px 30px 5px rgba(0, 0, 0, 0.12),
+    0 8px 10px -5px rgba(0, 0, 0, 0.4);
+  }
+
+  .v-menubar-menuitem-profilView .menuButton-wrap {
+    max-width: 150px;
+    white-space: nowrap;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+  }
+
+  //AppPanel
+  //=============================================================================
+  .v-splitpanel-horizontal-appPanel {
+    background: transparent !important;
+  }
+
+  //Grid - TreeGrid
+  //=============================================================================
+  .v-grid tr.v-selected {
+    background-color: #4b4b65;
+    font-color: #fff;
+  }
+
+  .v-treegrid {
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+  }
+
+  .v-grid-row-stripe > td {
+    background-color: #f5f5f5 !important;
+  }
+
+  .v-treegrid-header .v-treegrid-cell {
+    background: -webkit-linear-gradient(top, #fafafa 2%, #efefef 98%);
+  }
+
+  .v-grid-header .v-grid-cell {
+    background: -webkit-linear-gradient(top, #fafafa 2%, #efefef 98%);
+  }
+
+  td.v-grid-cell {
+    line-height: $gridLineHeight;
+  }
+
+  td.v-treegrid-cell {
+    line-height: $gridLineHeight;
+  }
+
+  .v-grid-column-header-content {
+    line-height: $gridHeaderHeight;
+  }
+
+  .v-grid:not(.borderless) .v-grid-header::after{
+    height: $gridHeaderHeight;
+  }
+
+  .v-grid-row-selected .v-grid-cell:before{
+    background-color: #c7bdcc !important;
+  }
+
+  .v-treegrid-row-selected > .v-treegrid-cell{
+    background:  #c7bdcc;
+    color: black;
+  }
+
+  .v-treegrid-row-selected.v-treegrid-row-focused::before {
+    border-color: transparent !important;
+  }
+
+  .v-treegrid-row.v-treegrid-row-focused::before {
+    border-color: transparent !important;
+  }
+
+  //Buttons
+  //================================================================
+  .v-disabled.v-button-danger{
+    background: $dangerButtonDisabledBackground !important;
+  }
+
+  .v-disabled.v-button-danger:hover{
+    background: $dangerButtonDisabledBackground !important;
+  }
+
+  .v-button-danger {
+    background: $dangerButtonDefaultBackground !important;
+    color: $whiteColor !important;
+  }
+
+  .v-button-danger:hover {
+    background: $dangerButtonHoverBackground !important;
+    color: $whiteColor !important;
+  }
+
+  //Advance Button
+  //================================================
+  .v-button-advancedsearch {
+    height: $advSearchBtnHeight !important;
+  }
+
+  //Close button
+  //==================================================
+  .v-button-closeBtn:hover {
+    background-color: transparent !important;
+  }
+
+  .v-button-closeBtn.active {
+    background-color: transparent !important;
+  }
+
+  .v-button-closeBtn:focus {
+    background-color: transparent !important;
+  }
+
+  .v-button-closeBtn {
+    height: 20px !important;
+    width: 56px !important;
+  }
+
+  //Grey Button
+  //============
+  :not(.v-upload) > * > .v-button.v-button-updatebtn {
+    background-color: $friendlyColor !important;
+    color: $whiteColor !important;
+  }
+
+  :not(.v-upload) > * > .v-button.v-button-updatebtn:hover {
+    background-color: $friendlyColorHover !important;
+    color: $whiteColor !important;
+  }
+
+  .v-disabled.v-button.v-button-updatebtn:hover {
+    background-color: $friendlyColor !important;
+    color: $whiteColor !important;
+  }
+
+  //Button link
+  //=============================================
+  .v-button.link {
+    line-height: 5;
+    text-transform: none;
+    height: 70px;
+  }
+
+  .v-button.link:hover {
+    color: #a05f00;
+  }
+
+  //SearchField
+  //================================================================
+  .v-slot-searchfield .v-has-caption .v-caption-searchfield{
+    height: 45px;
+    position: absolute;
+  }
+
+  .advancedSearchField {
+    width: $advSearchFieldsWidth;
+  }
+
+  //Combobox
+  //===================================================================
+
+  .v-filterselect-schoolcombo .v-filterselect-input::placeholder {
+    color: $wheatColor !important;
+    opacity: 0.7;
+  }
+
+  .v-filterselect:not(.borderless):not(.floating):not(.custom) [class*="input"] {
+    border-color: transparent !important;
+  }
+
+  .v-filterselect-schoolcombo .v-filterselect-input {
+    color: $whiteColor !important;
+  }
+
+  //General
+  //==========================================================================
+  :not(.v-upload) > * > .v-button:not(.v-disabled):not(.borderless):not(.borderless-colored):not(.link):not(.quiet):not(.border):not(.primary):not(.friendly):not(.danger):not(.custom):not(.floating-action) {
+    background: rgba(0,0,0,.05);
+  }
+
+  .v-layout.v-vertical > .v-expand, .v-layout.v-horizontal > .v-expand{
+    box-sizing: initial;
+  }
+
+  .v-caption{
+    font-weight: bold;
+  }
+
+  .v-label-windowHeader {
+    font-size: 20px;
+    color: $blackColor;
+  }
+
+  //DrawerWindow
+  //==========================================================================
+  .drawerwindow {
+    right: 0;
+    left: auto !important;
+    bottom: 0px;
+    max-width: 1000px;
+    transform: translateX(1000px);
+    transition: transform 450ms ease-in-out, -webkit-transform 450ms ease-in-out, -moz-transform 450ms ease-in-out, -o-transform 450ms ease-in-out;
+  }
+
+  .drawerwindowactive {
+    transform: translateX(0px);
+  }
+
 }

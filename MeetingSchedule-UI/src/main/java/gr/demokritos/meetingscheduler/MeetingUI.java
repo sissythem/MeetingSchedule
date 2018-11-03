@@ -10,14 +10,14 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import gr.demokritos.meetingscheduler.applayouts.AppLayout;
+import gr.demokritos.meetingscheduler.applayouts.LoginLayout;
+import gr.demokritos.meetingscheduler.applayouts.MainLayout;
+import gr.demokritos.meetingscheduler.business.beans.*;
+import gr.demokritos.meetingscheduler.utils.GeneralUtils;
 
-/**
- * This UI is the application entry point. A UI may either represent a browser window 
- * (or tab) or some part of an HTML page where a Vaadin application is embedded.
- * <p>
- * The UI is initialized using {@link #init(VaadinRequest)}. This method is intended to be 
- * overridden to add component to the user interface and initialize non-component functionality.
- */
+import javax.ejb.EJB;
+
 @SuppressWarnings("serial")
 @Theme("MeetingTheme")
 @CDIUI
@@ -25,22 +25,114 @@ import com.vaadin.ui.VerticalLayout;
 @PreserveOnRefresh
 public class MeetingUI extends UI {
 
+    @EJB
+    private UserBean userBean;
+
+    @EJB
+    private MemberBean memberBean;
+
+    @EJB
+    private DayBean dayBean;
+
+    @EJB
+    private TimezoneBean timezoneBean;
+
+    @EJB
+    private MeetingBean meetingBean;
+
+    @EJB
+    private PossibleMeetingBean possibleMeetingBean;
+
+    @EJB
+    private AvailabilityBean availabilityBean;
+
+    private MainLayout mainLayout;
+
     @Override
     protected void init(VaadinRequest vaadinRequest) {
-        final VerticalLayout layout = new VerticalLayout();
-        
-        final TextField name = new TextField();
-        name.setCaption("Type your name here:");
-
-        Button button = new Button("Click Me");
-        button.addClickListener(e -> {
-            layout.addComponent(new Label("Thanks " + name.getValue() 
-                    + ", it works!"));
-        });
-        
-        layout.addComponents(name, button);
-        
-        setContent(layout);
+        mainLayout = new MainLayout();
+        checkForComponent();
+        setContent(mainLayout);
     }
 
+    public void checkForComponent() {
+        mainLayout.removeAllComponents();
+        if (getSession().getAttribute(GeneralUtils.SESSION_USER) == null) {
+            mainLayout.setLoginLayout(new LoginLayout(mainLayout));
+            mainLayout.addComponent(mainLayout.getLoginLayout());
+            mainLayout.getLoginLayout().setSizeFull();
+        } else {
+            mainLayout.setAppLayout(new AppLayout(mainLayout));
+            mainLayout.addComponent(mainLayout.getAppLayout());
+            mainLayout.getAppLayout().setSizeFull();
+        }
+    }
+
+    public UserBean getUserBean() {
+        return userBean;
+    }
+
+    public void setUserBean(UserBean userBean) {
+        this.userBean = userBean;
+    }
+
+    public static MeetingUI getMeetingUI() {
+        return (MeetingUI) UI.getCurrent();
+    }
+
+    public MemberBean getMemberBean() {
+        return memberBean;
+    }
+
+    public void setMemberBean(MemberBean memberBean) {
+        this.memberBean = memberBean;
+    }
+
+    public DayBean getDayBean() {
+        return dayBean;
+    }
+
+    public void setDayBean(DayBean dayBean) {
+        this.dayBean = dayBean;
+    }
+
+    public TimezoneBean getTimezoneBean() {
+        return timezoneBean;
+    }
+
+    public void setTimezoneBean(TimezoneBean timezoneBean) {
+        this.timezoneBean = timezoneBean;
+    }
+
+    public MeetingBean getMeetingBean() {
+        return meetingBean;
+    }
+
+    public void setMeetingBean(MeetingBean meetingBean) {
+        this.meetingBean = meetingBean;
+    }
+
+    public PossibleMeetingBean getPossibleMeetingBean() {
+        return possibleMeetingBean;
+    }
+
+    public void setPossibleMeetingBean(PossibleMeetingBean possibleMeetingBean) {
+        this.possibleMeetingBean = possibleMeetingBean;
+    }
+
+    public AvailabilityBean getAvailabilityBean() {
+        return availabilityBean;
+    }
+
+    public void setAvailabilityBean(AvailabilityBean availabilityBean) {
+        this.availabilityBean = availabilityBean;
+    }
+
+    public MainLayout getMainLayout() {
+        return mainLayout;
+    }
+
+    public void setMainLayout(MainLayout mainLayout) {
+        this.mainLayout = mainLayout;
+    }
 }

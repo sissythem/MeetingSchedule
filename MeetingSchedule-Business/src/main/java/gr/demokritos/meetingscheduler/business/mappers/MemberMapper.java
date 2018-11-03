@@ -49,6 +49,7 @@ public class MemberMapper {
         availabilityDto.setIsAvailabile(availability.getAvailability());
         availabilityDto.setDayDto(convertDayToDayDto(availability.getDay()));
         availabilityDto.setTimezoneDto(convertTimezoneToTimezoneDto(availability.getTimezone()));
+        availabilityDto.setMeetingDto(convertMeetingToMeetingDto(availability.getMeeting()));
         return availabilityDto;
     }
 
@@ -59,6 +60,7 @@ public class MemberMapper {
         availability.setAvailability(availabilityDto.getIsAvailable());
         availability.setDay(convertDayDtoToDay(availabilityDto.getDayDto()));
         availability.setTimezone(convertTimezoneDtoToTimezone(availabilityDto.getTimezoneDto()));
+        availability.setMeeting(convertMeetingDtoToMeeting(availabilityDto.getMeetingDto()));
         return availability;
     }
 

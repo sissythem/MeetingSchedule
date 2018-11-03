@@ -67,6 +67,9 @@ public class MeetingMemberMapper {
         if (!CollectionUtils.isEmpty(meeting.getPossibleMeetings())) {
             meeting.getPossibleMeetings().forEach(possibleMeeting -> meetingDto.addPossibleMeetingDto(convertPossibleMeetingToPossibleMeetingDto(possibleMeeting)));
         }
+        if (!CollectionUtils.isEmpty(meeting.getAvailabilities())) {
+            meeting.getAvailabilities().forEach(availability -> meetingDto.addAvailabilityDto(convertAvailabilityToAvailabilityDto(availability)));
+        }
         return meetingDto;
     }
 
@@ -80,6 +83,9 @@ public class MeetingMemberMapper {
         meeting.setCompleted(meetingDto.getCompleted());
         if (!CollectionUtils.isEmpty(meetingDto.getPossibleMeetingDtos())) {
             meetingDto.getPossibleMeetingDtos().forEach(possibleMeetingDto -> meeting.addPossibleMeeting(convertPossibleMeetingDtoToPossibleMeeting(possibleMeetingDto)));
+        }
+        if(!CollectionUtils.isEmpty(meetingDto.getAvailabilityDtos())) {
+            meetingDto.getAvailabilityDtos().forEach(availabilityDto -> meeting.addAvailability(convertAvailabilityDtoToAvailability(availabilityDto)));
         }
         return meeting;
     }

@@ -45,6 +45,11 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>gr.demokritos.meetingscheduler</groupId>
+			<artifactId>MeetingSchedule-Business</artifactId>
+			<version>1</version>
+		</dependency>
+		<dependency>
 			<groupId>javax</groupId>
 			<artifactId>javaee-api</artifactId>
 			<version>8.0</version>
@@ -156,6 +161,7 @@
 	</dependencies>
 
 	<build>
+	<finalName>MeetingSchedule-UI</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

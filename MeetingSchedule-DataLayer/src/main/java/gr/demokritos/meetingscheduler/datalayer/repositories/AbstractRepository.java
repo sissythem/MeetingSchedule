@@ -15,7 +15,7 @@ import gr.demokritos.meetingscheduler.datalayer.utils.LoggerFactory;
 
 public abstract class AbstractRepository<T> implements Repository<T> {
 	
-	@PersistenceContext
+	@PersistenceContext(unitName = "MeetingSchedule")
 	private EntityManager entityManager;
 
 	private String tableName;

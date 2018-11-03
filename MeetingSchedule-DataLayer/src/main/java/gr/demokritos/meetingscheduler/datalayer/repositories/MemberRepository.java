@@ -4,10 +4,13 @@ import gr.demokritos.meetingscheduler.datalayer.persistence.entities.Member;
 import gr.demokritos.meetingscheduler.datalayer.utils.DbConstants;
 import org.apache.commons.collections4.CollectionUtils;
 
+import javax.enterprise.context.Dependent;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@JpaRepo
+@Dependent
 public class MemberRepository extends AbstractRepository<Member> {
 
     public MemberRepository() {
@@ -31,7 +34,7 @@ public class MemberRepository extends AbstractRepository<Member> {
     public List<Member> findMemberByName(String name) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("name", name);
-        return namedQuery(DbConstants.DAY_FIND_BY_NAME, parameters);
+        return namedQuery(DbConstants.MEMBER_FIND_BY_NAME, parameters);
     }
 
     public List<Member> findMemberByLastName(String lastName) {
