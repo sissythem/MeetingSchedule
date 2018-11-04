@@ -26,6 +26,7 @@ public class DbConstants {
     public static final String MEMBER_FIND_BY_ID = "Member.findById";
     public static final String MEMBER_FIND_BY_NAME = "Member.findByName";
     public static final String MEMBER_FIND_BY_LAST_NAME = "Member.findByLastName";
+    public static final String MEMBER_FIND_BY_NAME_AND_LAST_NAME = "Member.findByNameAndLastName";
 
     public static final String DAY_FIND_ALL = "Day.findAll";
     public static final String DAY_FIND_BY_ID = "Day.findById";

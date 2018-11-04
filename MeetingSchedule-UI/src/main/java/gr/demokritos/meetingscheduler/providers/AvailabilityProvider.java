@@ -63,6 +63,9 @@ public class AvailabilityProvider extends AbstractBackEndDataProvider<Availabili
                 case MemberName:
                     return addIndexToAvailabilities(availabilityDtos.stream().filter(availabilityDto -> passesFilter(availabilityDto.getMemberDto().getName(), filterText))
                             .collect(Collectors.toList())).stream();
+                case MemberLastName:
+                    return addIndexToAvailabilities(availabilityDtos.stream().filter(availabilityDto -> passesFilter(availabilityDto.getMemberDto().getLastName(), filterText))
+                    .collect(Collectors.toList())).stream();
                 case Date:
                     return addIndexToAvailabilities(availabilityDtos.stream().filter(availabilityDto -> passesFilter(availabilityDto.getDayDto().getDate(), filterText))
                             .collect(Collectors.toList())).stream();
@@ -128,9 +131,10 @@ public class AvailabilityProvider extends AbstractBackEndDataProvider<Availabili
     }
 
     private boolean filterEveryField(AvailabilityDto availabilityDto) {
-        return passesFilter(availabilityDto.getMemberDto().getName(), filterText) || passesFilter(availabilityDto.getDayDto().getDate(), filterText)
-                || passesFilter(availabilityDto.getTimezoneDto().getStartTime(), filterText) || passesFilter(availabilityDto.getTimezoneDto().getEndTime(), filterText)
-                || passesFilter(availabilityDto.getMeetingDto().getName(), filterText) || passesFilter(availabilityDto.getIsAvailable(), filterText);
+        return passesFilter(availabilityDto.getMemberDto().getName(), filterText) || passesFilter(availabilityDto.getMemberDto().getLastName(), filterText)
+                || passesFilter(availabilityDto.getDayDto().getDate(), filterText) || passesFilter(availabilityDto.getTimezoneDto().getStartTime(), filterText)
+                || passesFilter(availabilityDto.getTimezoneDto().getEndTime(), filterText) || passesFilter(availabilityDto.getMeetingDto().getName(), filterText)
+                || passesFilter(availabilityDto.getIsAvailable(), filterText);
     }
 
     private List<AvailabilityDto> addIndexToAvailabilities(List<AvailabilityDto> availabilityDtos) {

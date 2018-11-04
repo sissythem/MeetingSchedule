@@ -67,6 +67,10 @@ public class MemberBean {
         return getMemberDtos(memberRepository.findMemberByLastName(lastName));
     }
 
+    public MemberDto getMemberByNameAndLastName(String name, String lastName) {
+        return memberMapper.convertMemberToMemberDto(memberRepository.findMemberByNameAndLastName(name, lastName));
+    }
+
     private List<MemberDto> getMemberDtos(List<Member> members) {
         List<MemberDto> memberDtos = new ArrayList<>();
         if (!CollectionUtils.isEmpty(members)) {

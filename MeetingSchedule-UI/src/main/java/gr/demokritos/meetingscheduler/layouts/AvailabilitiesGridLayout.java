@@ -2,17 +2,14 @@ package gr.demokritos.meetingscheduler.layouts;
 
 import gr.demokritos.meetingscheduler.applayouts.ContentLayout;
 import gr.demokritos.meetingscheduler.business.dto.AvailabilityDto;
-import gr.demokritos.meetingscheduler.business.dto.MemberDto;
 import gr.demokritos.meetingscheduler.comboboxes.SearchCombobox;
 import gr.demokritos.meetingscheduler.grids.AvailabilitiesGrid;
 import gr.demokritos.meetingscheduler.providers.AvailabilityProvider;
-import gr.demokritos.meetingscheduler.providers.MemberProvider;
 import gr.demokritos.meetingscheduler.textfields.SearchField;
 import gr.demokritos.meetingscheduler.utils.EnumUtils;
 import gr.demokritos.meetingscheduler.utils.MessagesUtils;
 import gr.demokritos.meetingscheduler.utils.VaadinElementUtils;
 import gr.demokritos.meetingscheduler.windows.AvailabilityWindow;
-import gr.demokritos.meetingscheduler.windows.MemberWindow;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +17,7 @@ import java.util.Map;
 public class AvailabilitiesGridLayout extends MeetingGridLayout {
 
     public enum AvailabilityFields {
-        All, MemberName, Date, StartTime, EndTime, MeetingName, Status
+        All, MemberName, MemberLastName, Date, StartTime, EndTime, MeetingName, Status
     }
     private ContentLayout contentLayout;
     private AvailabilitiesGrid availabilitiesGrid = new AvailabilitiesGrid(this);
@@ -38,9 +35,12 @@ public class AvailabilitiesGridLayout extends MeetingGridLayout {
 
     @Override
     public void setUpColumns() {
+        availabilitiesGrid.setColumns("isAvailable");
         availabilitiesGrid.addColumn(availability -> (availability.getMemberDto() != null) ? availability.getMemberDto().getName() : "")
                 .setSortable(true).setCaption(VaadinElementUtils.MEMBER_NAME)
                 .setSortProperty("a.member.name").setExpandRatio(7);
+        availabilitiesGrid.addColumn(availability -> (availability.getMemberDto() != null) ? availability.getMemberDto().getLastName() : "")
+                .setSortable(true).setCaption(VaadinElementUtils.MEMBER_LAST_NAME).setSortProperty("a.member.lastName").setExpandRatio(7);
         availabilitiesGrid.addColumn(availability -> (availability.getDayDto() != null) ? availability.getDayDto().getDate() : "")
                 .setSortable(true).setCaption(VaadinElementUtils.MEETING_DATE)
                 .setSortProperty("a.day.date").setExpandRatio(7);
@@ -53,13 +53,13 @@ public class AvailabilitiesGridLayout extends MeetingGridLayout {
         availabilitiesGrid.addColumn(availability -> (availability.getMeetingDto() != null) ? availability.getMeetingDto().getName() : "")
                 .setSortable(true).setCaption(VaadinElementUtils.MEETING_NAME)
                 .setSortProperty("a.meeting.name").setExpandRatio(7);
-        availabilitiesGrid.addColumn("isAvailable");
         availabilitiesGrid.getColumn("isAvailable").setCaption(VaadinElementUtils.STATUS).setSortProperty("a.isAvailable").setExpandRatio(7);
         putFieldsInMap();
     }
 
     private void putFieldsInMap() {
         availabilityFields.put(VaadinElementUtils.MEMBER_NAME, AvailabilityFields.MemberName);
+        availabilityFields.put(VaadinElementUtils.MEMBER_LAST_NAME, AvailabilityFields.MemberLastName);
         availabilityFields.put(VaadinElementUtils.MEETING_DATE, AvailabilityFields.Date);
         availabilityFields.put(VaadinElementUtils.START_TIME, AvailabilityFields.StartTime);
         availabilityFields.put(VaadinElementUtils.END_TIME, AvailabilityFields.EndTime);

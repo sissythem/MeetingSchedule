@@ -18,8 +18,10 @@ public class VaadinElementUtils {
     public static String END_TIME                       = "End Time";
     public static String STATUS                         = "Status";
     public static String MEMBER_NAME                    = "Member name";
+    public static String MEMBER_LAST_NAME               = "Member last name";
     public static String MEETING_DATE                   = "Meeting date";
     public static String MEETING_NAME                   = "Meeting name";
+    public static String AVAILABLE                      = "Available";
 
     /** Buttons **/
     public static String YES_BUTTON						= "Yes";

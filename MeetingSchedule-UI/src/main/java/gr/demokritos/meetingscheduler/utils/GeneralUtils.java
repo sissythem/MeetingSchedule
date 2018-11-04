@@ -5,6 +5,7 @@ import gr.demokritos.meetingscheduler.business.dto.UserDto;
 
 public class GeneralUtils {
 
+    public static String TIME24HFORMAT                  = "HH:mm";
     public static String SESSION_USER 					= "user";
 
     /** Logo and sublogo **/

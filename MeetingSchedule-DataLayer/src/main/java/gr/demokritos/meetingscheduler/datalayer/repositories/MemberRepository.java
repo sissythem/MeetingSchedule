@@ -46,4 +46,15 @@ public class MemberRepository extends AbstractRepository<Member> {
         parameters.put("lastName", lastName);
         return namedQuery(DbConstants.MEMBER_FIND_BY_LAST_NAME, parameters);
     }
+
+    public Member findMemberByNameAndLastName(String name, String lastName) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("name", name);
+        parameters.put("lastName", lastName);
+        List<Member> members = namedQuery(DbConstants.MEMBER_FIND_BY_NAME_AND_LAST_NAME, parameters);
+        if (!CollectionUtils.isEmpty(members)) {
+            return members.get(0);
+        }
+        return null;
+    }
 }

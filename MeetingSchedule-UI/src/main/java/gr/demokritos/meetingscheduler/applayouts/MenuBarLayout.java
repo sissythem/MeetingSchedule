@@ -5,6 +5,7 @@ import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.VerticalLayout;
 import gr.demokritos.meetingscheduler.business.dto.UserDto;
+import gr.demokritos.meetingscheduler.layouts.AvailabilitiesGridLayout;
 import gr.demokritos.meetingscheduler.layouts.MeetingsGridLayout;
 import gr.demokritos.meetingscheduler.layouts.MembersGridLayout;
 import gr.demokritos.meetingscheduler.layouts.UsersGridLayout;
@@ -94,15 +95,15 @@ public class MenuBarLayout extends VerticalLayout {
     }
 
     private void addAvailabilitiesMenu() {
-        MenuButton routesBtn = LeftMenuButtonBuilder.get().withCaption(GeneralUtils.AVAILABILITIES)
+        MenuButton availabilityBtn = LeftMenuButtonBuilder.get().withCaption(GeneralUtils.AVAILABILITIES)
                 .withIcon(VaadinIcons.CALENDAR).withClickListener(e -> {
                     makeButtonSelected(e);
                     contentLayout.removeAllComponents();
                     contentLayout.setLeftSelectedItem(EnumUtils.LeftMenuSelection.AVAILABILITIES);
-//                    contentLayout.addComponent(new AvailabilitiesGridLayout(contentLayout));
+                    contentLayout.addComponent(new AvailabilitiesGridLayout(contentLayout));
                 }).build();
-        menuBar.addLeftMenuButton(routesBtn);
-        menuItems.put(EnumUtils.LeftMenuSelection.AVAILABILITIES, routesBtn);
+        menuBar.addLeftMenuButton(availabilityBtn);
+        menuItems.put(EnumUtils.LeftMenuSelection.AVAILABILITIES, availabilityBtn);
     }
 
     public void makeButtonSelected(Button.ClickEvent e) {

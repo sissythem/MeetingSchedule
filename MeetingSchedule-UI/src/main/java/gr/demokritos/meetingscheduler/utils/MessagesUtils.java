@@ -13,6 +13,8 @@ public class MessagesUtils {
     public static String DUPLICATE_EMAIL                = "Email already exists";
     public static String DUPLICATE_USERNAME             = "Username already exists";
     public static String PERSISTENCE_MESSAGE            = "Something went wrong. Please try later";
+    public static String DELETE_MEMBER_WARNING          = "Are you sure you want to delete member";
+    public static String QUESTION_MARK                  = "?";
 
     public static String NEW_USER                       = "Add new user";
     public static String PASSWORD_EXPIRED_MSG           = "Password expired";
@@ -35,4 +37,5 @@ public class MessagesUtils {
     public static String EDIT_AVAILABILITY              = "Edit availability";
     public static String VIEW_AVAILABILITY              = "View availability";
     public static String DELETE_AVAILABILITY            = "Delete availability";
+    public static String REMOVE_AVAILABILITY_MSG        = "Are you sure you want to remove this availability?";
 }

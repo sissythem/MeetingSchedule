@@ -32,7 +32,7 @@ public class AvailabilityBean {
 
     }
 
-    public void saveAvailability(AvailabilityDto availabilityDto) {
+    public void addAvailability(AvailabilityDto availabilityDto) {
         Availability availability = availabilityMapper.convertAvailabilityDtoToAvailability(availabilityDto);
         availabilityRepository.add(availability);
     }
