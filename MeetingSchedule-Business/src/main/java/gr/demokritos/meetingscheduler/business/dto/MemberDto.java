@@ -7,6 +7,7 @@ public class MemberDto extends ParentDto {
     private Long id;
     private String name;
     private String lastName;
+    private String email;
     private List<AvailabilityDto> availabilityDtos = new ArrayList<>();
     private List<MeetingMemberDto> meetingMemberDtos = new ArrayList<>();
     private List<PossibleMeetingMemberDto> possibleMeetingMemberDtos = new ArrayList<>();
@@ -18,10 +19,11 @@ public class MemberDto extends ParentDto {
 
     }
 
-    public MemberDto(Long id, String name, String lastName) {
+    public MemberDto(Long id, String name, String lastName, String email) {
         super();
         this.id = id;
         this.name = name;
+        this.email = email;
         this.lastName = lastName;
     }
 
@@ -127,6 +129,14 @@ public class MemberDto extends ParentDto {
 
     public void internalRemoveMeetingMemberDto(MeetingMemberDto meetingMemberDto) {
         this.meetingMemberDtos.remove(meetingMemberDto);
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override

@@ -147,6 +147,7 @@ public class DayMapper {
         memberDto.setId(member.getId());
         memberDto.setName(member.getName());
         memberDto.setLastName(member.getLastName());
+        memberDto.setEmail(member.getEmail());
         if (!CollectionUtils.isEmpty(member.getMeetings())) {
             member.getMeetings().forEach(meetingMember -> memberDto
                     .addMeetingMemberDto(convertMeetingMemberToMeetingMemberDto(meetingMember)));
@@ -164,6 +165,7 @@ public class DayMapper {
         member.setId(memberDto.getId());
         member.setName(memberDto.getName());
         member.setLastName(memberDto.getLastName());
+        member.setEmail(memberDto.getEmail());
         if (!CollectionUtils.isEmpty(memberDto.getMeetingMemberDtos())) {
             memberDto.getMeetingMemberDtos().forEach(meetingMemberDto -> member
                     .addMeetingMember(convertMeetingMemberDtoToMeetingMember(meetingMemberDto)));
@@ -184,6 +186,7 @@ public class DayMapper {
         meetingDto.setDate(meeting.getDate());
         meetingDto.setEndTime(meeting.getEndTime());
         meetingDto.setName(meeting.getName());
+        meetingDto.setDuration(meeting.getDuration());
         meetingDto.setStartTime(meeting.getStartTime());
         if (!CollectionUtils.isEmpty(meeting.getMembers())) {
             meeting.getMembers().forEach(meetingMember -> meetingDto
@@ -200,6 +203,7 @@ public class DayMapper {
         meeting.setDate(meetingDto.getDate());
         meeting.setEndTime(meetingDto.getEndTime());
         meeting.setName(meetingDto.getName());
+        meeting.setDuration(meetingDto.getDuration());
         meeting.setStartTime(meetingDto.getStartTime());
         if (!CollectionUtils.isEmpty(meetingDto.getMeetingMemberDtos())) {
             meetingDto.getMeetingMemberDtos().forEach(meetingMemberDto -> meeting

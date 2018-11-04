@@ -26,7 +26,7 @@ public class MeetingRepository extends AbstractRepository<Meeting> {
     }
 
     public List<Meeting> findAllMeetings(String sortString) {
-        return jpqlQuery("SELECT m FROM Meeting m" + sortString);
+        return jpqlQuery("SELECT m FROM Meeting m " + sortString);
     }
 
     public Meeting findMeetingById(Long id) {

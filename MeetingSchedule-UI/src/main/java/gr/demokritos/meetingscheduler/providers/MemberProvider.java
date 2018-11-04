@@ -68,6 +68,9 @@ public class MemberProvider extends AbstractBackEndDataProvider<MemberDto, Strin
                 case LastName:
                     return addIndexToMembers(members.stream().filter(member -> passesFilter(member.getLastName(), filterText))
                             .collect(Collectors.toList())).stream();
+                case Email:
+                    return addIndexToMembers(members.stream().filter(member -> passesFilter(member.getEmail(), filterText))
+                            .collect(Collectors.toList())).stream();
                 default: // all
                     return addIndexToMembers(
                             members.stream().filter(member -> filterEveryField(member)).collect(Collectors.toList())).stream();

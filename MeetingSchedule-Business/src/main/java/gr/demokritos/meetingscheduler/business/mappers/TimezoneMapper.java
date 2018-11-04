@@ -70,6 +70,7 @@ public class TimezoneMapper {
         meetingDto.setStartTime(meeting.getStartTime());
         meetingDto.setEndTime(meeting.getEndTime());
         meetingDto.setCompleted(meeting.getCompleted());
+        meetingDto.setDuration(meeting.getDuration());
         if(!CollectionUtils.isEmpty(meeting.getMembers())) {
             meeting.getMembers().forEach(meetingMember -> meetingDto.addMeetingMemberDto(convertMeetingMemberToMeetingMemberDto(meetingMember)));
         }
@@ -84,6 +85,7 @@ public class TimezoneMapper {
         Meeting meeting = new Meeting();
         meeting.setId(meetingDto.getId());
         meeting.setDate(meetingDto.getDate());
+        meeting.setDuration(meetingDto.getDuration());
         meeting.setStartTime(meetingDto.getStartTime());
         meeting.setEndTime(meetingDto.getEndTime());
         meeting.setCompleted(meetingDto.getCompleted());
@@ -120,6 +122,7 @@ public class TimezoneMapper {
         memberDto.setId(member.getId());
         memberDto.setName(member.getName());
         memberDto.setLastName(member.getLastName());
+        memberDto.setEmail(member.getEmail());
         if(!CollectionUtils.isEmpty(member.getPossibleMeetingMembers())) {
             member.getPossibleMeetingMembers().forEach(possibleMeetingMember -> memberDto.addPossibleMeetingMemberDto(convertPossibleMeetingMemberToPossibleMeetingMemberDto(possibleMeetingMember)));
         }
@@ -131,6 +134,7 @@ public class TimezoneMapper {
         Member member = new Member();
         member.setId(memberDto.getId());
         member.setName(memberDto.getName());
+        member.setEmail(memberDto.getEmail());
         member.setLastName(memberDto.getLastName());
         if(!CollectionUtils.isEmpty(memberDto.getPossibleMeetingMemberDtos())) {
             memberDto.getPossibleMeetingMemberDtos().forEach(possibleMeetingMemberDto -> member.addPossibleMeetingMember(convertPossibleMeetingMemberDtoToPossibleMeetingMember(possibleMeetingMemberDto)));
@@ -160,7 +164,6 @@ public class TimezoneMapper {
         availabilityDto.setId(availability.getId());
         availabilityDto.setIsAvailabile(availability.getAvailability());
         availabilityDto.setDayDto(convertDayToDayDto(availability.getDay()));
-        availabilityDto.setTimezoneDto(convertTimezoneToTimezoneDto(availability.getTimezone()));
         return availabilityDto;
     }
 
@@ -170,7 +173,6 @@ public class TimezoneMapper {
         availability.setId(availabilityDto.getId());
         availability.setAvailability(availabilityDto.getIsAvailable());
         availability.setDay(convertDayDtoToDay(availabilityDto.getDayDto()));
-        availability.setTimezone(convertTimezoneDtoToTimezone(availabilityDto.getTimezoneDto()));
         return availability;
     }
 

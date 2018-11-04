@@ -51,6 +51,8 @@ public class Meeting extends DBEntity implements Serializable {
     @Column(name = "completed")
     @Size(max = 4)
     private String completed;
+    @Column(name="duration")
+    private Integer duration;
     @OneToMany(mappedBy = "meeting", cascade = CascadeType.ALL)
     private List<MeetingMember> members = new ArrayList<>();
     @OneToMany(mappedBy = "meeting", cascade = CascadeType.ALL)
@@ -202,6 +204,14 @@ public class Meeting extends DBEntity implements Serializable {
 
     public void internalRemoveAvailability(Availability availability) {
         this.availabilities.remove(availability);
+    }
+
+    public Integer getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Integer duration) {
+        this.duration = duration;
     }
 
     @Override

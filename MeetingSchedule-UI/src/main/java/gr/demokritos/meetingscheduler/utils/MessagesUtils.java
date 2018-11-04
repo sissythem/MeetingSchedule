@@ -4,8 +4,9 @@ public class MessagesUtils {
 
     /** Messages**/
     public static String ERROR							= "Error";
+    public static String WARNING                        = "Warning";
     public static String LOGIN_ERROR_MSG				= "Wrong credentials";
-    public static String EMAIL_MANDATORY                = "Email is mandatory";
+    public static String USERNAME_MANDATORY             = "Username is mandatory";
     public static String PASSWORD_MANDATORY				= "Password is mandatory";
     public static String MANDATORY_FIELDS				= "Please fill in all mandatory fields";
     public static String LOGOUT_MESSAGE					= "Are you sure you want to sign out?";
@@ -14,7 +15,9 @@ public class MessagesUtils {
     public static String DUPLICATE_USERNAME             = "Username already exists";
     public static String PERSISTENCE_MESSAGE            = "Something went wrong. Please try later";
     public static String DELETE_MEMBER_WARNING          = "Are you sure you want to delete member";
+    public static String DELETE_MEETING_WARNING         = "Are you sure you want to delete meeting ";
     public static String QUESTION_MARK                  = "?";
+    public static String SCHEDULE_MEETING_WARNING       = "Please select a meeting first!";
 
     public static String NEW_USER                       = "Add new user";
     public static String PASSWORD_EXPIRED_MSG           = "Password expired";

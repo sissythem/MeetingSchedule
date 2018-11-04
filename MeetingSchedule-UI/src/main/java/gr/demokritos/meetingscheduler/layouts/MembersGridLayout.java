@@ -20,7 +20,7 @@ import java.util.Map;
 public class MembersGridLayout extends MeetingGridLayout {
 
     public enum MemberFields {
-        All, Name, LastName
+        All, Name, LastName, Email
     }
 
     private ContentLayout contentLayout;
@@ -39,17 +39,20 @@ public class MembersGridLayout extends MeetingGridLayout {
 
     @Override
     public void setUpColumns() {
-        membersGrid.setColumns("name", "lastName");
+        membersGrid.setColumns("name", "lastName", "email");
         membersGrid.getColumn("name").setCaption(VaadinElementUtils.NAME)
-                .setSortProperty("u.name").setExpandRatio(7);
+                .setSortProperty("m.name").setExpandRatio(7);
         membersGrid.getColumn("lastName").setCaption(VaadinElementUtils.LAST_NAME)
-                .setSortProperty("u.lastName").setExpandRatio(7);
+                .setSortProperty("m.lastName").setExpandRatio(7);
+        membersGrid.getColumn("email").setCaption(VaadinElementUtils.LAST_NAME)
+                .setSortProperty("m.email").setExpandRatio(7);
         putFieldsInMap();
     }
 
     private void putFieldsInMap() {
         memberFields.put(VaadinElementUtils.NAME, MemberFields.Name);
         memberFields.put(VaadinElementUtils.LAST_NAME, MemberFields.LastName);
+        memberFields.put(VaadinElementUtils.EMAIL, MemberFields.Email);
     }
 
     @Override

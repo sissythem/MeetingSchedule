@@ -12,10 +12,8 @@ import gr.demokritos.meetingscheduler.business.dto.UserDto;
 import gr.demokritos.meetingscheduler.utils.EnumUtils;
 import gr.demokritos.meetingscheduler.utils.MessagesUtils;
 import gr.demokritos.meetingscheduler.utils.VaadinElementUtils;
-import gr.demokritos.meetingscheduler.validators.UserLoginDuplicatesValidator;
+import gr.demokritos.meetingscheduler.validators.EmailDuplicatesValidator;
 import org.apache.commons.lang3.StringUtils;
-
-import java.time.LocalDateTime;
 
 public class ProfileWindow extends ParentWindow {
     private UserDto loggedInUser;
@@ -59,8 +57,8 @@ public class ProfileWindow extends ParentWindow {
     private void addValidation() {
         binder.forField(userFirstNameTf).asRequired(MessagesUtils.MANDATORY_FIELDS).bind(UserDto::getName, UserDto::setName);
         binder.forField(userLastNameTf).asRequired(MessagesUtils.MANDATORY_FIELDS).bind(UserDto::getLastName, UserDto::setLastName);
-        binder.forField(emailTf).asRequired(MessagesUtils.EMAIL_MANDATORY).withValidator(new EmailValidator(MessagesUtils.INVALID_EMAIL))
-                .withValidator(new UserLoginDuplicatesValidator(MessagesUtils.DUPLICATE_EMAIL, loggedInUser)).bind(UserDto::getUsername, UserDto::setUsername);
+        binder.forField(emailTf).asRequired(MessagesUtils.USERNAME_MANDATORY).withValidator(new EmailValidator(MessagesUtils.INVALID_EMAIL))
+                .withValidator(new EmailDuplicatesValidator(MessagesUtils.DUPLICATE_EMAIL, loggedInUser)).bind(UserDto::getUsername, UserDto::setUsername);
     }
 
     private VerticalLayout setUpFormLayout() {

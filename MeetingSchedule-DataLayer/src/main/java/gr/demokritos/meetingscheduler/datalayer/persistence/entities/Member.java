@@ -41,6 +41,9 @@ public class Member extends DBEntity implements Serializable {
     @Size(max = 255)
     @Column(name = "last_name")
     private String lastName;
+    @Size(max = 255)
+    @Column(name = "email")
+    private String email;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Availability> availabilities = new ArrayList<>();
@@ -95,6 +98,14 @@ public class Member extends DBEntity implements Serializable {
 
     public void internalRemoveMeetingMember(MeetingMember meetingMember) {
         this.meetings.remove(meetingMember);
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Member() {

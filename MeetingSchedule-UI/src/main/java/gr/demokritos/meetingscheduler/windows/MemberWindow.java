@@ -2,6 +2,7 @@ package gr.demokritos.meetingscheduler.windows;
 
 import com.vaadin.data.Binder;
 import com.vaadin.data.ValidationException;
+import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.*;
 import gr.demokritos.meetingscheduler.MeetingUI;
@@ -19,6 +20,7 @@ public class MemberWindow extends ParentWindow {
     private MembersGrid membersGrid;
     private TextField nameTf = new TextField("");
     private TextField lastNameTf = new TextField("");
+    private TextField emailTf = new TextField("");
     private final Binder<MemberDto> binder = new Binder<>(MemberDto.class);
 
     private static final ThemeResource WARNING_ICON = new ThemeResource(GeneralUtils.WARN_ICON_PATH);
@@ -99,12 +101,13 @@ public class MemberWindow extends ParentWindow {
         formLayout = new VerticalLayout();
         setUpTextFields();
         addValidation();
-        formLayout.addComponents(nameTf, lastNameTf);
+        formLayout.addComponents(nameTf, lastNameTf, emailTf);
     }
 
     private void setUpTextFields() {
         nameTf.setPlaceholder(VaadinElementUtils.NAME);
         lastNameTf.setPlaceholder(VaadinElementUtils.LAST_NAME);
+        emailTf.setPlaceholder(VaadinElementUtils.EMAIL);
 
         nameTf.addBlurListener(event -> {
             if (StringUtils.isBlank(nameTf.getValue())) {
@@ -134,28 +137,49 @@ public class MemberWindow extends ParentWindow {
             lastNameTf.setRequiredIndicatorVisible(true);
         });
 
+        emailTf.addBlurListener(event -> {
+            if (StringUtils.isBlank(emailTf.getValue())) {
+                emailTf.setPlaceholder(VaadinElementUtils.EMAIL);
+                emailTf.setCaption("");
+                emailTf.setRequiredIndicatorVisible(false);
+            }
+        });
+
+        emailTf.addFocusListener(event -> {
+            emailTf.setPlaceholder("");
+            emailTf.setCaption(VaadinElementUtils.EMAIL);
+            emailTf.setRequiredIndicatorVisible(true);
+        });
+
     }
 
     public void addValidation() {
         binder.forField(nameTf).asRequired(MessagesUtils.MANDATORY_FIELDS).bind(MemberDto::getName, MemberDto::setName);
         binder.forField(lastNameTf).asRequired(MessagesUtils.MANDATORY_FIELDS).bind(MemberDto::getLastName, MemberDto::setLastName);
+        binder.forField(emailTf).asRequired(MessagesUtils.MANDATORY_FIELDS)
+                .withValidator(new EmailValidator(MessagesUtils.INVALID_EMAIL))
+                .bind(MemberDto::getEmail, MemberDto::setEmail);
     }
 
     public void fillForm(MemberDto selectedMember) {
         nameTf.setValue(selectedMember.getName());
         lastNameTf.setValue(selectedMember.getLastName());
+        emailTf.setValue(selectedMember.getEmail());
         nameTf.setCaption(VaadinElementUtils.NAME);
         lastNameTf.setCaption(VaadinElementUtils.LAST_NAME);
+        emailTf.setCaption(VaadinElementUtils.EMAIL);
     }
 
     public void setReadOnly() {
         nameTf.setReadOnly(true);
         lastNameTf.setReadOnly(true);
+        emailTf.setReadOnly(true);
     }
 
     public void removeRequiredIndicators() {
         nameTf.setRequiredIndicatorVisible(false);
         lastNameTf.setRequiredIndicatorVisible(false);
+        emailTf.setRequiredIndicatorVisible(false);
     }
 
     private void addNewMember() {
@@ -173,6 +197,7 @@ public class MemberWindow extends ParentWindow {
         MemberDto memberDto = new MemberDto();
         memberDto.setName(nameTf.getValue());
         memberDto.setLastName(lastNameTf.getValue());
+        memberDto.setEmail(emailTf.getValue());
         return memberDto;
     }
 
@@ -191,6 +216,7 @@ public class MemberWindow extends ParentWindow {
         MemberDto selectedMember = membersGrid.getSelectedMember();
         selectedMember.setName(nameTf.getValue());
         selectedMember.setLastName(lastNameTf.getValue());
+        selectedMember.setEmail(emailTf.getValue());
     }
 
     private void deleteMember() {

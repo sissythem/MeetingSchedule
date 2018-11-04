@@ -34,7 +34,7 @@ public class MeetingBean {
     
     }
     
-    public void saveMeeting(MeetingDto meetingDto) {
+    public void addMeeting(MeetingDto meetingDto) {
     	Meeting meeting = meetingMapper.convertMeetingDtoToMeeting(meetingDto);
     	meetingRepository.add(meeting);
     }

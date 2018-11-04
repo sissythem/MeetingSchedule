@@ -16,6 +16,7 @@ public class MeetingDto extends ParentDto {
     private LocalTime startTime;
     private LocalTime endTime;
     private Boolean completed;
+    private Integer duration;
     private List<MeetingMemberDto> meetingMemberDtos = new ArrayList<>();
     private List<PossibleMeetingDto> possibleMeetingDtos = new ArrayList<>();
     private List<AvailabilityDto> availabilityDtos = new ArrayList<>();
@@ -173,6 +174,14 @@ public class MeetingDto extends ParentDto {
 
     public void internalRemoveAvailabilityDto(AvailabilityDto availabilityDto) {
         this.availabilityDtos.remove(availabilityDto);
+    }
+
+    public Integer getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Integer duration) {
+        this.duration = duration;
     }
 
     @Override

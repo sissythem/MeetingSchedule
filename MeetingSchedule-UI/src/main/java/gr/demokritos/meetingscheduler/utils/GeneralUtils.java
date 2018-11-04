@@ -1,7 +1,16 @@
 package gr.demokritos.meetingscheduler.utils;
 
 import com.vaadin.server.VaadinSession;
+import gr.demokritos.meetingscheduler.business.dto.TimezoneDto;
 import gr.demokritos.meetingscheduler.business.dto.UserDto;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.tuple.Pair;
+
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class GeneralUtils {
 
@@ -36,6 +45,37 @@ public class GeneralUtils {
 
     public static UserDto getUserFromSession() {
         return (UserDto) VaadinSession.getCurrent().getAttribute(SESSION_USER);
+    }
+
+    public static Pair<List<String>, List<String>> getTimezonesForComboboxes(List<TimezoneDto> timezones) {
+        if (!CollectionUtils.isEmpty(timezones)) {
+            List<String> startTimeList = new ArrayList<>();
+            List<String> endTimeList = new ArrayList<>();
+            for (TimezoneDto timezone : timezones) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern(GeneralUtils.TIME24HFORMAT);
+                if (timezone.getStartTime() != null) {
+                    startTimeList.add(timezone.getStartTime().format(formatter));
+                }
+                if (timezone.getEndTime() != null) {
+                    endTimeList.add(timezone.getEndTime().format(formatter));
+                }
+            }
+            startTimeList = startTimeList.stream().distinct().collect(Collectors.toList());
+            endTimeList = endTimeList.stream().distinct().collect(Collectors.toList());
+            startTimeList.sort((st1, st2) -> {
+                LocalTime stlt1 = LocalTime.parse(st1);
+                LocalTime stlt2 = LocalTime.parse(st2);
+                return stlt1.compareTo(stlt2);
+            });
+
+            endTimeList.sort((st1, st2) -> {
+                LocalTime stlt1 = LocalTime.parse(st1);
+                LocalTime stlt2 = LocalTime.parse(st2);
+                return stlt1.compareTo(stlt2);
+            });
+            return Pair.of(startTimeList, endTimeList);
+        }
+        return null;
     }
 
 }

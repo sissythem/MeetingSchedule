@@ -14,6 +14,7 @@ import gr.demokritos.meetingscheduler.utils.MessagesUtils;
 import gr.demokritos.meetingscheduler.utils.VaadinElementUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -119,19 +120,11 @@ public class AvailabilityForm extends VerticalLayout {
                 memberLastNameCb.setItems(members.stream().map(MemberDto::getLastName).collect(Collectors.toList()));
             }
             if (!CollectionUtils.isEmpty(timezones)) {
-                List<String> startTimeList = new ArrayList<>();
-                List<String> endTimeList = new ArrayList<>();
-                timezones.forEach(timezone -> {
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(GeneralUtils.TIME24HFORMAT);
-                    if (timezone.getStartTime() != null) {
-                        startTimeList.add(timezone.getStartTime().format(formatter));
-                    }
-                    if (timezone.getEndTime() != null) {
-                        endTimeList.add(timezone.getEndTime().format(formatter));
-                    }
-                });
-                startTimeCb.setItems(startTimeList);
-                endTimeCb.setItems(endTimeList);
+                Pair<List<String>, List<String>> timezonesForCb = GeneralUtils.getTimezonesForComboboxes(timezones);
+                if (timezonesForCb != null) {
+                    startTimeCb.setItems(timezonesForCb.getLeft());
+                    endTimeCb.setItems(timezonesForCb.getRight());
+                }
             }
             if (!CollectionUtils.isEmpty(meetings)) {
                 meetingNameCb.setItems(meetings.stream().map(MeetingDto::getName).collect(Collectors.toList()));
@@ -146,90 +139,91 @@ public class AvailabilityForm extends VerticalLayout {
         startTimeCb.setPlaceholder(VaadinElementUtils.START_TIME);
         endTimeCb.setPlaceholder(VaadinElementUtils.END_TIME);
         meetingNameCb.setPlaceholder(VaadinElementUtils.MEETING_NAME);
+        if(!action.equals(EnumUtils.Action.VIEW)) {
+            memberNameCb.addBlurListener(event -> {
+                if (StringUtils.isBlank(memberNameCb.getValue())) {
+                    memberNameCb.setPlaceholder(VaadinElementUtils.MEMBER_NAME);
+                    memberNameCb.setCaption("");
+                    memberNameCb.setRequiredIndicatorVisible(false);
+                }
+            });
 
-        memberNameCb.addBlurListener(event -> {
-            if (StringUtils.isBlank(memberNameCb.getValue())) {
-                memberNameCb.setPlaceholder(VaadinElementUtils.MEMBER_NAME);
-                memberNameCb.setCaption("");
-                memberNameCb.setRequiredIndicatorVisible(false);
-            }
-        });
+            memberNameCb.addFocusListener(event -> {
+                memberNameCb.setPlaceholder("");
+                memberNameCb.setCaption(VaadinElementUtils.MEMBER_NAME);
+                memberNameCb.setRequiredIndicatorVisible(true);
+            });
 
-        memberNameCb.addFocusListener(event -> {
-            memberNameCb.setPlaceholder("");
-            memberNameCb.setCaption(VaadinElementUtils.MEMBER_NAME);
-            memberNameCb.setRequiredIndicatorVisible(true);
-        });
+            memberLastNameCb.addBlurListener(event -> {
+                if (StringUtils.isBlank(memberLastNameCb.getValue())) {
+                    memberLastNameCb.setPlaceholder(VaadinElementUtils.MEMBER_LAST_NAME);
+                    memberLastNameCb.setCaption("");
+                    memberLastNameCb.setRequiredIndicatorVisible(false);
+                }
+            });
 
-        memberLastNameCb.addBlurListener(event -> {
-            if (StringUtils.isBlank(memberLastNameCb.getValue())) {
-                memberLastNameCb.setPlaceholder(VaadinElementUtils.MEMBER_LAST_NAME);
-                memberLastNameCb.setCaption("");
-                memberLastNameCb.setRequiredIndicatorVisible(false);
-            }
-        });
+            memberLastNameCb.addFocusListener(event -> {
+                memberLastNameCb.setPlaceholder("");
+                memberLastNameCb.setCaption(VaadinElementUtils.MEMBER_LAST_NAME);
+                memberLastNameCb.setRequiredIndicatorVisible(true);
+            });
 
-        memberLastNameCb.addFocusListener(event -> {
-            memberLastNameCb.setPlaceholder("");
-            memberLastNameCb.setCaption(VaadinElementUtils.MEMBER_LAST_NAME);
-            memberLastNameCb.setRequiredIndicatorVisible(true);
-        });
+            meetingDateTf.addBlurListener(event -> {
+                if (meetingDateTf.getValue() != null) {
+                    meetingDateTf.setPlaceholder(VaadinElementUtils.MEETING_DATE);
+                    meetingDateTf.setCaption("");
+                    meetingDateTf.setRequiredIndicatorVisible(false);
+                }
+            });
 
-        meetingDateTf.addBlurListener(event -> {
-            if (meetingDateTf.getValue() != null) {
-                meetingDateTf.setPlaceholder(VaadinElementUtils.MEETING_DATE);
-                meetingDateTf.setCaption("");
-                meetingDateTf.setRequiredIndicatorVisible(false);
-            }
-        });
+            meetingDateTf.addFocusListener(event -> {
+                meetingDateTf.setPlaceholder("");
+                meetingDateTf.setCaption(VaadinElementUtils.MEETING_DATE);
+                meetingDateTf.setRequiredIndicatorVisible(true);
+            });
 
-        meetingDateTf.addFocusListener(event -> {
-            meetingDateTf.setPlaceholder("");
-            meetingDateTf.setCaption(VaadinElementUtils.MEETING_DATE);
-            meetingDateTf.setRequiredIndicatorVisible(true);
-        });
+            startTimeCb.addBlurListener(event -> {
+                if (StringUtils.isBlank(startTimeCb.getValue())) {
+                    startTimeCb.setPlaceholder(VaadinElementUtils.START_TIME);
+                    startTimeCb.setCaption("");
+                    startTimeCb.setRequiredIndicatorVisible(false);
+                }
+            });
 
-        startTimeCb.addBlurListener(event -> {
-            if (StringUtils.isBlank(startTimeCb.getValue())) {
-                startTimeCb.setPlaceholder(VaadinElementUtils.START_TIME);
-                startTimeCb.setCaption("");
-                startTimeCb.setRequiredIndicatorVisible(false);
-            }
-        });
+            startTimeCb.addFocusListener(event -> {
+                startTimeCb.setPlaceholder("");
+                startTimeCb.setCaption(VaadinElementUtils.START_TIME);
+                startTimeCb.setRequiredIndicatorVisible(true);
+            });
 
-        startTimeCb.addFocusListener(event -> {
-            startTimeCb.setPlaceholder("");
-            startTimeCb.setCaption(VaadinElementUtils.START_TIME);
-            startTimeCb.setRequiredIndicatorVisible(true);
-        });
+            endTimeCb.addBlurListener(event -> {
+                if (StringUtils.isBlank(endTimeCb.getValue())) {
+                    endTimeCb.setPlaceholder(VaadinElementUtils.END_TIME);
+                    endTimeCb.setCaption("");
+                    endTimeCb.setRequiredIndicatorVisible(false);
+                }
+            });
 
-        endTimeCb.addBlurListener(event -> {
-            if (StringUtils.isBlank(endTimeCb.getValue())) {
-                endTimeCb.setPlaceholder(VaadinElementUtils.END_TIME);
-                endTimeCb.setCaption("");
-                endTimeCb.setRequiredIndicatorVisible(false);
-            }
-        });
+            endTimeCb.addFocusListener(event -> {
+                endTimeCb.setPlaceholder("");
+                endTimeCb.setCaption(VaadinElementUtils.END_TIME);
+                endTimeCb.setRequiredIndicatorVisible(true);
+            });
 
-        endTimeCb.addFocusListener(event -> {
-            endTimeCb.setPlaceholder("");
-            endTimeCb.setCaption(VaadinElementUtils.END_TIME);
-            endTimeCb.setRequiredIndicatorVisible(true);
-        });
+            meetingNameCb.addBlurListener(event -> {
+                if (StringUtils.isBlank(meetingNameCb.getValue())) {
+                    meetingNameCb.setPlaceholder(VaadinElementUtils.MEETING_NAME);
+                    meetingNameCb.setCaption("");
+                    meetingNameCb.setRequiredIndicatorVisible(false);
+                }
+            });
 
-        meetingNameCb.addBlurListener(event -> {
-            if (StringUtils.isBlank(meetingNameCb.getValue())) {
-                meetingNameCb.setPlaceholder(VaadinElementUtils.MEETING_NAME);
-                meetingNameCb.setCaption("");
-                meetingNameCb.setRequiredIndicatorVisible(false);
-            }
-        });
-
-        meetingNameCb.addFocusListener(event -> {
-            meetingNameCb.setPlaceholder("");
-            meetingNameCb.setCaption(VaadinElementUtils.MEETING_NAME);
-            meetingNameCb.setRequiredIndicatorVisible(true);
-        });
+            meetingNameCb.addFocusListener(event -> {
+                meetingNameCb.setPlaceholder("");
+                meetingNameCb.setCaption(VaadinElementUtils.MEETING_NAME);
+                meetingNameCb.setRequiredIndicatorVisible(true);
+            });
+        }
     }
 
     public void addValidation() {

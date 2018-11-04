@@ -72,6 +72,9 @@ public class MeetingProvider extends AbstractBackEndDataProvider<MeetingDto,Stri
                 case EndTime:
                     return addIndexToMeetings(meetingDtos.stream().filter(meeting -> passesFilter(meeting.getEndTime(), filterText))
                             .collect(Collectors.toList())).stream();
+                case Duration:
+                    return addIndexToMeetings(meetingDtos.stream().filter(meeting -> passesFilter(meeting.getDuration(), filterText))
+                            .collect(Collectors.toList())).stream();
                 case Status:
                     return addIndexToMeetings(meetingDtos.stream().filter(meeting -> passesFilter(meeting.getCompleted(), filterText))
                             .collect(Collectors.toList())).stream();
@@ -124,7 +127,7 @@ public class MeetingProvider extends AbstractBackEndDataProvider<MeetingDto,Stri
     }
 
     private boolean filterEveryField(MeetingDto meetingDto) {
-        return passesFilter(meetingDto.getName(), filterText) || passesFilter(meetingDto.getDate(), filterText)
+        return passesFilter(meetingDto.getName(), filterText) || passesFilter(meetingDto.getDate(), filterText) || passesFilter(meetingDto.getDuration(), filterText)
                 || passesFilter(meetingDto.getStartTime(), filterText) || passesFilter(meetingDto.getEndTime(), filterText)
                 || passesFilter(meetingDto.getCompleted(), filterText);
     }

@@ -1,17 +1,18 @@
 package gr.demokritos.meetingscheduler.business.beans;
 
-import gr.demokritos.meetingscheduler.business.dto.PossibleMeetingDto;
+import gr.demokritos.meetingscheduler.business.dto.*;
 import gr.demokritos.meetingscheduler.business.mappers.PossibleMeetingMapper;
 import gr.demokritos.meetingscheduler.datalayer.persistence.entities.PossibleMeeting;
 import gr.demokritos.meetingscheduler.datalayer.repositories.JpaRepo;
 import gr.demokritos.meetingscheduler.datalayer.repositories.PossibleMeetingRepository;
 import org.apache.commons.collections4.CollectionUtils;
 
+import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Session Bean implementation class PossibleMeetingBean
@@ -22,12 +23,73 @@ public class PossibleMeetingBean {
 
     private PossibleMeetingMapper possibleMeetingMapper = new PossibleMeetingMapper();
 
+    @EJB
+    private AvailabilityBean availabilityBean;
+
     @Inject
     @JpaRepo
     private PossibleMeetingRepository possibleMeetingRepository;
 
     public PossibleMeetingBean() {
 
+    }
+
+    public Map<DayDto, List<PossibleMeetingDto>>  getWeekPossibleMeetings(MeetingDto meetingDto, WeekDto weekDto, Integer threshold) {
+        Map<DayDto, List<PossibleMeetingDto>> possibleMeetingsPerWeek = new HashMap<>();
+
+        List<AvailabilityDto> availabilities = availabilityBean.getAvailabilitiesByMeeting(meetingDto.getId()).stream()
+                .filter(availabilityDto -> isAvailabilityInsideTimePeriod(weekDto, availabilityDto)).collect(Collectors.toList());
+
+        Set<DayDto> daysInWeek = availabilities.stream().map(AvailabilityDto::getDayDto).collect(Collectors.toSet());
+
+        for(DayDto day : daysInWeek) {
+            List<PossibleMeetingDto> possibleMeetingsPerDay = getPossibleMeetingsPerDay(meetingDto, threshold, availabilities, day);
+            possibleMeetingsPerWeek.put(day, possibleMeetingsPerDay);
+        }
+
+        return possibleMeetingsPerWeek;
+    }
+
+    private List<PossibleMeetingDto> getPossibleMeetingsPerDay(MeetingDto meetingDto, Integer threshold, List<AvailabilityDto> availabilities, DayDto day) {
+        List<PossibleMeetingDto> possibleMeetingsPerDay = new ArrayList<>();
+        List<AvailabilityDto> availabilitiesPerDay = availabilities.stream().filter(availabilityDto ->
+                availabilityDto.getDayDto().getDate().isEqual(day.getDate())).collect(Collectors.toList());
+        Set<TimezoneDto> timezonesPerDay = availabilitiesPerDay.stream().map(AvailabilityDto::getTimezoneDto).collect(Collectors.toSet());
+        timezonesPerDay.forEach(timezone -> {
+            List<AvailabilityDto> canAttend = availabilitiesPerDay.stream().filter(availabilityDto -> availabilityDto.getTimezoneDto().equals(timezone) &&
+                    availabilityDto.getIsAvailable()).collect(Collectors.toList());
+            List<AvailabilityDto> cannotAttend = availabilitiesPerDay.stream().filter(availabilityDto -> availabilityDto.getTimezoneDto().equals(timezone) &&
+                    !availabilityDto.getIsAvailable()).collect(Collectors.toList());
+            PossibleMeetingDto possibleMeetingDto = generatePossibleMeetingPerDayAndTimezone(meetingDto, day, timezone, canAttend, cannotAttend);
+            if(threshold!=null){
+                if(cannotAttend.size() < threshold) {
+                    possibleMeetingsPerDay.add(possibleMeetingDto);
+                }
+            } else {
+                possibleMeetingsPerDay.add(possibleMeetingDto);
+            }
+        });
+        possibleMeetingsPerDay.sort(Comparator.comparingInt(PossibleMeetingDto::getCanAttend).reversed());
+        return possibleMeetingsPerDay;
+    }
+
+    private PossibleMeetingDto generatePossibleMeetingPerDayAndTimezone(MeetingDto meetingDto, DayDto day, TimezoneDto timezone, List<AvailabilityDto> canAttend,
+                                                                        List<AvailabilityDto> cannotAttend) {
+        PossibleMeetingDto possibleMeeting = new PossibleMeetingDto();
+        possibleMeeting.setDayDto(day);
+        possibleMeeting.setTimezoneDto(timezone);
+        possibleMeeting.setMeetingDto(meetingDto);
+        possibleMeeting.setCanAttendList(canAttend);
+        possibleMeeting.setCanAttend(canAttend.size());
+        possibleMeeting.setCannotAttendList(cannotAttend);
+        possibleMeeting.setCannotAttend(cannotAttend.size());
+        return possibleMeeting;
+    }
+
+    private boolean isAvailabilityInsideTimePeriod(WeekDto weekDto, AvailabilityDto availabilityDto) {
+        return (availabilityDto.getDayDto().getDate().isAfter(weekDto.getStartDate()) ||
+                availabilityDto.getDayDto().getDate().isEqual(weekDto.getStartDate()))&&
+                (availabilityDto.getDayDto().getDate().isBefore(weekDto.getEndDate())) || availabilityDto.getDayDto().getDate().isEqual(weekDto.getEndDate());
     }
 
     public void addPossibleMeeting(PossibleMeetingDto possibleMeetingDto) {

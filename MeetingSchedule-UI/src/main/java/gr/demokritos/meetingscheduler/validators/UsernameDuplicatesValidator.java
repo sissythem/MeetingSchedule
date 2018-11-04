@@ -7,34 +7,32 @@ import gr.demokritos.meetingscheduler.MeetingUI;
 import gr.demokritos.meetingscheduler.business.beans.UserBean;
 import gr.demokritos.meetingscheduler.business.dto.UserDto;
 
-public class UserLoginDuplicatesValidator implements Validator<String> {
-
+public class UsernameDuplicatesValidator implements Validator<String> {
     private String errorMessage;
-    private UserDto selectedAppUser;
+    private UserDto selectedUser;
 
-    public UserLoginDuplicatesValidator(String errorMessage, UserDto selectedAppUser) {
+    public UsernameDuplicatesValidator(String errorMessage, UserDto selectedUser) {
         this.errorMessage = errorMessage;
-        this.selectedAppUser = selectedAppUser;
+        this.selectedUser = selectedUser;
     }
 
     @Override
     public ValidationResult apply(String value, ValueContext context) {
-        UserBean appUserBean = MeetingUI.getMeetingUI().getUserBean();
+        UserBean userBean = MeetingUI.getMeetingUI().getUserBean();
 
-        if (selectedAppUser == null) {
-            if (appUserBean.emailExists(value)) {
+        if (selectedUser == null) {
+            if (userBean.usernameExists(value)) {
                 return ValidationResult.error(errorMessage);
             } else {
                 return ValidationResult.ok();
             }
         } else {
-            if (appUserBean.emailExists(value) &&
-                    selectedAppUser.getId() != appUserBean.getUserByEmail(value).getId()) {
+            if (userBean.usernameExists(value) &&
+                    selectedUser.getId() != userBean.getUserByUsername(value).getId()) {
                 return ValidationResult.error(errorMessage);
             } else {
                 return ValidationResult.ok();
             }
         }
     }
-
 }

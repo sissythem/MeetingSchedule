@@ -65,18 +65,10 @@ public abstract class MeetingGridLayout extends VerticalLayout implements Button
     }
 
     private void addClickListeners() {
-        getButtonsLayout().getDeleteBtn().addClickListener(e -> {
-            onDelete();
-        });
-        getButtonsLayout().getEditBtn().addClickListener(e -> {
-            onEdit();
-        });
-        getButtonsLayout().getViewBtn().addClickListener(e -> {
-            onView();
-        });
-        getButtonsLayout().getAddBtn().addClickListener(e -> {
-            onAdd();
-        });
+        getButtonsLayout().getDeleteBtn().addClickListener(e -> onDelete());
+        getButtonsLayout().getEditBtn().addClickListener(e -> onEdit());
+        getButtonsLayout().getViewBtn().addClickListener(e -> onView());
+        getButtonsLayout().getAddBtn().addClickListener(e -> onAdd());
     }
 
     @Override

@@ -27,30 +27,32 @@ public class PossibleMeetingMemberMapper {
     }
 
     private MemberDto convertMemberToMemberDto(Member member) {
-        if(member==null) return null;
+        if (member == null) return null;
         MemberDto memberDto = new MemberDto();
         memberDto.setId(member.getId());
         memberDto.setName(member.getName());
         memberDto.setLastName(member.getLastName());
-        if(!CollectionUtils.isEmpty(member.getAvailabilities())) {
+        memberDto.setEmail(member.getEmail());
+        if (!CollectionUtils.isEmpty(member.getAvailabilities())) {
             member.getAvailabilities().forEach(availability -> memberDto.addAvailabilityDto(convertAvailabilityToAvailabilityDto(availability)));
         }
-        if(!CollectionUtils.isEmpty(member.getMeetings())) {
+        if (!CollectionUtils.isEmpty(member.getMeetings())) {
             member.getMeetings().forEach(meetingMember -> memberDto.addMeetingMemberDto(convertMeetingMemberToMeetingMemberDto(meetingMember)));
         }
         return memberDto;
     }
 
     private Member convertMemberDtoToMember(MemberDto memberDto) {
-        if(memberDto==null) return null;
+        if (memberDto == null) return null;
         Member member = new Member();
         member.setId(memberDto.getId());
         member.setName(memberDto.getName());
         member.setLastName(memberDto.getLastName());
-        if(!CollectionUtils.isEmpty(memberDto.getAvailabilityDtos())) {
+        member.setEmail(memberDto.getEmail());
+        if (!CollectionUtils.isEmpty(memberDto.getAvailabilityDtos())) {
             memberDto.getAvailabilityDtos().forEach(availabilityDto -> member.addAvailability(convertAvailabilityDtoToAvailability(availabilityDto)));
         }
-        if(!CollectionUtils.isEmpty(memberDto.getMeetingMemberDtos())) {
+        if (!CollectionUtils.isEmpty(memberDto.getMeetingMemberDtos())) {
             memberDto.getMeetingMemberDtos().forEach(meetingMemberDto -> member.addMeetingMember(convertMeetingMemberDtoToMeetingMember(meetingMemberDto)));
         }
         return member;
@@ -82,6 +84,7 @@ public class PossibleMeetingMemberMapper {
         meetingDto.setStartTime(meeting.getStartTime());
         meetingDto.setEndTime(meeting.getEndTime());
         meetingDto.setCompleted(meeting.getCompleted());
+        meetingDto.setDuration(meeting.getDuration());
         if (!CollectionUtils.isEmpty(meeting.getAvailabilities())) {
             meeting.getAvailabilities().forEach(availability -> meetingDto.addAvailabilityDto(convertAvailabilityToAvailabilityDto(availability)));
         }
@@ -96,7 +99,8 @@ public class PossibleMeetingMemberMapper {
         meeting.setStartTime(meetingDto.getStartTime());
         meeting.setEndTime(meetingDto.getEndTime());
         meeting.setCompleted(meetingDto.getCompleted());
-        if(!CollectionUtils.isEmpty(meetingDto.getAvailabilityDtos())) {
+        meeting.setDuration(meetingDto.getDuration());
+        if (!CollectionUtils.isEmpty(meetingDto.getAvailabilityDtos())) {
             meetingDto.getAvailabilityDtos().forEach(availabilityDto -> meeting.addAvailability(convertAvailabilityDtoToAvailability(availabilityDto)));
         }
         return meeting;
@@ -123,7 +127,7 @@ public class PossibleMeetingMemberMapper {
     }
 
     private AvailabilityDto convertAvailabilityToAvailabilityDto(Availability availability) {
-        if(availability == null) return null;
+        if (availability == null) return null;
         AvailabilityDto availabilityDto = new AvailabilityDto();
         availabilityDto.setId(availability.getId());
         availabilityDto.setIsAvailabile(availability.getAvailability());
@@ -133,7 +137,7 @@ public class PossibleMeetingMemberMapper {
     }
 
     private Availability convertAvailabilityDtoToAvailability(AvailabilityDto availabilityDto) {
-        if(availabilityDto == null) return null;
+        if (availabilityDto == null) return null;
         Availability availability = new Availability();
         availability.setId(availabilityDto.getId());
         availability.setAvailability(availabilityDto.getIsAvailable());

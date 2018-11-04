@@ -2,7 +2,6 @@ package gr.demokritos.meetingscheduler.forms;
 
 import com.vaadin.data.Binder;
 import com.vaadin.data.ValidationException;
-import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.*;
@@ -20,7 +19,7 @@ public class LoginForm extends VerticalLayout {
     private final Binder<UserDto> binder = new Binder<>();
     private LoginPanel loginPanel;
     private Label signinLabel = new Label(GeneralUtils.SIGN_IN);
-    private TextField email = new TextField("");
+    private TextField username = new TextField("");
     private PasswordField password = new PasswordField("");
     private Button loginBtn = new Button(StringUtils.stripAccents(GeneralUtils.SIGN_IN));
 
@@ -33,7 +32,7 @@ public class LoginForm extends VerticalLayout {
     private void initComponents(LoginPanel loginPanel) {
         this.loginPanel = loginPanel;
         initForm();
-        addComponents(signinLabel, email, password, loginBtn);
+        addComponents(signinLabel, username, password, loginBtn);
         customizeLayout();
     }
 
@@ -44,18 +43,18 @@ public class LoginForm extends VerticalLayout {
     }
 
     private void initTextFields() {
-        this.email.setPlaceholder(GeneralUtils.USERNAME);
+        this.username.setPlaceholder(GeneralUtils.USERNAME);
         this.password.setPlaceholder(GeneralUtils.PASSWORD);
-        email.addFocusListener(e -> {
-            email.setPlaceholder("");
-            email.setCaption(GeneralUtils.USERNAME);
-            email.setRequiredIndicatorVisible(true);
+        username.addFocusListener(e -> {
+            username.setPlaceholder("");
+            username.setCaption(GeneralUtils.USERNAME);
+            username.setRequiredIndicatorVisible(true);
         });
-        email.addBlurListener(e -> {
-            if (StringUtils.isBlank(email.getValue())) {
-                email.setPlaceholder(GeneralUtils.USERNAME);
-                email.setCaption("");
-                email.setRequiredIndicatorVisible(false);
+        username.addBlurListener(e -> {
+            if (StringUtils.isBlank(username.getValue())) {
+                username.setPlaceholder(GeneralUtils.USERNAME);
+                username.setCaption("");
+                username.setRequiredIndicatorVisible(false);
             }
         });
 
@@ -80,40 +79,39 @@ public class LoginForm extends VerticalLayout {
         loginBtn.setWidth(190, Unit.PIXELS);
         loginBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
         loginBtn.setStyleName(CssUtils.SCSS_LOGIN);
-        loginBtn.addClickListener(event -> onLoginClick(email, password));
+        loginBtn.addClickListener(event -> onLoginClick(username, password));
     }
 
     private void customizeLayout() {
         setComponentAlignment(signinLabel, Alignment.TOP_CENTER);
-        setComponentAlignment(email, Alignment.MIDDLE_CENTER);
+        setComponentAlignment(username, Alignment.MIDDLE_CENTER);
         setComponentAlignment(password, Alignment.MIDDLE_CENTER);
         setComponentAlignment(loginBtn, Alignment.BOTTOM_CENTER);
     }
 
     private void addValidation() {
-        binder.forField(email).asRequired(MessagesUtils.EMAIL_MANDATORY)
-                .withValidator(new EmailValidator(MessagesUtils.INVALID_EMAIL))
-                .bind(UserDto::getEmail, UserDto::setEmail);
+        binder.forField(username).asRequired(MessagesUtils.USERNAME_MANDATORY)
+                .bind(UserDto::getUsername, UserDto::setUsername);
         binder.forField(password).asRequired(MessagesUtils.PASSWORD_MANDATORY).bind(UserDto::getPassword, UserDto::setPassword);
     }
 
     private void removeRequiredIndicators() {
-        email.setRequiredIndicatorVisible(false);
+        username.setRequiredIndicatorVisible(false);
         password.setRequiredIndicatorVisible(false);
     }
 
-    public void onLoginClick(TextField email, PasswordField password) {
-        UserDto appUserDto = new UserDto(email.getValue(), password.getValue());
+    public void onLoginClick(TextField username, PasswordField password) {
+        UserDto appUserDto = new UserDto(username.getValue(), password.getValue());
         try {
             binder.writeBean(appUserDto);
-            checkLoginResponse(email.getValue(), password.getValue());
+            checkLoginResponse(username.getValue(), password.getValue());
         } catch (ValidationException e) {
             Message.show(MessagesUtils.ERROR, MessagesUtils.LOGIN_ERROR_MSG, EnumUtils.MessageType.ERROR);
         }
     }
 
-    private void checkLoginResponse(String email, String password) {
-        UserDto appUserDto = MeetingUI.getMeetingUI().getUserBean().isValidLogin(email, password);
+    private void checkLoginResponse(String username, String password) {
+        UserDto appUserDto = MeetingUI.getMeetingUI().getUserBean().isValidLogin(username, password);
         VaadinSession.getCurrent().setAttribute(GeneralUtils.SESSION_USER, appUserDto);
         MeetingUI.getMeetingUI().checkForComponent();
     }
@@ -134,12 +132,12 @@ public class LoginForm extends VerticalLayout {
         this.signinLabel = signinLabel;
     }
 
-    public TextField getEmail() {
-        return email;
+    public TextField getUsername() {
+        return username;
     }
 
-    public void setEmail(TextField email) {
-        this.email = email;
+    public void setUsername(TextField username) {
+        this.username = username;
     }
 
     public PasswordField getPassword() {

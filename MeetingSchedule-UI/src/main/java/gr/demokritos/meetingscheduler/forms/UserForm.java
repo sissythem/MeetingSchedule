@@ -10,7 +10,8 @@ import gr.demokritos.meetingscheduler.utils.GeneralUtils;
 import gr.demokritos.meetingscheduler.utils.MessagesUtils;
 import gr.demokritos.meetingscheduler.utils.VaadinElementUtils;
 import gr.demokritos.meetingscheduler.validators.PasswordValidator;
-import gr.demokritos.meetingscheduler.validators.UserLoginDuplicatesValidator;
+import gr.demokritos.meetingscheduler.validators.EmailDuplicatesValidator;
+import gr.demokritos.meetingscheduler.validators.UsernameDuplicatesValidator;
 import gr.demokritos.meetingscheduler.windows.ChangePasswordWindow;
 import org.apache.commons.lang3.StringUtils;
 
@@ -156,15 +157,17 @@ public class UserForm extends VerticalLayout {
         }
     }
 
-    public void addValidation(UserDto selectedAppUser) {
+    public void addValidation(UserDto selectedUser) {
         binder.forField(userFirstNameTf).asRequired(MessagesUtils.MANDATORY_FIELDS)
                 .bind(UserDto::getName, UserDto::setName);
         binder.forField(userLastNameTf).asRequired(MessagesUtils.MANDATORY_FIELDS)
                 .bind(UserDto::getLastName, UserDto::setLastName);
-        binder.forField(userNameTf).asRequired(MessagesUtils.MANDATORY_FIELDS).bind(UserDto::getUsername, UserDto::setUsername);
+        binder.forField(userNameTf).asRequired(MessagesUtils.MANDATORY_FIELDS)
+                .withValidator(new UsernameDuplicatesValidator(MessagesUtils.DUPLICATE_USERNAME, selectedUser))
+                .bind(UserDto::getUsername, UserDto::setUsername);
         binder.forField(emailTf).asRequired(MessagesUtils.MANDATORY_FIELDS)
                 .withValidator(new EmailValidator(MessagesUtils.INVALID_EMAIL))
-                .withValidator(new UserLoginDuplicatesValidator(MessagesUtils.DUPLICATE_EMAIL, selectedAppUser))
+                .withValidator(new EmailDuplicatesValidator(MessagesUtils.DUPLICATE_EMAIL, selectedUser))
                 .bind(UserDto::getEmail, UserDto::setEmail);
         if (action.equals(EnumUtils.Action.ADD)) {
             binder.forField(userPasswordTf).asRequired(MessagesUtils.PASSWORD_MANDATORY)

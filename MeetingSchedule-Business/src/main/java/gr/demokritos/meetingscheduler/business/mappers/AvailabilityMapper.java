@@ -43,6 +43,7 @@ public class AvailabilityMapper {
         meetingDto.setEndTime(meeting.getEndTime());
         meetingDto.setDate(meeting.getDate());
         meetingDto.setName(meeting.getName());
+        meetingDto.setDuration(meeting.getDuration());
         if(!CollectionUtils.isEmpty(meeting.getMembers())) {
             meeting.getMembers().forEach(meetingMember -> meetingDto.addMeetingMemberDto(convertMeetingMemberToMeetingMemberDto(meetingMember)));
         }
@@ -61,6 +62,7 @@ public class AvailabilityMapper {
         meeting.setEndTime(meetingDto.getEndTime());
         meeting.setDate(meetingDto.getDate());
         meeting.setName(meetingDto.getName());
+        meeting.setDuration(meetingDto.getDuration());
         if(!CollectionUtils.isEmpty(meetingDto.getMeetingMemberDtos())) {
             meetingDto.getMeetingMemberDtos().forEach(meetingMemberDto -> meeting.addMeetingMember(convertMeetingMemberDtoToMeetingMember(meetingMemberDto)));
         }
@@ -113,6 +115,7 @@ public class AvailabilityMapper {
         memberDto.setId(member.getId());
         memberDto.setName(member.getName());
         memberDto.setLastName(member.getLastName());
+        memberDto.setEmail(member.getEmail());
         if (!CollectionUtils.isEmpty(member.getMeetings())) {
             member.getMeetings()
                     .forEach(meeting -> memberDto.addMeetingMemberDto(convertMeetingMemberToMeetingMemberDto(meeting)));
@@ -131,6 +134,7 @@ public class AvailabilityMapper {
         Member member = new Member();
         member.setId(memberDto.getId());
         member.setName(memberDto.getName());
+        member.setEmail(memberDto.getEmail());
         member.setLastName(memberDto.getLastName());
         if (!CollectionUtils.isEmpty(memberDto.getMeetingMemberDtos())) {
             memberDto.getMeetingMemberDtos().forEach(meetingMemberDto -> member

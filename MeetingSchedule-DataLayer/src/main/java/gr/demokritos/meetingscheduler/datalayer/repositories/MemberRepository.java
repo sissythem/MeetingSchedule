@@ -57,4 +57,14 @@ public class MemberRepository extends AbstractRepository<Member> {
         }
         return null;
     }
+
+    public Member findMemberByEmail(String email) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("email", email);
+        List<Member> members = namedQuery(DbConstants.MEMBER_FIND_BY_EMAIL, parameters);
+        if (!CollectionUtils.isEmpty(members)) {
+            return members.get(0);
+        }
+        return null;
+    }
 }

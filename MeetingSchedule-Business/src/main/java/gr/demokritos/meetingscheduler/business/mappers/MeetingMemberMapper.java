@@ -32,6 +32,7 @@ public class MeetingMemberMapper {
         memberDto.setId(member.getId());
         memberDto.setName(member.getName());
         memberDto.setLastName(member.getLastName());
+        memberDto.setEmail(member.getEmail());
         if (!CollectionUtils.isEmpty(member.getAvailabilities())) {
             member.getAvailabilities().forEach(availability -> memberDto.addAvailabilityDto(convertAvailabilityToAvailabilityDto(availability)));
         }
@@ -47,6 +48,7 @@ public class MeetingMemberMapper {
         member.setId(memberDto.getId());
         member.setName(memberDto.getName());
         member.setLastName(memberDto.getLastName());
+        member.setEmail(memberDto.getEmail());
         if (!CollectionUtils.isEmpty(memberDto.getAvailabilityDtos())) {
             memberDto.getAvailabilityDtos().forEach(availabilityDto -> member.addAvailability(convertAvailabilityDtoToAvailability(availabilityDto)));
         }
@@ -64,6 +66,7 @@ public class MeetingMemberMapper {
         meetingDto.setStartTime(meeting.getStartTime());
         meetingDto.setEndTime(meeting.getEndTime());
         meetingDto.setCompleted(meeting.getCompleted());
+        meetingDto.setDuration(meeting.getDuration());
         if (!CollectionUtils.isEmpty(meeting.getPossibleMeetings())) {
             meeting.getPossibleMeetings().forEach(possibleMeeting -> meetingDto.addPossibleMeetingDto(convertPossibleMeetingToPossibleMeetingDto(possibleMeeting)));
         }
@@ -80,6 +83,7 @@ public class MeetingMemberMapper {
         meeting.setDate(meetingDto.getDate());
         meeting.setStartTime(meetingDto.getStartTime());
         meeting.setEndTime(meetingDto.getEndTime());
+        meeting.setDuration(meetingDto.getDuration());
         meeting.setCompleted(meetingDto.getCompleted());
         if (!CollectionUtils.isEmpty(meetingDto.getPossibleMeetingDtos())) {
             meetingDto.getPossibleMeetingDtos().forEach(possibleMeetingDto -> meeting.addPossibleMeeting(convertPossibleMeetingDtoToPossibleMeeting(possibleMeetingDto)));

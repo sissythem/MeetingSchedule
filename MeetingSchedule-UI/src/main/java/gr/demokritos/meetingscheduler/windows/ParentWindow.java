@@ -23,6 +23,7 @@ public abstract class ParentWindow extends Window implements FormButtonsListener
     }
 
     public void setUpWindow() {
+        windowLayout.removeAllComponents();
         initButtons();
         windowLayout.addComponents(formLayout, buttonsLayout);
         windowLayout.setComponentAlignment(buttonsLayout, Alignment.BOTTOM_CENTER);

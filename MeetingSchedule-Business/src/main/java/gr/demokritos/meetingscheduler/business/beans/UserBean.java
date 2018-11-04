@@ -48,9 +48,9 @@ public class UserBean {
         return getUserByEmail(email) != null;
     }
 
-    public UserDto isValidLogin(String email, String password) {
-        if(emailExists(email)) {
-            UserDto userDto = getUserByEmail(email);
+    public UserDto isValidLogin(String username, String password) {
+        if(usernameExists(username)) {
+            UserDto userDto = getUserByUsername(username);
             if(userDto.getPassword().equals(password)) {
                 return userDto;
             }

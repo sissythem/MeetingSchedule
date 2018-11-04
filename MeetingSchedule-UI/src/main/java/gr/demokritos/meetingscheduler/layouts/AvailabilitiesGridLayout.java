@@ -53,7 +53,7 @@ public class AvailabilitiesGridLayout extends MeetingGridLayout {
         availabilitiesGrid.addColumn(availability -> (availability.getMeetingDto() != null) ? availability.getMeetingDto().getName() : "")
                 .setSortable(true).setCaption(VaadinElementUtils.MEETING_NAME)
                 .setSortProperty("a.meeting.name").setExpandRatio(7);
-        availabilitiesGrid.getColumn("isAvailable").setCaption(VaadinElementUtils.STATUS).setSortProperty("a.isAvailable").setExpandRatio(7);
+        availabilitiesGrid.getColumn("isAvailable").setCaption(VaadinElementUtils.STATUS).setSortProperty("a.availability").setExpandRatio(7);
         putFieldsInMap();
     }
 

@@ -8,7 +8,7 @@ import gr.demokritos.meetingscheduler.utils.EnumUtils;
 import gr.demokritos.meetingscheduler.utils.GeneralUtils;
 import gr.demokritos.meetingscheduler.utils.VaadinElementUtils;
 
-public class Message extends Window implements Button.ClickListener {
+public class Message extends Window {
     private static final ThemeResource ERROR_ICON = new ThemeResource(GeneralUtils.ERROR_ICON_PATH);
     private static final ThemeResource INFO_ICON = new ThemeResource(GeneralUtils.INFO_ICON_PATH);
     private static final ThemeResource WARNING_ICON = new ThemeResource(GeneralUtils.WARN_ICON_PATH);
@@ -45,6 +45,7 @@ public class Message extends Window implements Button.ClickListener {
     private VerticalLayout createWindowContent(HorizontalLayout iconAndMessage) {
         VerticalLayout vLayout = new VerticalLayout();
         Button okBtn = new Button(VaadinElementUtils.OK_BUTTON);
+        okBtn.addClickListener(event -> this.close());
         okBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
         vLayout.setMargin(true);
         vLayout.setSpacing(true);
@@ -68,11 +69,6 @@ public class Message extends Window implements Button.ClickListener {
     public static void show(String caption, String message, EnumUtils.MessageType messageType){
         Message md = new Message(caption, message, messageType);
         UI.getCurrent().addWindow(md);
-    }
-
-    @Override
-    public void buttonClick(Button.ClickEvent event) {
-        this.close();
     }
 
 }
