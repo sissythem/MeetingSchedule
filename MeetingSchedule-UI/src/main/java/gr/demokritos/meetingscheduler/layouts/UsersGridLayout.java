@@ -35,9 +35,9 @@ public class UsersGridLayout extends MeetingGridLayout {
 
     @Override
     public void setUpColumns() {
-        usersGrid.setColumns("index", "name", "lastName", "username", "email");
-        usersGrid.getColumn(VaadinElementUtils.INDEX).setSortable(false)
-                .setCaption(VaadinElementUtils.INDEX).setExpandRatio(1);
+        usersGrid.setColumns("name", "lastName", "username", "email");
+//        usersGrid.getColumn(VaadinElementUtils.INDEX).setSortable(false)
+//                .setCaption(VaadinElementUtils.INDEX).setExpandRatio(1);
         usersGrid.getColumn("name").setCaption(VaadinElementUtils.NAME)
                 .setSortProperty("u.name").setExpandRatio(7);
         usersGrid.getColumn("lastName").setCaption(VaadinElementUtils.LAST_NAME)

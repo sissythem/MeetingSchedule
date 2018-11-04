@@ -52,7 +52,11 @@ public class MeetingBean {
     public List<MeetingDto> getAllMeetings() {
     	return getMeetingDtos(meetingRepository.findAllMeetings());
     }
-    
+
+    public List<MeetingDto> getAllMeetings(String sortString) {
+        return getMeetingDtos(meetingRepository.findAllMeetings(sortString));
+    }
+
     public MeetingDto getMeetingById(Long id) {
     	return meetingMapper.convertMeetingToMeetingDto(meetingRepository.findMeetingById(id));
     }

@@ -21,6 +21,10 @@ public class MemberRepository extends AbstractRepository<Member> {
         return namedQuery(DbConstants.MEMBER_FIND_ALL, null);
     }
 
+    public List<Member> findAllMembers(String sortString) {
+        return jpqlQuery("SELECT m FROM Member m" + sortString);
+    }
+
     public Member findMemberById(Long id) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("id", id);

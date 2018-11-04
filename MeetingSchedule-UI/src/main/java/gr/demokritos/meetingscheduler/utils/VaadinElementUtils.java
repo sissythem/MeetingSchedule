@@ -13,6 +13,13 @@ public class VaadinElementUtils {
     public static String LAST_NAME						= "Last Name";
     public static String USER_NAME						= "Username";
     public static String EMAIL                          = "Email";
+    public static String DATE                           = "Date";
+    public static String START_TIME                     = "Start Time";
+    public static String END_TIME                       = "End Time";
+    public static String STATUS                         = "Status";
+    public static String MEMBER_NAME                    = "Member name";
+    public static String MEETING_DATE                   = "Meeting date";
+    public static String MEETING_NAME                   = "Meeting name";
 
     /** Buttons **/
     public static String YES_BUTTON						= "Yes";

@@ -5,6 +5,9 @@ import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.VerticalLayout;
 import gr.demokritos.meetingscheduler.business.dto.UserDto;
+import gr.demokritos.meetingscheduler.layouts.MeetingsGridLayout;
+import gr.demokritos.meetingscheduler.layouts.MembersGridLayout;
+import gr.demokritos.meetingscheduler.layouts.UsersGridLayout;
 import gr.demokritos.meetingscheduler.panels.AppPanel;
 import gr.demokritos.meetingscheduler.utils.CssUtils;
 import gr.demokritos.meetingscheduler.utils.EnumUtils;
@@ -56,43 +59,43 @@ public class MenuBarLayout extends VerticalLayout {
     }
 
     private void addUsersMenu() {
-        MenuButton studentsBtn = LeftMenuButtonBuilder.get().withCaption(GeneralUtils.USERS).withIcon(VaadinIcons.USERS).withClickListener(e -> {
+        MenuButton usersBtn = LeftMenuButtonBuilder.get().withCaption(GeneralUtils.USERS).withIcon(VaadinIcons.USERS).withClickListener(e -> {
                     makeButtonSelected(e);
                     contentLayout.removeAllComponents();
                     contentLayout.setLeftSelectedItem(EnumUtils.LeftMenuSelection.USERS);
-//                    contentLayout.addComponent(new UsersGridLayout(contentLayout));
+                    contentLayout.addComponent(new UsersGridLayout(contentLayout));
                 }).build();
-        menuBar.addLeftMenuButton(studentsBtn);
-        menuItems.put(EnumUtils.LeftMenuSelection.USERS, studentsBtn);
+        menuBar.addLeftMenuButton(usersBtn);
+        menuItems.put(EnumUtils.LeftMenuSelection.USERS, usersBtn);
     }
 
     private void addMembersMenu() {
-        MenuButton routesBtn = LeftMenuButtonBuilder.get().withCaption(GeneralUtils.MEMBERS)
-                .withIcon(VaadinIcons.ROAD).withClickListener(e -> {
+        MenuButton membersBtn = LeftMenuButtonBuilder.get().withCaption(GeneralUtils.MEMBERS)
+                .withIcon(VaadinIcons.GROUP).withClickListener(e -> {
                     makeButtonSelected(e);
                     contentLayout.removeAllComponents();
                     contentLayout.setLeftSelectedItem(EnumUtils.LeftMenuSelection.MEMBERS);
-//                    contentLayout.addComponent(new MembersGridLayout(contentLayout));
+                    contentLayout.addComponent(new MembersGridLayout(contentLayout));
                 }).build();
-        menuBar.addLeftMenuButton(routesBtn);
-        menuItems.put(EnumUtils.LeftMenuSelection.MEMBERS, routesBtn);
+        menuBar.addLeftMenuButton(membersBtn);
+        menuItems.put(EnumUtils.LeftMenuSelection.MEMBERS, membersBtn);
     }
 
     private void addMeetingsMenu() {
-        MenuButton routesBtn = LeftMenuButtonBuilder.get().withCaption(GeneralUtils.MEETINGS)
-                .withIcon(VaadinIcons.ROAD).withClickListener(e -> {
+        MenuButton meetingBtn = LeftMenuButtonBuilder.get().withCaption(GeneralUtils.MEETINGS)
+                .withIcon(VaadinIcons.ACADEMY_CAP).withClickListener(e -> {
                     makeButtonSelected(e);
                     contentLayout.removeAllComponents();
                     contentLayout.setLeftSelectedItem(EnumUtils.LeftMenuSelection.MEETINGS);
-//                    contentLayout.addComponent(new MeetingsGridLayout(contentLayout));
+                    contentLayout.addComponent(new MeetingsGridLayout(contentLayout));
                 }).build();
-        menuBar.addLeftMenuButton(routesBtn);
-        menuItems.put(EnumUtils.LeftMenuSelection.MEETINGS, routesBtn);
+        menuBar.addLeftMenuButton(meetingBtn);
+        menuItems.put(EnumUtils.LeftMenuSelection.MEETINGS, meetingBtn);
     }
 
     private void addAvailabilitiesMenu() {
         MenuButton routesBtn = LeftMenuButtonBuilder.get().withCaption(GeneralUtils.AVAILABILITIES)
-                .withIcon(VaadinIcons.ROAD).withClickListener(e -> {
+                .withIcon(VaadinIcons.CALENDAR).withClickListener(e -> {
                     makeButtonSelected(e);
                     contentLayout.removeAllComponents();
                     contentLayout.setLeftSelectedItem(EnumUtils.LeftMenuSelection.AVAILABILITIES);

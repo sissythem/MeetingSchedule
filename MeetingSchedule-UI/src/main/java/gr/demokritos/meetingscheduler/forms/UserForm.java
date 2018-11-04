@@ -4,7 +4,6 @@ import com.github.appreciated.material.MaterialTheme;
 import com.vaadin.data.Binder;
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.ui.*;
-import com.vaadin.ui.themes.ValoTheme;
 import gr.demokritos.meetingscheduler.business.dto.UserDto;
 import gr.demokritos.meetingscheduler.utils.EnumUtils;
 import gr.demokritos.meetingscheduler.utils.GeneralUtils;
@@ -13,12 +12,7 @@ import gr.demokritos.meetingscheduler.utils.VaadinElementUtils;
 import gr.demokritos.meetingscheduler.validators.PasswordValidator;
 import gr.demokritos.meetingscheduler.validators.UserLoginDuplicatesValidator;
 import gr.demokritos.meetingscheduler.windows.ChangePasswordWindow;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class UserForm extends VerticalLayout {
     private TextField userFirstNameTf = new TextField("");
@@ -196,6 +190,8 @@ public class UserForm extends VerticalLayout {
 
         leftFormFields.addComponents(userFirstNameTf,userLastNameTf, emailTf);
         rightFormFields.addComponents(userNameTf, changePasswordBtnLayout, userPasswordTf);
+        textFieldsLayout.addComponents(leftFormFields, rightFormFields);
+        formLayout.addComponent(textFieldsLayout);
         return formLayout;
     }
 

@@ -51,6 +51,10 @@ public class AvailabilityBean {
         return getAvailabilityDtos(availabilityRepository.findAllAvailabilities());
     }
 
+    public List<AvailabilityDto> getAllAvailabilities(String sortString) {
+        return getAvailabilityDtos(availabilityRepository.findAllAvailabilities(sortString));
+    }
+
     public AvailabilityDto getAvailabilityById(Long id) {
         return availabilityMapper.convertAvailabilityToAvailabilityDto(availabilityRepository.findAvailabilityById(id));
     }

@@ -23,4 +23,16 @@ public class MessagesUtils {
     public static String REMOVE_USER                    = "Delete user";
     public static String EDIT_USER                      = "Edit user";
     public static String VIEW_USER                      = "View user";
+    public static String NEW_MEMBER                     = "Add new member";
+    public static String REMOVE_MEMBER                  = "Delete member";
+    public static String EDIT_MEMBER                    = "Edit member";
+    public static String VIEW_MEMBER                    = "View member";
+    public static String NEW_MEETING                    = "Add new meeting";
+    public static String REMOVE_MEETING                 = "Delete meeting";
+    public static String EDIT_MEETING                   = "Edit meeting";
+    public static String VIEW_MEETING                   = "View meeting";
+    public static String NEW_AVAILABILITY               = "Add new availability";
+    public static String EDIT_AVAILABILITY              = "Edit availability";
+    public static String VIEW_AVAILABILITY              = "View availability";
+    public static String DELETE_AVAILABILITY            = "Delete availability";
 }

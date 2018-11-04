@@ -47,6 +47,10 @@ public class MemberBean {
         memberRepository.remove(member);
     }
 
+    public List<MemberDto> getAllMembers(String sortString) {
+        return getMemberDtos(memberRepository.findAllMembers(sortString));
+    }
+
     public List<MemberDto> getAllMembers() {
         return getMemberDtos(memberRepository.findAllMembers());
     }

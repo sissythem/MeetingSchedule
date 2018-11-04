@@ -23,6 +23,10 @@ public class AvailabilityRepository extends AbstractRepository<Availability> {
         return namedQuery(DbConstants.AVAILABILITY_FIND_ALL, null);
     }
 
+    public List<Availability> findAllAvailabilities(String sortString) {
+        return jpqlQuery("SELECT a FROM Availability a" + sortString);
+    }
+
     public Availability findAvailabilityById(Long id) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("id", id);

@@ -20,6 +20,9 @@ public class MeetingDto extends ParentDto {
     private List<PossibleMeetingDto> possibleMeetingDtos = new ArrayList<>();
     private List<AvailabilityDto> availabilityDtos = new ArrayList<>();
 
+    @NotForMapping
+    private Integer index;
+
     public MeetingDto() {
 
     }
@@ -32,6 +35,14 @@ public class MeetingDto extends ParentDto {
         this.startTime = startTime;
         this.endTime = endTime;
         this.completed = completed;
+    }
+
+    public Integer getIndex() {
+        return index;
+    }
+
+    public void setIndex(Integer index) {
+        this.index = index;
     }
 
     public Long getId() {

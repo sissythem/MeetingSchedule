@@ -12,6 +12,9 @@ public class AvailabilityDto extends ParentDto {
     private MeetingDto meetingDto;
     private Boolean isAvailable;
 
+    @NotForMapping
+    private Integer index;
+
     public AvailabilityDto() {
 
     }
@@ -24,6 +27,14 @@ public class AvailabilityDto extends ParentDto {
         this.timezoneDto = timezoneDto;
         this.meetingDto = meetingDto;
         this.isAvailable = isAvailable;
+    }
+
+    public Integer getIndex() {
+        return index;
+    }
+
+    public void setIndex(Integer index) {
+        this.index = index;
     }
 
     public Long getId() {

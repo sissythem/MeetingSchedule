@@ -9,7 +9,7 @@ import gr.demokritos.meetingscheduler.utils.VaadinElementUtils;
 public abstract class ParentWindow extends Window implements FormButtonsListener {
 
     protected VerticalLayout windowLayout = new VerticalLayout();
-    protected VerticalLayout formLayout;
+    protected VerticalLayout formLayout = new VerticalLayout();
     private HorizontalLayout buttonsLayout = new HorizontalLayout();
     protected Button saveBtn = new Button(VaadinElementUtils.SAVE_BUTTON);
     protected Button cancelBtn = new Button(VaadinElementUtils.CANCEL_BUTTON);

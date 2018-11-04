@@ -44,7 +44,6 @@ public class UserProvider extends AbstractBackEndDataProvider<UserDto, String> {
 
     @Override
     protected Stream<UserDto> fetchFromBackEnd(Query<UserDto, String> query) {
-        UserDto loggedInUser = GeneralUtils.getUserFromSession();
         List<QuerySortOrder> sortOrders = query.getSortOrders();
 
         if (StringUtils.isBlank(filterText) && CollectionUtils.isEmpty(sortOrders)) { // empty filter, no sortOrders
@@ -100,7 +99,6 @@ public class UserProvider extends AbstractBackEndDataProvider<UserDto, String> {
     }
 
     private List<UserDto> fetchAllAppUsersSorted(List<QuerySortOrder> sortOrders) {
-        UserDto loggedInUser = GeneralUtils.getUserFromSession();
         List<UserDto> allUsers = MeetingUI.getMeetingUI().getUserBean().getAllUsers();
         List<UserDto> sortedUsers = MeetingUI.getMeetingUI().getUserBean().getAllUsers(SortStringGenerator.generate(sortOrders));
 
