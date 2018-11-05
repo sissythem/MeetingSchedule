@@ -38,7 +38,6 @@ public class ScheduleMeetingWindow extends ParentWindow {
                 onAskWeek();
                 break;
             case 2:
-                onMeetingPropose();
                 break;
         }
     }
@@ -50,9 +49,6 @@ public class ScheduleMeetingWindow extends ParentWindow {
         getCancelBtn().setVisible(false);
     }
 
-    private void onMeetingPropose() {
-
-    }
 
     @Override
     public void onSave() {

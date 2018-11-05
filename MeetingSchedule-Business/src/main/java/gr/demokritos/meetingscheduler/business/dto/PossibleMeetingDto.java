@@ -14,6 +14,8 @@ public class PossibleMeetingDto extends ParentDto {
     private List<AvailabilityDto> canAttendList = new ArrayList<>();
     @NotForMapping
     private List<AvailabilityDto> cannotAttendList = new ArrayList<>();
+    @NotForMapping
+    private List<PossibleMeetingDto> lessPossibleMeetingsSameDay = new ArrayList<>();
 
     @NotForMapping
     private Integer canAttend;
@@ -138,6 +140,14 @@ public class PossibleMeetingDto extends ParentDto {
 
     public void setCannotAttendList(List<AvailabilityDto> cannotAttendList) {
         this.cannotAttendList = cannotAttendList;
+    }
+
+    public List<PossibleMeetingDto> getLessPossibleMeetingsSameDay() {
+        return lessPossibleMeetingsSameDay;
+    }
+
+    public void setLessPossibleMeetingsSameDay(List<PossibleMeetingDto> lessPossibleMeetingsSameDay) {
+        this.lessPossibleMeetingsSameDay = lessPossibleMeetingsSameDay;
     }
 
     @Override

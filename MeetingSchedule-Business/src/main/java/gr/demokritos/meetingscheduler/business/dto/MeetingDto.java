@@ -1,13 +1,12 @@
 package gr.demokritos.meetingscheduler.business.dto;
 
+import gr.demokritos.meetingscheduler.datalayer.utils.DbConstants;
+import org.apache.commons.lang3.StringUtils;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.commons.lang3.StringUtils;
-
-import gr.demokritos.meetingscheduler.datalayer.utils.DbConstants;
 
 public class MeetingDto extends ParentDto {
     private Long id;
@@ -23,6 +22,16 @@ public class MeetingDto extends ParentDto {
 
     @NotForMapping
     private Integer index;
+    @NotForMapping
+    private Integer canAttend;
+    @NotForMapping
+    private Integer cannotAttend;
+    @NotForMapping
+    private List<AvailabilityDto> canAttendList = new ArrayList<>();
+    @NotForMapping
+    private List<AvailabilityDto> cannotAttendList = new ArrayList<>();
+    @NotForMapping
+    private List<MeetingDto> lessPossibleMeetings = new ArrayList<>();
 
     public MeetingDto() {
 
@@ -182,6 +191,46 @@ public class MeetingDto extends ParentDto {
 
     public void setDuration(Integer duration) {
         this.duration = duration;
+    }
+
+    public Integer getCanAttend() {
+        return canAttend;
+    }
+
+    public void setCanAttend(Integer canAttend) {
+        this.canAttend = canAttend;
+    }
+
+    public Integer getCannotAttend() {
+        return cannotAttend;
+    }
+
+    public void setCannotAttend(Integer cannotAttend) {
+        this.cannotAttend = cannotAttend;
+    }
+
+    public List<AvailabilityDto> getCanAttendList() {
+        return canAttendList;
+    }
+
+    public void setCanAttendList(List<AvailabilityDto> canAttendList) {
+        this.canAttendList = canAttendList;
+    }
+
+    public List<AvailabilityDto> getCannotAttendList() {
+        return cannotAttendList;
+    }
+
+    public void setCannotAttendList(List<AvailabilityDto> cannotAttendList) {
+        this.cannotAttendList = cannotAttendList;
+    }
+
+    public List<MeetingDto> getLessPossibleMeetings() {
+        return lessPossibleMeetings;
+    }
+
+    public void setLessPossibleMeetings(List<MeetingDto> lessPossibleMeetings) {
+        this.lessPossibleMeetings = lessPossibleMeetings;
     }
 
     @Override

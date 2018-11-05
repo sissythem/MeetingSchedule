@@ -13,9 +13,9 @@ import gr.demokritos.meetingscheduler.windows.ScheduleMeetingWindow;
 public class ScheduleMeetingInfoForm extends VerticalLayout {
     private ScheduleMeetingWindow window;
     private Label messageLbl = new Label("Give the week (start-end) you are interested in");
-    private DateField weekStartDateTf = new DateField("");
-    private DateField weekEndDateTf = new DateField("");
-    private IntegerField thresholdTf = new IntegerField("");
+    private DateField weekStartDateTf = new DateField(VaadinElementUtils.MEETING_DATE);
+    private DateField weekEndDateTf = new DateField(VaadinElementUtils.START_TIME);
+    private IntegerField thresholdTf = new IntegerField(VaadinElementUtils.MEMBERS_THRESHOLD);
     private Binder<WeekDto> binder = new Binder<>();
 
     public ScheduleMeetingInfoForm(ScheduleMeetingWindow window) {
@@ -31,46 +31,6 @@ public class ScheduleMeetingInfoForm extends VerticalLayout {
     private void addPlaceholders() {
         weekStartDateTf.setPlaceholder(VaadinElementUtils.MEETING_DATE);
         weekEndDateTf.setPlaceholder(VaadinElementUtils.START_TIME);
-        thresholdTf.setPlaceholder(VaadinElementUtils.MEMBERS_THRESHOLD);
-        weekStartDateTf.addBlurListener(event -> {
-            if (weekStartDateTf.getValue() != null) {
-                weekStartDateTf.setPlaceholder(VaadinElementUtils.MEETING_START_DATE);
-                weekStartDateTf.setCaption("");
-                weekStartDateTf.setRequiredIndicatorVisible(false);
-            }
-        });
-
-        weekStartDateTf.addFocusListener(event -> {
-            weekStartDateTf.setPlaceholder("");
-            weekStartDateTf.setCaption(VaadinElementUtils.MEETING_START_DATE);
-            weekStartDateTf.setRequiredIndicatorVisible(true);
-        });
-
-        weekEndDateTf.addBlurListener(event -> {
-            if (weekEndDateTf.getValue() != null) {
-                weekEndDateTf.setPlaceholder(VaadinElementUtils.MEETING_END_DATE);
-                weekEndDateTf.setCaption("");
-                weekEndDateTf.setRequiredIndicatorVisible(false);
-            }
-        });
-
-        weekEndDateTf.addFocusListener(event -> {
-            weekEndDateTf.setPlaceholder("");
-            weekEndDateTf.setCaption(VaadinElementUtils.MEETING_END_DATE);
-            weekEndDateTf.setRequiredIndicatorVisible(true);
-        });
-
-        thresholdTf.addBlurListener(event -> {
-            if (thresholdTf.getValue() != null) {
-                thresholdTf.setPlaceholder(VaadinElementUtils.MEMBERS_THRESHOLD);
-                thresholdTf.setCaption("");
-            }
-        });
-
-        thresholdTf.addFocusListener(event -> {
-            thresholdTf.setPlaceholder("");
-            thresholdTf.setCaption(VaadinElementUtils.MEMBERS_THRESHOLD);
-        });
     }
 
     private void addValidation() {

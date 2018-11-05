@@ -34,7 +34,46 @@ public class PossibleMeetingBean {
 
     }
 
-    public Map<DayDto, List<PossibleMeetingDto>>  getWeekPossibleMeetings(MeetingDto meetingDto, WeekDto weekDto, Integer threshold) {
+    public List<MeetingDto> getHierarchicalMeetings(Map<DayDto, List<PossibleMeetingDto>> possibleMeetingsAndDays) {
+        List<MeetingDto> roots = new ArrayList<>();
+        for (DayDto day : possibleMeetingsAndDays.keySet()) {
+            if (!CollectionUtils.isEmpty(possibleMeetingsAndDays.get(day))) {
+                PossibleMeetingDto possibleMeetingDto = possibleMeetingsAndDays.get(day).get(0);
+                MeetingDto meetingDto = generateMeetingFromPossibleMeeting(day, possibleMeetingDto);
+                List<PossibleMeetingDto> lessPossibleMeetings = possibleMeetingsAndDays.get(day);
+                lessPossibleMeetings.remove(0);
+                List<MeetingDto> lessPossMeetings = new ArrayList<>();
+                lessPossibleMeetings.forEach(possibleMeetingDto1 -> {
+                    MeetingDto mdto = generateMeetingFromPossibleMeeting(day, possibleMeetingDto);
+                    lessPossMeetings.add(mdto);
+                    meetingDto.setLessPossibleMeetings(lessPossMeetings);
+                });
+                roots.add(meetingDto);
+            }
+        }
+        roots.sort(Comparator.comparingInt(MeetingDto::getCanAttend).reversed());
+        return roots;
+    }
+
+    private MeetingDto generateMeetingFromPossibleMeeting(DayDto day, PossibleMeetingDto possibleMeetingDto) {
+        MeetingDto meetingDto = new MeetingDto();
+        meetingDto.setId(possibleMeetingDto.getMeetingDto().getId());
+        meetingDto.setName(possibleMeetingDto.getMeetingDto().getName());
+        meetingDto.setDuration(possibleMeetingDto.getMeetingDto().getDuration());
+        meetingDto.setCompleted(possibleMeetingDto.getMeetingDto().getCompleted());
+        meetingDto.setStartTime(possibleMeetingDto.getTimezoneDto().getStartTime());
+        meetingDto.setEndTime(possibleMeetingDto.getTimezoneDto().getEndTime());
+        meetingDto.setDate(day.getDate());
+        meetingDto.setAvailabilityDtos(possibleMeetingDto.getMeetingDto().getAvailabilityDtos());
+        meetingDto.setMeetingMemberDtos(possibleMeetingDto.getMeetingDto().getMeetingMemberDtos());
+        meetingDto.setCanAttend(possibleMeetingDto.getCanAttend());
+        meetingDto.setCannotAttend(possibleMeetingDto.getCannotAttend());
+        meetingDto.setCanAttendList(possibleMeetingDto.getCanAttendList());
+        meetingDto.setCannotAttendList(possibleMeetingDto.getCannotAttendList());
+        return meetingDto;
+    }
+
+    public Map<DayDto, List<PossibleMeetingDto>> getWeekPossibleMeetings(MeetingDto meetingDto, WeekDto weekDto, Integer threshold) {
         Map<DayDto, List<PossibleMeetingDto>> possibleMeetingsPerWeek = new HashMap<>();
 
         List<AvailabilityDto> availabilities = availabilityBean.getAvailabilitiesByMeeting(meetingDto.getId()).stream()
@@ -42,7 +81,7 @@ public class PossibleMeetingBean {
 
         Set<DayDto> daysInWeek = availabilities.stream().map(AvailabilityDto::getDayDto).collect(Collectors.toSet());
 
-        for(DayDto day : daysInWeek) {
+        for (DayDto day : daysInWeek) {
             List<PossibleMeetingDto> possibleMeetingsPerDay = getPossibleMeetingsPerDay(meetingDto, threshold, availabilities, day);
             possibleMeetingsPerWeek.put(day, possibleMeetingsPerDay);
         }
@@ -61,8 +100,8 @@ public class PossibleMeetingBean {
             List<AvailabilityDto> cannotAttend = availabilitiesPerDay.stream().filter(availabilityDto -> availabilityDto.getTimezoneDto().equals(timezone) &&
                     !availabilityDto.getIsAvailable()).collect(Collectors.toList());
             PossibleMeetingDto possibleMeetingDto = generatePossibleMeetingPerDayAndTimezone(meetingDto, day, timezone, canAttend, cannotAttend);
-            if(threshold!=null){
-                if(cannotAttend.size() < threshold) {
+            if (threshold != null) {
+                if (cannotAttend.size() < threshold) {
                     possibleMeetingsPerDay.add(possibleMeetingDto);
                 }
             } else {
@@ -88,7 +127,7 @@ public class PossibleMeetingBean {
 
     private boolean isAvailabilityInsideTimePeriod(WeekDto weekDto, AvailabilityDto availabilityDto) {
         return (availabilityDto.getDayDto().getDate().isAfter(weekDto.getStartDate()) ||
-                availabilityDto.getDayDto().getDate().isEqual(weekDto.getStartDate()))&&
+                availabilityDto.getDayDto().getDate().isEqual(weekDto.getStartDate())) &&
                 (availabilityDto.getDayDto().getDate().isBefore(weekDto.getEndDate())) || availabilityDto.getDayDto().getDate().isEqual(weekDto.getEndDate());
     }
 
@@ -135,7 +174,7 @@ public class PossibleMeetingBean {
         return getPossibleMeetingDtos(possibleMeetingRepository.findPossibleMeetingByDayAndTimezone(dayId, timezoneId));
     }
 
-    public List<PossibleMeetingDto> getPossibleMeetingsByMeetingDayAndTimezone(Long meetingId, Long dayId, Long timezoneId){
+    public List<PossibleMeetingDto> getPossibleMeetingsByMeetingDayAndTimezone(Long meetingId, Long dayId, Long timezoneId) {
         return getPossibleMeetingDtos(possibleMeetingRepository.findPossibleMeetingByMeetingDayAndTimezone(meetingId, dayId, timezoneId));
     }
 
