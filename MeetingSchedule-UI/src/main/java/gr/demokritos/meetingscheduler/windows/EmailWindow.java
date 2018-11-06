@@ -44,7 +44,6 @@ public class EmailWindow extends ParentWindow {
             EmailForm form = (EmailForm) formLayout;
             if (form.getBinder().isValid() && areFieldsValid(form)) {
                 selectedMeeting.setPossibleMeetingDtos(new ArrayList<>());
-                LoggerFactory.getLogger("EmailWindow").info("Availability: " + selectedMeeting.getAvailabilityDtos());
                 MeetingUI.getMeetingUI().getMeetingBean().updateMeeting(selectedMeeting);
                 sendEmail(form);
                 this.close();

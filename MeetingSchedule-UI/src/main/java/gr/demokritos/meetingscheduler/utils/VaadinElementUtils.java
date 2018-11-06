@@ -20,6 +20,8 @@ public class VaadinElementUtils {
     public static String MEMBER_NAME                    = "Member name";
     public static String MEMBER_LAST_NAME               = "Member last name";
     public static String MEETING_DATE                   = "Meeting date";
+    public static String MEETING_START_DATE             = "Start date";
+    public static String MEETING_END_DATE               = "End date";
     public static String MEETING_NAME                   = "Meeting name";
     public static String AVAILABLE                      = "Available";
     public static String MEETING_DURATION               = "Meeting duration";
@@ -27,9 +29,11 @@ public class VaadinElementUtils {
     public static String CAN_ATTEND                     = "Can attend";
     public static String CANNOT_ATTEND                  = "Cannot attend";
     public static String MEETING_AVAILABILITY           = "Meeting availability";
-    public static String EMAIL_LIST                    = "To";
-    public static String EMAIL_THEME                   = "Subject";
+    public static String EMAIL_LIST                     = "To";
+    public static String EMAIL_THEME                    = "Subject";
     public static String EMAIL_BODY                     = "Message";
+    public static String FROM_EMAIL                     = "From";
+    public static String PASSWORD                       = "Password";
 
     /** Buttons **/
     public static String YES_BUTTON						= "Yes";

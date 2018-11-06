@@ -1,6 +1,10 @@
 /* This file is automatically managed and will be overwritten from time to time. */
 /* Do not manually edit this file. */
 
+/* Provided by calendar-component-2.0-BETA4.jar */
+@import "../../../VAADIN/addons/calendar/calendar-addon.scss";
+
+
 /* Provided by md-stepper-2.1.jar */
 @import "../../../VAADIN/addons/md_stepper/scss/md-stepper.scss";
 
@@ -15,6 +19,7 @@
 
 /* Import and include this mixin into your project theme to include the addon themes */
 @mixin addons {
+	@include calendar-addon;
 	@include md-stepper;
 	@include materialicons;
 	@include hybrid-menu;

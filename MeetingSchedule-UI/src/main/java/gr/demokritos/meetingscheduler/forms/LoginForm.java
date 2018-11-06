@@ -112,6 +112,9 @@ public class LoginForm extends VerticalLayout {
 
     private void checkLoginResponse(String username, String password) {
         UserDto appUserDto = MeetingUI.getMeetingUI().getUserBean().isValidLogin(username, password);
+        if(appUserDto == null) {
+            Message.show(MessagesUtils.ERROR, MessagesUtils.LOGIN_ERROR_MSG, EnumUtils.MessageType.ERROR);
+        }
         VaadinSession.getCurrent().setAttribute(GeneralUtils.SESSION_USER, appUserDto);
         MeetingUI.getMeetingUI().checkForComponent();
     }

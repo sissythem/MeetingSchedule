@@ -43,8 +43,8 @@ public class MemberAvailabilityWindow extends ParentWindow {
         setUpGrids();
         gridLayout.addComponents(memberAvailabilityGrid, memberUnavailabilityGrid);
         formLayout.addComponent(gridLayout);
-        formLayout.setWidth("800px");
-        formLayout.setHeight("600px");
+//        formLayout.setWidth("800px");
+//        formLayout.setHeight("600px");
     }
 
     private void setUpGrids() {

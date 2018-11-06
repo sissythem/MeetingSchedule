@@ -14,11 +14,11 @@ import java.time.format.DateTimeFormatter;
 
 public class EmailForm extends VerticalLayout {
     private MeetingDto selectedMeeting;
-    private TextField fromEmail = new TextField("From");
+    private TextField fromEmail = new TextField(VaadinElementUtils.FROM_EMAIL);
     private TextField emailList = new TextField(VaadinElementUtils.EMAIL_LIST);
     private TextField theme = new TextField(VaadinElementUtils.EMAIL_THEME);
     private TextArea message = new TextArea(VaadinElementUtils.EMAIL_BODY);
-    private PasswordField passwordField = new PasswordField("Password");
+    private PasswordField passwordField = new PasswordField(VaadinElementUtils.PASSWORD);
     private final Binder<String> binder = new Binder<>();
 
     public EmailForm(MeetingDto selectedMeeting) {
@@ -30,11 +30,11 @@ public class EmailForm extends VerticalLayout {
     }
 
     private void fillForm() {
-        fromEmail.setPlaceholder("From");
-        emailList.setPlaceholder("To");
-        theme.setPlaceholder("Subject");
-        message.setPlaceholder("Message");
-        passwordField.setPlaceholder("Password");
+        fromEmail.setPlaceholder(VaadinElementUtils.FROM_EMAIL);
+        emailList.setPlaceholder(VaadinElementUtils.EMAIL_LIST);
+        theme.setPlaceholder(VaadinElementUtils.EMAIL_THEME);
+        message.setPlaceholder(VaadinElementUtils.EMAIL_BODY);
+        passwordField.setPlaceholder(VaadinElementUtils.PASSWORD);
         emailList.setWidth("90%");
         fromEmail.setWidth("90%");
         theme.setWidth("90%");

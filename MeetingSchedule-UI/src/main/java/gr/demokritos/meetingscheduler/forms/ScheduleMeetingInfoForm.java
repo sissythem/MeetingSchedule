@@ -13,8 +13,8 @@ import gr.demokritos.meetingscheduler.windows.ScheduleMeetingWindow;
 public class ScheduleMeetingInfoForm extends VerticalLayout {
     private ScheduleMeetingWindow window;
     private Label messageLbl = new Label("Give the week (start-end) you are interested in");
-    private DateField weekStartDateTf = new DateField(VaadinElementUtils.MEETING_DATE);
-    private DateField weekEndDateTf = new DateField(VaadinElementUtils.START_TIME);
+    private DateField weekStartDateTf = new DateField(VaadinElementUtils.MEETING_START_DATE);
+    private DateField weekEndDateTf = new DateField(VaadinElementUtils.MEETING_END_DATE);
     private IntegerField thresholdTf = new IntegerField(VaadinElementUtils.MEMBERS_THRESHOLD);
     private Binder<WeekDto> binder = new Binder<>();
 
