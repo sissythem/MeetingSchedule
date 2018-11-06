@@ -1,12 +1,17 @@
 package gr.demokritos.meetingscheduler.forms;
 
-import com.vaadin.server.Page;
 import com.vaadin.ui.*;
+import gr.demokritos.meetingscheduler.MeetingUI;
 import gr.demokritos.meetingscheduler.business.dto.DayDto;
 import gr.demokritos.meetingscheduler.business.dto.MeetingDto;
 import gr.demokritos.meetingscheduler.business.dto.PossibleMeetingDto;
 import gr.demokritos.meetingscheduler.grids.PossibleMeetingGrid;
+import gr.demokritos.meetingscheduler.utils.EnumUtils;
+import gr.demokritos.meetingscheduler.utils.MessagesUtils;
 import gr.demokritos.meetingscheduler.utils.VaadinElementUtils;
+import gr.demokritos.meetingscheduler.windows.EmailWindow;
+import gr.demokritos.meetingscheduler.windows.MemberAvailabilityWindow;
+import gr.demokritos.meetingscheduler.windows.Message;
 
 import java.util.List;
 import java.util.Map;
@@ -36,7 +41,7 @@ public class ProposeMeetingLayout extends VerticalLayout {
     }
 
     private void setUpColumns() {
-        possibleMeetingGrid.setColumns("name", "date", "startTime", "endTime", "duration","completed", "canAttend", "cannotAttend");
+        possibleMeetingGrid.setColumns("name", "date", "startTime", "endTime", "duration", "completed", "canAttend", "cannotAttend");
         possibleMeetingGrid.getColumn("name").setCaption(VaadinElementUtils.NAME).setSortable(false).setExpandRatio(5);
         possibleMeetingGrid.getColumn("date").setCaption(VaadinElementUtils.DATE).setSortable(false).setExpandRatio(5);
         possibleMeetingGrid.getColumn("startTime").setCaption(VaadinElementUtils.START_TIME).setSortable(false).setExpandRatio(5);
@@ -68,13 +73,25 @@ public class ProposeMeetingLayout extends VerticalLayout {
 
     private void addClickListeners() {
         viewMembersBtn.addClickListener(event -> {
-
+            if (this.possibleMeetingGrid.getSelectedPossibleMeeting() == null) {
+                Message.show(MessagesUtils.WARNING, MessagesUtils.SCHEDULE_MEETING_WARNING, EnumUtils.MessageType.WARN);
+            } else {
+                new MemberAvailabilityWindow(VaadinElementUtils.MEETING_AVAILABILITY, possibleMeetingGrid.getSelectedPossibleMeeting(), this).show();
+            }
         });
         sendEmailBtn.addClickListener(event -> {
-
+            if (this.possibleMeetingGrid.getSelectedPossibleMeeting() == null) {
+                Message.show(MessagesUtils.WARNING, MessagesUtils.SCHEDULE_MEETING_WARNING, EnumUtils.MessageType.WARN);
+            } else {
+                new EmailWindow(VaadinElementUtils.SEND_EMAIL, possibleMeetingGrid.getSelectedPossibleMeeting()).show();
+            }
         });
         saveMeetingBtn.addClickListener(event -> {
-
+            if (this.possibleMeetingGrid.getSelectedPossibleMeeting() == null) {
+                Message.show(MessagesUtils.WARNING, MessagesUtils.SCHEDULE_MEETING_WARNING, EnumUtils.MessageType.WARN);
+            } else {
+                MeetingUI.getMeetingUI().getMeetingBean().updateMeeting(possibleMeetingGrid.getSelectedPossibleMeeting());
+            }
         });
     }
 

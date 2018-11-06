@@ -13,6 +13,7 @@ import gr.demokritos.meetingscheduler.layouts.MeetingGridLayout;
 import gr.demokritos.meetingscheduler.utils.EnumUtils;
 import gr.demokritos.meetingscheduler.utils.MessagesUtils;
 import gr.demokritos.meetingscheduler.utils.VaadinElementUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -58,12 +59,13 @@ public class ScheduleMeetingWindow extends ParentWindow {
                     ScheduleMeetingInfoForm form = (ScheduleMeetingInfoForm) formLayout;
                     WeekDto weekDto = new WeekDto(form.getWeekStartDateTf().getValue(), form.getWeekEndDateTf().getValue());
                     Integer threshold = null;
-                    if(form.getThresholdTf().getValue()!=null) {
+                    if(!StringUtils.isBlank(form.getThresholdTf().getValue())) {
                         threshold = Integer.parseInt(form.getThresholdTf().getValue());
                     }
                     form.getBinder().writeBean(weekDto);
                     onContinue(weekDto, threshold);
                     setUpWindow();
+                    this.center();
                 } catch (ValidationException e) {
                     Message.show(MessagesUtils.ERROR, MessagesUtils.VALIDATION_MESSAGE, EnumUtils.MessageType.ERROR);
                 }

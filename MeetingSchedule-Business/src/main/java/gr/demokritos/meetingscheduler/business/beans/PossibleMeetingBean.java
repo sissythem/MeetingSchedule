@@ -11,6 +11,8 @@ import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -25,6 +27,9 @@ public class PossibleMeetingBean {
 
     @EJB
     private AvailabilityBean availabilityBean;
+
+    @EJB
+    private TimezoneBean timezoneBean;
 
     @Inject
     @JpaRepo
@@ -56,7 +61,7 @@ public class PossibleMeetingBean {
     }
 
     private MeetingDto generateMeetingFromPossibleMeeting(DayDto day, PossibleMeetingDto possibleMeetingDto) {
-        MeetingDto meetingDto = new MeetingDto();
+        MeetingDto meetingDto = possibleMeetingDto.getMeetingDto();
         meetingDto.setId(possibleMeetingDto.getMeetingDto().getId());
         meetingDto.setName(possibleMeetingDto.getMeetingDto().getName());
         meetingDto.setDuration(possibleMeetingDto.getMeetingDto().getDuration());
@@ -85,7 +90,6 @@ public class PossibleMeetingBean {
             List<PossibleMeetingDto> possibleMeetingsPerDay = getPossibleMeetingsPerDay(meetingDto, threshold, availabilities, day);
             possibleMeetingsPerWeek.put(day, possibleMeetingsPerDay);
         }
-
         return possibleMeetingsPerWeek;
     }
 
@@ -94,12 +98,20 @@ public class PossibleMeetingBean {
         List<AvailabilityDto> availabilitiesPerDay = availabilities.stream().filter(availabilityDto ->
                 availabilityDto.getDayDto().getDate().isEqual(day.getDate())).collect(Collectors.toList());
         Set<TimezoneDto> timezonesPerDay = availabilitiesPerDay.stream().map(AvailabilityDto::getTimezoneDto).collect(Collectors.toSet());
-        timezonesPerDay.forEach(timezone -> {
-            List<AvailabilityDto> canAttend = availabilitiesPerDay.stream().filter(availabilityDto -> availabilityDto.getTimezoneDto().equals(timezone) &&
-                    availabilityDto.getIsAvailable()).collect(Collectors.toList());
-            List<AvailabilityDto> cannotAttend = availabilitiesPerDay.stream().filter(availabilityDto -> availabilityDto.getTimezoneDto().equals(timezone) &&
-                    !availabilityDto.getIsAvailable()).collect(Collectors.toList());
+        Set<TimezoneDto> splittedTm = getTimezonesBasedOnMeetingDuration(meetingDto, timezonesPerDay);
+        splittedTm.forEach(timezone -> {
+            Set<AvailabilityDto> availabilitiesPerTimezone = availabilitiesPerDay.stream().filter(availabilityDto ->
+                            (availabilityDto.getTimezoneDto().getStartTime().isBefore(timezone.getStartTime())
+                            || availabilityDto.getTimezoneDto().getStartTime().equals(timezone.getStartTime()))
+                            && (availabilityDto.getTimezoneDto().getEndTime().isAfter(timezone.getEndTime())
+                                    || availabilityDto.getTimezoneDto().getEndTime().equals(timezone.getEndTime()))).collect(Collectors.toSet());
+
+            Set<MemberDto> canAttend = availabilitiesPerTimezone.stream().filter(availabilityDto -> availabilityDto.getIsAvailable().equals(true))
+                    .map(AvailabilityDto::getMemberDto).collect(Collectors.toSet());
+            Set<MemberDto> cannotAttend = availabilitiesPerTimezone.stream().filter(availabilityDto -> !availabilityDto.getIsAvailable()).map(AvailabilityDto::getMemberDto)
+                    .collect(Collectors.toSet());
             PossibleMeetingDto possibleMeetingDto = generatePossibleMeetingPerDayAndTimezone(meetingDto, day, timezone, canAttend, cannotAttend);
+            meetingDto.addPossibleMeetingDto(possibleMeetingDto);
             if (threshold != null) {
                 if (cannotAttend.size() < threshold) {
                     possibleMeetingsPerDay.add(possibleMeetingDto);
@@ -112,8 +124,40 @@ public class PossibleMeetingBean {
         return possibleMeetingsPerDay;
     }
 
-    private PossibleMeetingDto generatePossibleMeetingPerDayAndTimezone(MeetingDto meetingDto, DayDto day, TimezoneDto timezone, List<AvailabilityDto> canAttend,
-                                                                        List<AvailabilityDto> cannotAttend) {
+    private Set<TimezoneDto> getTimezonesBasedOnMeetingDuration(MeetingDto meetingDto, Set<TimezoneDto> timezonesPerDay) {
+        Set<TimezoneDto> splittedTm = new HashSet<>();
+        timezonesPerDay.forEach(tm -> {
+            Long duration = meetingDto.getDuration().longValue();
+            Long diff = ChronoUnit.HOURS.between(tm.getStartTime(), tm.getEndTime());
+            if (diff < duration) {
+                tm.setEndTime(tm.getEndTime().plus(duration, ChronoUnit.HOURS));
+                splittedTm.add(tm);
+            } else if (diff.equals(duration)) {
+                splittedTm.add(tm);
+            } else {
+                LocalTime startTime = tm.getStartTime();
+                LocalTime endTime = startTime.plus(duration, ChronoUnit.HOURS);
+                while (diff > duration) {
+                    TimezoneDto timezone = new TimezoneDto();
+                    if (!timezoneBean.timezoneExists(startTime, endTime)) {
+                        timezone.setStartTime(startTime);
+                        timezone.setEndTime(endTime);
+                        timezoneBean.addTimezone(timezone);
+                    } else {
+                        timezone = timezoneBean.getTimezoneByStartAndEndTime(startTime, endTime);
+                    }
+                    splittedTm.add(timezone);
+                    diff = diff - duration;
+                    startTime = endTime;
+                    endTime = startTime.plus(duration, ChronoUnit.HOURS);
+                }
+            }
+        });
+        return splittedTm;
+    }
+
+    private PossibleMeetingDto generatePossibleMeetingPerDayAndTimezone(MeetingDto meetingDto, DayDto day, TimezoneDto timezone, Set<MemberDto> canAttend,
+                                                                        Set<MemberDto> cannotAttend) {
         PossibleMeetingDto possibleMeeting = new PossibleMeetingDto();
         possibleMeeting.setDayDto(day);
         possibleMeeting.setTimezoneDto(timezone);
@@ -128,7 +172,8 @@ public class PossibleMeetingBean {
     private boolean isAvailabilityInsideTimePeriod(WeekDto weekDto, AvailabilityDto availabilityDto) {
         return (availabilityDto.getDayDto().getDate().isAfter(weekDto.getStartDate()) ||
                 availabilityDto.getDayDto().getDate().isEqual(weekDto.getStartDate())) &&
-                (availabilityDto.getDayDto().getDate().isBefore(weekDto.getEndDate())) || availabilityDto.getDayDto().getDate().isEqual(weekDto.getEndDate());
+                (availabilityDto.getDayDto().getDate().isBefore(weekDto.getEndDate())) ||
+                availabilityDto.getDayDto().getDate().isEqual(weekDto.getEndDate());
     }
 
     public void addPossibleMeeting(PossibleMeetingDto possibleMeetingDto) {

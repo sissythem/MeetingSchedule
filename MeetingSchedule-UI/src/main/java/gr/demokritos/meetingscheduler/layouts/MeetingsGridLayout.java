@@ -98,6 +98,8 @@ public class MeetingsGridLayout extends MeetingGridLayout {
     private void onScheduleMeetingClick() {
         if(meetingsGrid.getSelectedMeeting() == null) {
             Message.show(MessagesUtils.WARNING, MessagesUtils.SCHEDULE_MEETING_WARNING, EnumUtils.MessageType.WARN);
+        } else if(meetingsGrid.getSelectedMeeting().getCompleted()) {
+            Message.show(MessagesUtils.WARNING, "This meeting is completed!", EnumUtils.MessageType.WARN);
         } else {
             new ScheduleMeetingWindow(VaadinElementUtils.SCHEDULE_MEETING, this, meetingsGrid).show();
         }

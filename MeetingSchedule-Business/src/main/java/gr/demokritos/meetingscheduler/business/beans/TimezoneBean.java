@@ -31,6 +31,10 @@ public class TimezoneBean {
     
     }
 
+    public boolean timezoneExists(LocalTime startTime, LocalTime endTime) {
+        return timezoneRepository.findTimezoneByStartTimeAndEndTime(startTime, endTime) != null;
+    }
+
     public void addTimezone(TimezoneDto timezoneDto) {
         Timezone timezone = timezoneMapper.convertTimezoneDtoToTimezone(timezoneDto);
         timezoneRepository.add(timezone);

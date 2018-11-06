@@ -1,7 +1,9 @@
 package gr.demokritos.meetingscheduler.business.dto;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class PossibleMeetingDto extends ParentDto {
     private Long id;
@@ -11,9 +13,9 @@ public class PossibleMeetingDto extends ParentDto {
     private List<PossibleMeetingMemberDto> possibleMeetingMemberDtos;
 
     @NotForMapping
-    private List<AvailabilityDto> canAttendList = new ArrayList<>();
+    private Set<MemberDto> canAttendList = new HashSet<>();
     @NotForMapping
-    private List<AvailabilityDto> cannotAttendList = new ArrayList<>();
+    private Set<MemberDto> cannotAttendList = new HashSet<>();
     @NotForMapping
     private List<PossibleMeetingDto> lessPossibleMeetingsSameDay = new ArrayList<>();
 
@@ -126,19 +128,19 @@ public class PossibleMeetingDto extends ParentDto {
         this.cannotAttend = cannotAttend;
     }
 
-    public List<AvailabilityDto> getCanAttendList() {
+    public Set<MemberDto> getCanAttendList() {
         return canAttendList;
     }
 
-    public void setCanAttendList(List<AvailabilityDto> canAttendList) {
+    public void setCanAttendList(Set<MemberDto> canAttendList) {
         this.canAttendList = canAttendList;
     }
 
-    public List<AvailabilityDto> getCannotAttendList() {
+    public Set<MemberDto> getCannotAttendList() {
         return cannotAttendList;
     }
 
-    public void setCannotAttendList(List<AvailabilityDto> cannotAttendList) {
+    public void setCannotAttendList(Set<MemberDto> cannotAttendList) {
         this.cannotAttendList = cannotAttendList;
     }
 

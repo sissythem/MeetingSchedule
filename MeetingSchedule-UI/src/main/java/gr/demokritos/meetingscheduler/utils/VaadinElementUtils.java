@@ -20,14 +20,16 @@ public class VaadinElementUtils {
     public static String MEMBER_NAME                    = "Member name";
     public static String MEMBER_LAST_NAME               = "Member last name";
     public static String MEETING_DATE                   = "Meeting date";
-    public static String MEETING_START_DATE             = "Meeting start date";
-    public static String MEETING_END_DATE               = "Meeting end date";
     public static String MEETING_NAME                   = "Meeting name";
     public static String AVAILABLE                      = "Available";
     public static String MEETING_DURATION               = "Meeting duration";
     public static String MEMBERS_THRESHOLD              = "Not attending members threshold";
     public static String CAN_ATTEND                     = "Can attend";
     public static String CANNOT_ATTEND                  = "Cannot attend";
+    public static String MEETING_AVAILABILITY           = "Meeting availability";
+    public static String EMAIL_LIST                    = "To";
+    public static String EMAIL_THEME                   = "Subject";
+    public static String EMAIL_BODY                     = "Message";
 
     /** Buttons **/
     public static String YES_BUTTON						= "Yes";
@@ -47,6 +49,6 @@ public class VaadinElementUtils {
     public static String SCHEDULE_MEETING               = "Schedule meeting";
     public static String NEXT                           = "Next";
     public static String VIEW_MEMBERS                   = "View members";
-    public static String SEND_EMAIL                     = "Send email";
+    public static String SEND_EMAIL                     = "Save & Send email";
     public static String SAVE_MEETING                   = "Save meeting";
 }

@@ -71,6 +71,28 @@ public class MeetingMapper {
         return meeting;
     }
 
+    private AvailabilityDto convertAvailabilityToAvailabilityDto(Availability availability) {
+        if (availability == null) return null;
+        AvailabilityDto availabilityDto = new AvailabilityDto();
+        availabilityDto.setId(availability.getId());
+        availabilityDto.setIsAvailabile(availability.getAvailability());
+        availabilityDto.setTimezoneDto(convertTimezoneToTimezoneDto(availability.getTimezone()));
+        availabilityDto.setDayDto(convertDayToDayDto(availability.getDay()));
+        availabilityDto.setMemberDto(convertMemberToMemberDto(availability.getMember()));
+        return availabilityDto;
+    }
+
+    private Availability convertAvailabilityDtoToAvailability(AvailabilityDto availabilityDto) {
+        if (availabilityDto == null) return null;
+        Availability availability = new Availability();
+        availability.setId(availabilityDto.getId());
+        availability.setAvailability(availabilityDto.getIsAvailable());
+        availability.setTimezone(convertTimezoneDtoToTimezone(availabilityDto.getTimezoneDto()));
+        availability.setDay(convertDayDtoToDay(availabilityDto.getDayDto()));
+        availability.setMember(convertMemberDtoToMember(availabilityDto.getMemberDto()));
+        return availability;
+    }
+
     private MeetingMemberDto convertMeetingMemberToMeetingMemberDto(MeetingMember meetingMember) {
         if (meetingMember == null)
             return null;
@@ -129,10 +151,6 @@ public class MeetingMapper {
         memberDto.setName(member.getName());
         memberDto.setLastName(member.getLastName());
         memberDto.setEmail(member.getEmail());
-        if (!CollectionUtils.isEmpty(member.getAvailabilities())) {
-            member.getAvailabilities().forEach(
-                    availability -> memberDto.addAvailabilityDto(convertAvailabilityToAvailabilityDto(availability)));
-        }
         if (!CollectionUtils.isEmpty(member.getPossibleMeetingMembers())) {
             member.getPossibleMeetingMembers().forEach(possibleMeetingMember -> memberDto.addPossibleMeetingMemberDto(
                     convertPossibleMeetingMemberToPossibleMeetingMemberDto(possibleMeetingMember)));
@@ -148,10 +166,6 @@ public class MeetingMapper {
         member.setName(memberDto.getName());
         member.setLastName(memberDto.getLastName());
         member.setEmail(memberDto.getEmail());
-        if (!CollectionUtils.isEmpty(memberDto.getAvailabilityDtos())) {
-            memberDto.getAvailabilityDtos().forEach(
-                    availabilityDto -> member.addAvailability(convertAvailabilityDtoToAvailability(availabilityDto)));
-        }
         if (!CollectionUtils.isEmpty(memberDto.getPossibleMeetingMemberDtos())) {
             memberDto.getPossibleMeetingMemberDtos()
                     .forEach(possibleMeetingMemberDto -> member.addPossibleMeetingMember(
@@ -170,10 +184,6 @@ public class MeetingMapper {
             dayDto.setDayOfWeek(day.getDate().getDayOfWeek());
             dayDto.setName(dayDto.getDayOfWeek().toString());
         }
-        if (!CollectionUtils.isEmpty(day.getAvailabilities())) {
-            day.getAvailabilities().forEach(
-                    availability -> dayDto.addAvailabilityDto(convertAvailabilityToAvailabilityDto(availability)));
-        }
         if (!CollectionUtils.isEmpty(day.getPossibleMeetings())) {
             day.getPossibleMeetings().forEach(possibleMeeting -> dayDto
                     .addPossibleMeetingDto(convertPossibleMeetingToPossibleMeetingDto(possibleMeeting)));
@@ -188,10 +198,6 @@ public class MeetingMapper {
         day.setId(dayDto.getId());
         day.setDate(dayDto.getDate());
         day.setName(dayDto.getName());
-        if (!CollectionUtils.isEmpty(dayDto.getAvailabilityDtos())) {
-            dayDto.getAvailabilityDtos().forEach(
-                    availabilityDto -> day.addAvailability(convertAvailabilityDtoToAvailability(availabilityDto)));
-        }
         if (!CollectionUtils.isEmpty(dayDto.getPossibleMeetingsDto())) {
             dayDto.getPossibleMeetingsDto().forEach(possibleMeetingDto -> day
                     .addPossibleMeeting(convertPossibleMeetingDtoToPossibleMeeting(possibleMeetingDto)));
@@ -205,10 +211,6 @@ public class MeetingMapper {
         timezoneDto.setId(timezone.getId());
         timezoneDto.setEndTime(timezone.getEndTime());
         timezoneDto.setStartTime(timezone.getStartTime());
-        if (!CollectionUtils.isEmpty(timezone.getAvailabilities())) {
-            timezone.getAvailabilities().forEach(
-                    availability -> timezoneDto.addAvailabilityDto(convertAvailabilityToAvailabilityDto(availability)));
-        }
         return timezoneDto;
     }
 
@@ -218,10 +220,6 @@ public class MeetingMapper {
         timezone.setId(timezoneDto.getId());
         timezone.setEndTime(timezoneDto.getEndTime());
         timezone.setStartTime(timezoneDto.getStartTime());
-        if (!CollectionUtils.isEmpty(timezoneDto.getAvailabilityDtos())) {
-            timezoneDto.getAvailabilityDtos().forEach(
-                    availabilityDto -> timezone.addAvailability(convertAvailabilityDtoToAvailability(availabilityDto)));
-        }
         return timezone;
     }
 
@@ -243,20 +241,6 @@ public class MeetingMapper {
         return possibleMeetingMember;
     }
 
-    private AvailabilityDto convertAvailabilityToAvailabilityDto(Availability availability) {
-        if (availability == null) return null;
-        AvailabilityDto availabilityDto = new AvailabilityDto();
-        availabilityDto.setId(availability.getId());
-        availabilityDto.setIsAvailabile(availability.getAvailability());
-        return availabilityDto;
-    }
 
-    private Availability convertAvailabilityDtoToAvailability(AvailabilityDto availabilityDto) {
-        if (availabilityDto == null) return null;
-        Availability availability = new Availability();
-        availability.setId(availabilityDto.getId());
-        availability.setAvailability(availabilityDto.getIsAvailable());
-        return availability;
-    }
 
 }
