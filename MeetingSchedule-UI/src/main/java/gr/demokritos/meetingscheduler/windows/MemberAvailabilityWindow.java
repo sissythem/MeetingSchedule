@@ -54,9 +54,9 @@ public class MemberAvailabilityWindow extends ParentWindow {
         this.memberAvailabilityGrid.setBodyRowHeight(35);
         this.memberAvailabilityGrid.setColumns("name", "lastName");
         this.memberAvailabilityGrid.getColumn("name").setCaption(VaadinElementUtils.MEMBER_NAME)
-                .setSortable(false).setExpandRatio(7);
+                .setSortable(false).setExpandRatio(4);
         this.memberAvailabilityGrid.getColumn("lastName").setCaption(VaadinElementUtils.MEMBER_LAST_NAME)
-                .setSortable(false).setExpandRatio(7);
+                .setSortable(false).setExpandRatio(4);
         this.memberAvailabilityGrid.setItems(possibleMeeting.getCanAttendList());
 
         this.memberUnavailabilityGrid.setCaption("Cannot Attend meeting");
@@ -65,9 +65,9 @@ public class MemberAvailabilityWindow extends ParentWindow {
         this.memberUnavailabilityGrid.setBodyRowHeight(35);
         this.memberUnavailabilityGrid.setColumns("name", "lastName");
         this.memberUnavailabilityGrid.getColumn("name").setCaption(VaadinElementUtils.MEMBER_NAME)
-                .setSortable(false).setExpandRatio(7);
+                .setSortable(false).setExpandRatio(4);
         this.memberUnavailabilityGrid.getColumn("lastName").setCaption(VaadinElementUtils.MEMBER_LAST_NAME)
-                .setSortable(false).setExpandRatio(7);
+                .setSortable(false).setExpandRatio(4);
         this.memberUnavailabilityGrid.setItems(possibleMeeting.getCannotAttendList());
     }
 
