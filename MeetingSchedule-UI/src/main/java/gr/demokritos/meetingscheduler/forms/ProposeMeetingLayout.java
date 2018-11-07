@@ -13,6 +13,7 @@ import gr.demokritos.meetingscheduler.windows.EmailWindow;
 import gr.demokritos.meetingscheduler.windows.MemberAvailabilityWindow;
 import gr.demokritos.meetingscheduler.windows.Message;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -90,6 +91,7 @@ public class ProposeMeetingLayout extends VerticalLayout {
             if (this.possibleMeetingGrid.getSelectedPossibleMeeting() == null) {
                 Message.show(MessagesUtils.WARNING, MessagesUtils.SCHEDULE_MEETING_WARNING, EnumUtils.MessageType.WARN);
             } else {
+                possibleMeetingGrid.getSelectedPossibleMeeting().setPossibleMeetingDtos(new ArrayList<>());
                 MeetingUI.getMeetingUI().getMeetingBean().updateMeeting(possibleMeetingGrid.getSelectedPossibleMeeting());
             }
         });

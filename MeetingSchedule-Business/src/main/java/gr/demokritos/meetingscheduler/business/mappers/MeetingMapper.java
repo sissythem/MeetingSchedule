@@ -184,10 +184,6 @@ public class MeetingMapper {
             dayDto.setDayOfWeek(day.getDate().getDayOfWeek());
             dayDto.setName(dayDto.getDayOfWeek().toString());
         }
-        if (!CollectionUtils.isEmpty(day.getPossibleMeetings())) {
-            day.getPossibleMeetings().forEach(possibleMeeting -> dayDto
-                    .addPossibleMeetingDto(convertPossibleMeetingToPossibleMeetingDto(possibleMeeting)));
-        }
         return dayDto;
     }
 
@@ -198,10 +194,6 @@ public class MeetingMapper {
         day.setId(dayDto.getId());
         day.setDate(dayDto.getDate());
         day.setName(dayDto.getName());
-        if (!CollectionUtils.isEmpty(dayDto.getPossibleMeetingsDto())) {
-            dayDto.getPossibleMeetingsDto().forEach(possibleMeetingDto -> day
-                    .addPossibleMeeting(convertPossibleMeetingDtoToPossibleMeeting(possibleMeetingDto)));
-        }
         return day;
     }
 
