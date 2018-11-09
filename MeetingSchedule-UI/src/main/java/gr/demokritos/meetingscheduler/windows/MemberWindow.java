@@ -83,6 +83,11 @@ public class MemberWindow extends ParentWindow {
     private void onViewLayout() {
         createFormLayout();
         fillForm(membersGrid.getSelectedMember());
+        nameTf.setReadOnly(true);
+        lastNameTf.setReadOnly(true);
+        emailTf.setReadOnly(true);
+        getSaveBtn().setCaption(VaadinElementUtils.OK_BUTTON);
+        getCancelBtn().setVisible(false);
         setReadOnly();
     }
 
