@@ -35,9 +35,11 @@ public class TimezoneBean {
         return timezoneRepository.findTimezoneByStartTimeAndEndTime(startTime, endTime) != null;
     }
 
-    public void addTimezone(TimezoneDto timezoneDto) {
+    public TimezoneDto addTimezone(TimezoneDto timezoneDto) {
         Timezone timezone = timezoneMapper.convertTimezoneDtoToTimezone(timezoneDto);
-        timezoneRepository.add(timezone);
+        timezone = timezoneRepository.add(timezone);
+        timezoneDto = timezoneMapper.convertTimezoneToTimezoneDto(timezone);
+        return timezoneDto;
     }
 
     public void updateTimezone(TimezoneDto timezoneDto) {

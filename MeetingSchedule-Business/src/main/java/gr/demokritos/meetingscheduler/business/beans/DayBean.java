@@ -32,9 +32,11 @@ public class DayBean {
     
     }
     
-    public void addDay(DayDto dayDto) {
+    public DayDto addDay(DayDto dayDto) {
     	Day day = dayMapper.convertDayDtoToDay(dayDto);
-    	dayRepository.add(day);
+    	day = dayRepository.add(day);
+    	dayDto = dayMapper.convertDayToDayDto(day);
+    	return dayDto;
     }
     
     public void updateDay(DayDto dayDto) {

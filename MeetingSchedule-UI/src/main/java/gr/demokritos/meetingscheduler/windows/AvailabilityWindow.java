@@ -144,12 +144,13 @@ public class AvailabilityWindow extends ParentWindow {
             dayDto = new DayDto();
             dayDto.setDate(((AvailabilityForm)formLayout).getMeetingDateTf().getValue());
             dayDto.setDayOfWeek(dayDto.getDate().getDayOfWeek());
-            dayDto.setName(dayDto.getDayOfWeek().toString());
-            MeetingUI.getMeetingUI().getDayBean().addDay(dayDto);
+                dayDto.setName(dayDto.getDayOfWeek().toString());
+            dayDto = MeetingUI.getMeetingUI().getDayBean().addDay(dayDto);
         }
         if(timezoneDto==null) {
             timezoneDto = new TimezoneDto(LocalTime.parse(((AvailabilityForm)formLayout).getStartTimeCb().getValue()),
                     LocalTime.parse(((AvailabilityForm)formLayout).getEndTimeCb().getValue()));
+            timezoneDto = MeetingUI.getMeetingUI().getTimezoneBean().addTimezone(timezoneDto);
         }
         availabilityDto.setMemberDto(memberDto);
         availabilityDto.setDayDto(dayDto);
