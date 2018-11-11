@@ -110,7 +110,8 @@ public class AvailabilityWindow extends ParentWindow {
 
     private void saveEditedAvailability() {
         AvailabilityForm availabilityForm = (AvailabilityForm) formLayout;
-        AvailabilityDto availabilityDto = MeetingUI.getMeetingUI().getAvailabilityBean().getAvailabilityById(availabilitiesGrid.getSelectedAvailability().getId());
+        AvailabilityDto availabilityDto = MeetingUI.getMeetingUI().getAvailabilityBean()
+                .getAvailabilityById(availabilitiesGrid.getSelectedAvailability().getId());
         try {
             availabilityDto = setAvailabilityFromFields(availabilityDto);
             availabilityForm.getBinder().writeBean(availabilityDto);

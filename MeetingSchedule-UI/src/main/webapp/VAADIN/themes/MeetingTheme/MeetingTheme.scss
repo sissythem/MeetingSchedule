@@ -474,6 +474,16 @@ $mat-background-color: #fafafa; // #fafafa for a light and #303030 for a dark th
     color: $blackColor;
   }
 
+  .v-label-title {
+    max-width: 100%;
+    margin-top: 75px;
+    margin-bottom: 50px;
+    line-height: normal;
+    font-size: 36px !important;
+    color: $blackColor;
+    font-family: Helvetica, Arial, sans-serif;
+  }
+
   //DrawerWindow
   //==========================================================================
   .drawerwindow {
